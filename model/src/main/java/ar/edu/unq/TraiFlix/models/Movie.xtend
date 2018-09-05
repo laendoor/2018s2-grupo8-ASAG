@@ -4,11 +4,11 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.List
 
 @Accessors
-class Movie extends Content{
+class Movie extends Content implements ContentRatingable{
 	
 	List<Category> categories
 	Clasification clasification
-	List<Content> relateds
+	List<ContentRatingable> relateds
 	
 	new(){
 		super()
@@ -16,7 +16,7 @@ class Movie extends Content{
 		relateds = newArrayList
 	}
 
-	def getRating() {
+	override getRating() {
 		var Integer sum = 0
 		for (Assessment critc : assessments) {
 			sum = sum + critc.getValue()

@@ -4,14 +4,14 @@ import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors
-class Serie{
+class Serie implements ContentRatingable{
 	
 	Integer id
 	String title
 	List<Category> categories
 	Clasification clasification
 	String creators
-	List<Content> relateds
+	List<ContentRatingable> relateds
 	List<Episode> episodes;
 	
 	
@@ -23,7 +23,7 @@ class Serie{
 	}
 	
 	
-	def getRating() {
+	override getRating() {
 		var List<Assessment> assessments = newArrayList
 		var Integer sum = 0
 		for (Episode epi : episodes) {
