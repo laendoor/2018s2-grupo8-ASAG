@@ -33,22 +33,35 @@ class TraiFlix {
 		users.add(user);
 	}
 	
-	def movieRating(Integer id){
+	def movie(Integer id){
 		movies.findFirst[
 			elem | elem.id == id
-		].rating
+		]
 	}
 	
-	def episodeRating(Integer idSerie, Integer epiId){
+	def serie(Integer id){
 		series.findFirst[
-			elem | elem.id == idSerie
-		].getEpisode(epiId).rating
+			elem | elem.id == id
+		]
+	}
+	
+	def user(Integer id){
+		users.findFirst[
+			elem | elem.id == id
+		]
+	}
+	
+	def movieRating(Integer id){
+		this.movie(id).rating
+	}
+	
+
+	def episodeRating(Integer idSerie, Integer epiId){
+		this.serie(idSerie).getEpisode(epiId).rating
 	}
 	
 	def serieRating(Integer id){
-		series.findFirst[
-			elem | elem.id == id
-		].rating
+		this.serie(id).rating
 	}
 	
 	def moviesAndSeriesCategory(Category category){
@@ -79,5 +92,25 @@ class TraiFlix {
 		return contentList
 	}
 	
+	def quantityOfSeasonsSerie(Integer id){
+		this.serie(id).episodes.map[elem |
+			elem.season
+		].max
+	}
+	
+	def quantityOfEpisodesSereie(Integer id){
+		this.serie(id).episodes.size()
+	}
+	
+	def userBeacomeFriendOf(User user1, User user2){
+		user1.friends.add(user2)
+		user2.friends.add(user1)
+	}
+	
+	def friendsOfUser(Integer id){
+		this.user(id).friends
+	}
+	
+
 	
 }

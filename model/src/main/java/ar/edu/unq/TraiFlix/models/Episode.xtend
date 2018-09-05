@@ -1,6 +1,8 @@
 package ar.edu.unq.TraiFlix.models
 
+import org.eclipse.xtend.lib.annotations.Accessors
 
+@Accessors
 class Episode extends Content implements ContentRatingable{
 	
 	Integer season;

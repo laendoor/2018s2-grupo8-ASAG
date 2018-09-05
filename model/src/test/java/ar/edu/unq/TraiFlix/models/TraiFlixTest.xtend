@@ -250,6 +250,98 @@ class TraiFlixTest{
 		
 	}
 	
+	@Test
+	def void cantidadDeTemporadasDeUnaSerie() {
+		var TraiFlix triflix = new TraiFlix()
+		val lost = new Serie;
+		val episodio1 = new Episode;
+		val episodio2 = new Episode;
+	
+		
+		
+		lost.id = 1
+		lost.title = "Lost"
+	
+		episodio1.season = 1
+		episodio2.season = 1
+		
+		triflix.setNewSerie(lost)
+		
+
+		lost.episodes.add(episodio1)
+		lost.episodes.add(episodio2)
+		
+		
+		assertTrue(triflix.quantityOfSeasonsSerie(1) == 1)
+		
+		val episodioS2 = new Episode;
+		
+		episodioS2.season = 2
+		
+		lost.episodes.add(episodioS2)
+		
+		assertFalse(triflix.quantityOfSeasonsSerie(1) == 1)
+		assertTrue(triflix.quantityOfSeasonsSerie(1) == 2)
+		
+	}
+		
+		
+	@Test
+	def void cantidadDeEpisodiosDeUnaSerie() {
+		var TraiFlix triflix = new TraiFlix()
+		val lost = new Serie;
+		val episodio1 = new Episode;
+		val episodio2 = new Episode;
+	
+		
+		
+		lost.id = 1
+		lost.title = "Lost"
+	
+		episodio1.season = 1
+		episodio2.season = 1
+		
+		triflix.setNewSerie(lost)
+		
+
+		lost.episodes.add(episodio1)
+		lost.episodes.add(episodio2)
+		
+		
+		assertTrue(triflix.quantityOfEpisodesSereie(1) == 2)
+		
+		val episodioS2 = new Episode;
+		
+		episodioS2.season = 2
+		
+		lost.episodes.add(episodioS2)
+		
+		assertFalse(triflix.quantityOfEpisodesSereie(1) == 2)
+		assertTrue(triflix.quantityOfEpisodesSereie(1) == 3)
+		
+	}
+		
+	@Test
+	def void amigosDelUsuario(){
+		var TraiFlix triflix = new TraiFlix()
+		var User user1 = new User()
+		var User user2 = new User()
+		var User user3 = new User()
+		var User user4 = new User()
+		
+		user1.id = 1
+		
+		triflix.userBeacomeFriendOf(user1, user2)
+		triflix.userBeacomeFriendOf(user1, user3)
+		
+		triflix.setNewUser(user1)
+		
+		assertTrue(triflix.friendsOfUser(1).contains(user2))
+		assertTrue(triflix.friendsOfUser(1).contains(user3))
+		assertFalse(triflix.friendsOfUser(1).contains(user4))
+		
+	}
+	
 	
 	
 	}
