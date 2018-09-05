@@ -342,6 +342,29 @@ class TraiFlixTest{
 		
 	}
 	
-	
+		@Test
+	def void DadoUnUsuarioSsaberQuePelículasVio(){
+		var User pepe = new User()
+		
+		val elPadrino = new Movie
+		elPadrino.title = "El Padrino"
+		val teletubis = new Movie
+		teletubis.title = "La venganza del teletubi rojo"
+		val karateKid = new Movie
+		teletubis.title = "Karate Kid"
+		
+		val luisMiguel = new Episode
+		luisMiguel.title = "Luis Miguel"
+		
+		pepe.seeContent(elPadrino)
+		pepe.seeContent(teletubis)
+		pepe.seeContent(luisMiguel)
+		
+		val moviesSeen = pepe.moviesSeen()
+		
+		assertTrue(moviesSeen.size == 2)
+		assertTrue(moviesSeen.exists[elem | elem == elPadrino])
+		assertFalse(moviesSeen.exists[elem | elem == karateKid])
+	}
 	
 	}
