@@ -62,7 +62,7 @@ class TraiFlix {
 			elem | elem.categories.contains(category)
 		])
 		
-		contentList
+		return contentList
 	}
 	
 	def moviesAndSeriesClasification(Clasification clasification){
@@ -76,7 +76,7 @@ class TraiFlix {
 			elem | elem.clasification ==  clasification
 		])
 	
-		contentList
+		return contentList
 	}
 	
 	

@@ -178,26 +178,76 @@ class TraiFlixTest{
 		elPadrino.categories.add(Category.ACCION) 
 		lost.id = 1
 		lost.title = "Lost"
-		elPadrino.categories.add(Category.ACCION)
+		lost.categories.add(Category.ACCION)
 		
 		
 		
-		
+		triflix.setNewMovie(elPadrino)
 		triflix.setNewSerie(lost)
 		
 
 		lost.episodes.add(episodio1)
 		lost.episodes.add(episodio2)
 		
-		
-		
-		
-		assertTrue(triflix.moviesAndSeriesCategory
-			(Category.ACCION).contains(elPadrino)
-		)
+
+
 		assertTrue(triflix.moviesAndSeriesCategory
 			(Category.ACCION).contains(lost)
 		)
+		assertTrue(triflix.moviesAndSeriesCategory
+			(Category.ACCION).contains(elPadrino)
+		)
+		assertFalse(triflix.moviesAndSeriesCategory
+			(Category.TERROR).contains(lost)
+		)
+		assertFalse(triflix.moviesAndSeriesCategory
+			(Category.TERROR).contains(elPadrino)
+		)
+		
+	}
+	
+	@Test
+	def void seriesYPeliculasConlaMismaClasificacion() {
+		var TraiFlix triflix = new TraiFlix()
+		val elPadrino = new Movie;
+		val lost = new Serie;
+		val episodio1 = new Episode;
+		val episodio2 = new Episode;
+		
+		
+		elPadrino.id = 1
+		elPadrino.title = "El Padrino"
+		elPadrino.clasification = Clasification.ATP 
+		lost.id = 1
+		lost.title = "Lost"
+		lost.clasification = Clasification.ATP
+		
+		
+		
+		triflix.setNewMovie(elPadrino)
+		triflix.setNewSerie(lost)
+		
+
+		lost.episodes.add(episodio1)
+		lost.episodes.add(episodio2)
+		
+
+
+		
+		assertTrue(triflix.moviesAndSeriesClasification
+			(Clasification.ATP).contains(lost)
+		)
+		assertTrue(triflix.moviesAndSeriesClasification
+			(Clasification.ATP).contains(elPadrino)
+		)
+		
+		assertFalse(triflix.moviesAndSeriesClasification
+			(Clasification.PLUS13).contains(lost)
+		)
+		assertFalse(triflix.moviesAndSeriesClasification
+			(Clasification.PLUS13).contains(elPadrino)
+		)
+		
 	}
 	
 	
