@@ -39,6 +39,13 @@ class Serie implements ContentRatingable{
 	}
 	
 	
+	def getEpisode(Integer id){
+		episodes.findFirst[
+			elem | elem.id == id
+		]
+	}
+	
+	
 	
 	
 }

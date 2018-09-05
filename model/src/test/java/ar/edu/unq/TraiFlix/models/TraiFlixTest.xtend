@@ -68,6 +68,8 @@ class TraiFlixTest{
 		val pepito = new User;
 		val pepita = new User;
 		
+		
+		elPadrino.id = 1
 		elPadrino.title = "El Padrino" 
 		pepito.nick = "Pepito"
 		pepito.name = "Pepito"
@@ -84,13 +86,13 @@ class TraiFlixTest{
 		elPadrino.addAssessment(new Assessment(pepito, 1,"me gustan las romanticas, una mierda"))
 
 		
-		assertTrue(elPadrino.getRating() == 3)
+		assertTrue(triflix.movieRating(1) == 3)
 	}
 	
 	
 	
 	@Test
-	def void conocerElRatingDeUnaSerie() {
+	def void conocerElRatingDeUnCapitulo() {
 		var TraiFlix triflix = new TraiFlix()
 		val lost = new Serie;
 		val episodio1 = new Episode;
@@ -98,6 +100,8 @@ class TraiFlixTest{
 		val pepito = new User;
 		val pepita = new User;
 		
+		
+		lost.id = 1
 		lost.title = "Lost"
 		pepito.nick = "Pepito"
 		pepito.name = "Pepito"
@@ -107,6 +111,7 @@ class TraiFlixTest{
 		
 		triflix.setNewSerie(lost)
 		
+		episodio1.id = 1
 		lost.episodes.add(episodio1)
 		lost.episodes.add(episodio2)
 		
@@ -118,7 +123,81 @@ class TraiFlixTest{
 		
 		
 		
-		assertTrue(lost.getRating() == 3)
+		assertTrue(triflix.episodeRating(1, 1) == 3)
+	}
+	
+	
+	@Test
+	def void conocerElRatingDeUnaSerie() {
+		var TraiFlix triflix = new TraiFlix()
+		val lost = new Serie;
+		val episodio1 = new Episode;
+		val episodio2 = new Episode;
+		val pepito = new User;
+		val pepita = new User;
+		
+		
+		lost.id = 1
+		lost.title = "Lost"
+		pepito.nick = "Pepito"
+		pepito.name = "Pepito"
+		pepita.nick = "Pepita"
+		pepita.name = "Pepita"
+		
+		
+		triflix.setNewSerie(lost)
+		
+
+		lost.episodes.add(episodio1)
+		lost.episodes.add(episodio2)
+		
+		episodio1.addAssessment(new Assessment(pepito, 5, "Me gusto como se cayo el avion"))
+		episodio2.addAssessment(new Assessment(pepito, 3, "Medio chafa"))
+		
+		episodio1.addAssessment(new Assessment(pepita, 2, "No entiendo la trama"))
+		episodio2.addAssessment(new Assessment(pepita, 2, "Entiendo menos ahora :d"))
+		
+		
+		
+		assertTrue(triflix.serieRating(1) == 3)
+	}
+	
+	
+	
+	@Test
+	def void seriesYPeliculasConlaMismaCategoria() {
+		var TraiFlix triflix = new TraiFlix()
+		val elPadrino = new Movie;
+		val lost = new Serie;
+		val episodio1 = new Episode;
+		val episodio2 = new Episode;
+		
+		
+		elPadrino.id = 1
+		elPadrino.title = "El Padrino"
+		elPadrino.categories.add(Category.ACCION) 
+		lost.id = 1
+		lost.title = "Lost"
+		elPadrino.categories.add(Category.ACCION)
+		
+		
+		
+		
+		triflix.setNewSerie(lost)
+		
+
+		lost.episodes.add(episodio1)
+		lost.episodes.add(episodio2)
+		
+		
+		
+		
+		assertTrue(triflix.moviesAndSeriesCategory
+			(Category.ACCION).contains(elPadrino)
+		)
+		assertTrue(triflix.moviesAndSeriesCategory
+			(Category.ACCION).contains(lost)
+		)
 	}
 	
 	
