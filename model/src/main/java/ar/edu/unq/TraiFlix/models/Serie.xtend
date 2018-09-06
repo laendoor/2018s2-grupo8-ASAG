@@ -48,6 +48,24 @@ class Serie implements ContentRatingable{
 	
 	def addEpisode(Episode episode) {
 		episodes.add(episode)
-	}	
+	}
+	
+	def quantityOfSeasonsSerie(){
+		episodes.map[elem |
+			elem.season
+		].max
+	}
+	
+	def quantityOfEpisodesSereie(){
+		episodes.size
+	}
+	
+	def serieHasCategory(Category category){
+		categories.contains(Category)
+	}
+	
+	def clasificationIs(Clasification clasification1){
+		clasification == clasification1
+	}
 	
 }

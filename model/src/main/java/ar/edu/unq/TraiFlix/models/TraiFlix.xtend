@@ -68,11 +68,11 @@ class TraiFlix {
 		var List<ContentRatingable> contentList = newArrayList
 		
 		contentList.addAll(movies.filter[
-			elem | elem.categories.contains(category)
+			elem | elem.movieHasCategory(category)
 		])
 		
 		contentList.addAll(series.filter[
-			elem | elem.categories.contains(category)
+			elem | elem.serieHasCategory(category)
 		])
 		
 		return contentList
@@ -82,24 +82,22 @@ class TraiFlix {
 		var List<ContentRatingable> contentList = newArrayList
 		
 		contentList.addAll(movies.filter[
-			elem | elem.clasification ==  clasification
+			elem | elem.clasificationIs(clasification)
 		])
 		
 		contentList.addAll(series.filter[
-			elem | elem.clasification ==  clasification
+			elem | elem.clasificationIs(clasification)
 		])
 	
 		return contentList
 	}
 	
 	def quantityOfSeasonsSerie(Integer id){
-		this.serie(id).episodes.map[elem |
-			elem.season
-		].max
+		this.serie(id).quantityOfSeasonsSerie()
 	}
 	
 	def quantityOfEpisodesSereie(Integer id){
-		this.serie(id).episodes.size()
+		this.serie(id).quantityOfEpisodesSereie
 	}
 	
 	def userBeacomeFriendOf(User user1, User user2){

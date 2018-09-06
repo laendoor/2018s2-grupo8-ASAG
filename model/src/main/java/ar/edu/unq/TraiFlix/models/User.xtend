@@ -16,6 +16,7 @@ class User {
 	List<Content> favorite;
 	
 	
+	
 	new(){
 		friends = newArrayList
 		watched = newArrayList

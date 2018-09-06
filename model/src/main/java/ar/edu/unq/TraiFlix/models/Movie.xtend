@@ -24,8 +24,12 @@ class Movie extends Content implements ContentRatingable{
 		return sum/assessments.size
 	}
 
+	def movieHasCategory(Category category){
+		categories.contains(category)
+	}
 	
-	
-	
+	def clasificationIs(Clasification clasification1){
+		clasification == clasification1
+	}
 	
 }
