@@ -4,14 +4,14 @@ import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors
-class Serie implements ContentRatingable{
+class Serie implements RatingableAndRecommenable{
 	
 	Integer id
 	String title
 	List<Category> categories
 	Clasification clasification
 	String creators
-	List<ContentRatingable> relateds
+	List<RatingableAndRecommenable> relateds
 	List<Episode> episodes;
 	
 	
@@ -66,6 +66,10 @@ class Serie implements ContentRatingable{
 	
 	def clasificationIs(Clasification clasification1){
 		clasification == clasification1
+	}
+	
+	override recommend() {
+		this
 	}
 	
 }

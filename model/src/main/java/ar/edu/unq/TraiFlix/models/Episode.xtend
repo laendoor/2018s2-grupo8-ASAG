@@ -3,7 +3,7 @@ package ar.edu.unq.TraiFlix.models
 import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors
-class Episode extends Content implements ContentRatingable{
+class Episode extends Content implements RatingableAndRecommenable{
 	
 	Serie serie;
 	Integer season;
@@ -15,6 +15,18 @@ class Episode extends Content implements ContentRatingable{
 			sum = sum + critc.getValue()
 		}
 		return sum/assessments.size
+	}
+	
+	override isAMovie() {
+		false
+	}
+	
+	override isAEpisode() {
+		true
+	}
+	
+	override recommend() {
+		serie
 	}
 	
 }

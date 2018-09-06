@@ -4,11 +4,11 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.List
 
 @Accessors
-class Movie extends Content implements ContentRatingable{
+class Movie extends Content implements RatingableAndRecommenable{
 	
 	List<Category> categories
 	Clasification clasification
-	List<ContentRatingable> relateds
+	List<RatingableAndRecommenable> relateds
 	
 	new(){
 		super()
@@ -30,6 +30,18 @@ class Movie extends Content implements ContentRatingable{
 	
 	def clasificationIs(Clasification clasification1){
 		clasification == clasification1
+	}
+	
+	override isAMovie() {
+		true
+	}
+	
+	override isAEpisode() {
+		false
+	}
+	
+	override recommend() {
+		this
 	}
 	
 }

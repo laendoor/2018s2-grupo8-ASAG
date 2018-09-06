@@ -65,7 +65,7 @@ class TraiFlix {
 	}
 	
 	def moviesAndSeriesCategory(Category category){
-		var List<ContentRatingable> contentList = newArrayList
+		var List<RatingableAndRecommenable> contentList = newArrayList
 		
 		contentList.addAll(movies.filter[
 			elem | elem.movieHasCategory(category)
@@ -79,7 +79,7 @@ class TraiFlix {
 	}
 	
 	def moviesAndSeriesClasification(Clasification clasification){
-		var List<ContentRatingable> contentList = newArrayList
+		var List<RatingableAndRecommenable> contentList = newArrayList
 		
 		contentList.addAll(movies.filter[
 			elem | elem.clasificationIs(clasification)
@@ -117,6 +117,11 @@ class TraiFlix {
 		this.user(id).watchedAndFinishedSeries();
 	}
 	
-
+	def recomendContentToUser(User recommendedUser, RatingableAndRecommenable content){
+		recommendedUser.recommended.add(content)
+	}
 	
+	def recommendedContentOfUser(Integer id){
+		this.user(id).recommended.map[elem | elem.recommend()]
+	}
 }

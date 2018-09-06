@@ -14,6 +14,7 @@ class User {
 	List<User> friends;
 	List<Content> watched;
 	List<Content> favorite;
+	List<RatingableAndRecommenable> recommended
 	
 	
 	
@@ -28,11 +29,11 @@ class User {
 	}
 	
 	def watchedMovies() {
-		 watched.filter[elem | elem instanceof Movie ]
+		 watched.filter[elem | elem.isAMovie ]
 	}
 	
-	def watchedSeries() {
-		watched.filter[ elem | elem instanceof Episode ]
+	def watchedSeries() {	
+		watched.filter[ elem | elem.isAEpisode ]
 				.map[ elem | (elem as Episode).serie ]
 				.toSet;
 	}
@@ -40,6 +41,7 @@ class User {
 	def watchedAndFinishedSeries() {
 		watchedSeries().filter[ elem | watched.containsAll(elem.episodes) ].toList
 	}
+	
 	
 	
 }

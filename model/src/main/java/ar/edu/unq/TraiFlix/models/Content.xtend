@@ -6,7 +6,7 @@ import java.util.Calendar
 import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors
-class Content {
+abstract class Content {
 	
 	 Integer id
 	 String title
@@ -27,5 +27,9 @@ class Content {
 	 	assessments.add(critic)
 	 }
 	 
+	 
+	 def boolean isAMovie()
+	 
+	 def boolean isAEpisode()
 	 
 }
