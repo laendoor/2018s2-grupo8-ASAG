@@ -360,11 +360,11 @@ class TraiFlixTest{
 		pepe.seeContent(teletubis)
 		pepe.seeContent(luisMiguel)
 		
-		val moviesSeen = pepe.moviesSeen()
+		val watchedMovies = pepe.watchedMovies()
 		
-		assertTrue(moviesSeen.size == 2)
-		assertTrue(moviesSeen.exists[elem | elem == elPadrino])
-		assertFalse(moviesSeen.exists[elem | elem == karateKid])
+		assertTrue(watchedMovies.size == 2)
+		assertTrue(watchedMovies.exists[elem | elem == elPadrino])
+		assertFalse(watchedMovies.exists[elem | elem == karateKid])
 	}
 	
 	}

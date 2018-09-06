@@ -12,22 +12,22 @@ class User {
 	Date created;
 	Date dateOfBirth;
 	List<User> friends;
-	List<Content> seen;
+	List<Content> watched;
 	List<Content> favorite;
 	
 	
 	new(){
 		friends = newArrayList
-		seen = newArrayList
+		watched = newArrayList
 		favorite = newArrayList
 	}
 	
 	def seeContent(Content content) {
-		seen.add(content)
+		watched.add(content)
 	}
 	
-	def moviesSeen() {
-		 seen.filter[elem | elem instanceof Movie ]
+	def watchedMovies() {
+		 watched.filter[elem | elem instanceof Movie ]
 	}
 	
 	
