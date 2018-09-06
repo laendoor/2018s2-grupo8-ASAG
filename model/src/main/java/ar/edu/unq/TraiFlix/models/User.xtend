@@ -22,6 +22,13 @@ class User {
 		favorite = newArrayList
 	}
 	
+	def seeContent(Content content) {
+		seen.add(content)
+	}
+	
+	def moviesSeen() {
+		 seen.filter[elem | elem instanceof Movie ]
+	}
 	
 	
 }
