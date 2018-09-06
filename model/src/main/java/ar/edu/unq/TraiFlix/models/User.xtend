@@ -30,5 +30,15 @@ class User {
 		 watched.filter[elem | elem instanceof Movie ]
 	}
 	
+	def watchedSeries() {
+		watched.filter[ elem | elem instanceof Episode ]
+				.map[ elem | (elem as Episode).serie ]
+				.toSet;
+	}
+	
+	def watchedAndFinishedSeries() {
+		watchedSeries().filter[ elem | watched.containsAll(elem.episodes) ].toList
+	}
+	
 	
 }

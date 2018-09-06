@@ -8,6 +8,7 @@ import static org.junit.Assert.*
 import ar.edu.unq.TraiFlix.models.User
 import ar.edu.unq.TraiFlix.models.Assessment
 import ar.edu.unq.TraiFlix.models.Episode
+import org.junit.Before
 
 class TraiFlixTest{
 	/*
@@ -29,6 +30,44 @@ class TraiFlixTest{
 	/** 
 	 * Rigourous Test :-)
 	 */
+	 
+	User user
+	Serie lostSerie
+	Serie foundSerie
+	Episode lostS1E1
+	Episode lostS1E2
+	Episode lostS1E3
+	Episode foundS1E1
+	Episode foundS1E2
+	 
+	@Before
+	def void setUp() {		
+		lostSerie = new Serie
+		lostS1E1 = new Episode
+		lostS1E1.serie = lostSerie		
+		lostS1E2 = new Episode
+		lostS1E2.serie = lostSerie
+		lostS1E3 = new Episode
+		lostS1E3.serie = lostSerie
+		lostSerie.addEpisode(lostS1E1)
+		lostSerie.addEpisode(lostS1E2)
+		lostSerie.addEpisode(lostS1E3)
+				
+		foundSerie = new Serie
+		foundS1E1 = new Episode
+		foundS1E1.serie = foundSerie	
+		foundS1E2 = new Episode
+		foundS1E2.serie = foundSerie
+		foundSerie.addEpisode(foundS1E1)
+		foundSerie.addEpisode(foundS1E2)
+		
+		user = new User
+		user.seeContent(lostS1E1)
+		user.seeContent(lostS1E2)
+		user.seeContent(lostS1E3)
+		user.seeContent(foundS1E1)
+	}
+	 
 	@Test
 	def void obtenerElListadoDeLasPelículas() {
 		var TraiFlix triflix = new TraiFlix()
@@ -366,5 +405,25 @@ class TraiFlixTest{
 		assertTrue(watchedMovies.exists[elem | elem == elPadrino])
 		assertFalse(watchedMovies.exists[elem | elem == karateKid])
 	}
-	
+
+	@Test
+	def void dadoUnUsuarioSaberQueSeriesVio() {
+		var watchedSeries = user.watchedSeries()
+		
+		assertTrue( watchedSeries.size == 2 )
+		assertTrue( watchedSeries.contains(lostSerie) )
+		assertTrue( watchedSeries.contains(foundSerie) )	
 	}
+	
+	@Test
+	def void dadoUnUsuarioSaberQueSeriesVioDeFormaCompleta() {
+		var watchedAndFinishedSeries = user.watchedAndFinishedSeries()
+		
+		assertTrue( watchedAndFinishedSeries.size == 1 )
+		assertTrue( watchedAndFinishedSeries.contains(lostSerie) )
+		assertFalse( watchedAndFinishedSeries.contains(foundSerie) )	
+	}
+
+
+	
+}

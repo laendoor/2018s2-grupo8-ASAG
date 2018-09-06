@@ -46,6 +46,8 @@ class Serie implements ContentRatingable{
 	}
 	
 	
-	
+	def addEpisode(Episode episode) {
+		episodes.add(episode)
+	}	
 	
 }

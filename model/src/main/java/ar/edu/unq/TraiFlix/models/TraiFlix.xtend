@@ -111,6 +111,14 @@ class TraiFlix {
 		this.user(id).friends
 	}
 	
+	def watchedSeriesByUser(Integer id) {
+		this.user(id).watchedSeries();
+	}
+	
+	def watchedAndFinishedSeriesByUser(Integer id) {
+		this.user(id).watchedAndFinishedSeries();
+	}
+	
 
 	
 }
