@@ -4,6 +4,9 @@ import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.ArrayList
 import org.uqbar.commons.model.annotations.Observable
+import ar.edu.unq.TraiFlix.models.id.EpisodeId
+import ar.edu.unq.TraiFlix.models.id.SerieId
+import ar.edu.unq.TraiFlix.models.id.MovieId
 
 @Accessors
 @Observable
@@ -33,13 +36,13 @@ class TraiFlix {
 		users.add(user);
 	}
 	
-	def movie(Integer id){
+	def movie(MovieId id){
 		movies.findFirst[
 			elem | elem.id == id
 		]
 	}
 	
-	def serie(Integer id){
+	def serie(SerieId id){
 		series.findFirst[
 			elem | elem.id == id
 		]
@@ -51,16 +54,16 @@ class TraiFlix {
 		]
 	}
 	
-	def movieRating(Integer id){
+	def movieRating(MovieId id){
 		this.movie(id).rating
 	}
 	
 
-	def episodeRating(Integer idSerie, Integer epiId){
+	def episodeRating(SerieId idSerie, EpisodeId epiId){
 		this.serie(idSerie).getEpisode(epiId).rating
 	}
 	
-	def serieRating(Integer id){
+	def serieRating(SerieId id){
 		this.serie(id).rating
 	}
 	
@@ -92,11 +95,11 @@ class TraiFlix {
 		return contentList
 	}
 	
-	def quantityOfSeasonsSerie(Integer id){
+	def quantityOfSeasonsSerie(SerieId id){
 		this.serie(id).quantityOfSeasonsSerie()
 	}
 	
-	def quantityOfEpisodesSereie(Integer id){
+	def quantityOfEpisodesSereie(SerieId id){
 		this.serie(id).quantityOfEpisodesSereie
 	}
 	

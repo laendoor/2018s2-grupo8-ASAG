@@ -2,6 +2,7 @@ package ar.edu.unq.TraiFlix.models
 
 import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.List
+import ar.edu.unq.TraiFlix.models.id.MovieId
 
 @Accessors
 class Movie extends Content implements RatingableAndRecommenable{
@@ -15,6 +16,8 @@ class Movie extends Content implements RatingableAndRecommenable{
 		categories = newArrayList
 		relateds = newArrayList
 	}
+
+	override def MovieId getId() {super.id as MovieId}
 
 	override getRating() {
 		var Integer sum = 0

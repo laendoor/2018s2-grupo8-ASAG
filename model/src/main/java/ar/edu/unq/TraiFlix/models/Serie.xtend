@@ -2,11 +2,13 @@ package ar.edu.unq.TraiFlix.models
 
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
+import ar.edu.unq.TraiFlix.models.id.SerieId
+import ar.edu.unq.TraiFlix.models.id.EpisodeId
 
 @Accessors
 class Serie implements RatingableAndRecommenable{
 	
-	Integer id
+	SerieId id
 	String title
 	List<Category> categories
 	Clasification clasification
@@ -39,7 +41,7 @@ class Serie implements RatingableAndRecommenable{
 	}
 	
 	
-	def getEpisode(Integer id){
+	def getEpisode(EpisodeId id){
 		episodes.findFirst[
 			elem | elem.id == id
 		]
@@ -61,7 +63,7 @@ class Serie implements RatingableAndRecommenable{
 	}
 	
 	def serieHasCategory(Category category){
-		categories.contains(Category)
+		categories.contains(category)
 	}
 	
 	def clasificationIs(Clasification clasification1){
