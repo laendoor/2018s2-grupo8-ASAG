@@ -1,9 +1,14 @@
 package ar.edu.unq.TraiFlix.models
 
-enum Clasification {
-	ATP,
-	PLUS13,
-	PLUS16,
-	PLUS18
+import org.eclipse.xtend.lib.annotations.Accessors
+
+@Accessors
+class Clasification {
+	
+	String name
+	
+	new(String name){
+		this.name = name
+	}
 	
 }
