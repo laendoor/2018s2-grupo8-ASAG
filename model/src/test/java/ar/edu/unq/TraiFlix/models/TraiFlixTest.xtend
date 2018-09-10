@@ -246,14 +246,15 @@ class TraiFlixTest{
 		val lost = new Serie;
 		val episodio1 = new Episode;
 		val episodio2 = new Episode;
-		
+		val atp = new Clasification("ATP");
+		val plus13 = new Clasification("plus13")
 		
 		elPadrino.id = new MovieId
 		elPadrino.title = "El Padrino"
-		elPadrino.clasification = Clasification.ATP 
+		elPadrino.clasification = atp
 		lost.id = new SerieId
 		lost.title = "Lost"
-		lost.clasification = Clasification.ATP
+		lost.clasification = atp
 		
 		
 		
@@ -268,17 +269,17 @@ class TraiFlixTest{
 
 		
 		assertTrue(triflix.moviesAndSeriesClasification
-			(Clasification.ATP).contains(lost)
+			(atp).contains(lost)
 		)
 		assertTrue(triflix.moviesAndSeriesClasification
-			(Clasification.ATP).contains(elPadrino)
+			(atp).contains(elPadrino)
 		)
 		
 		assertFalse(triflix.moviesAndSeriesClasification
-			(Clasification.PLUS13).contains(lost)
+			(plus13).contains(lost)
 		)
 		assertFalse(triflix.moviesAndSeriesClasification
-			(Clasification.PLUS13).contains(elPadrino)
+			(plus13).contains(elPadrino)
 		)
 		
 	}
