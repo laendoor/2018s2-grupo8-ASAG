@@ -4,11 +4,12 @@ import java.util.List
 import java.util.Date
 import java.util.Calendar
 import org.eclipse.xtend.lib.annotations.Accessors
+import ar.edu.unq.TraiFlix.models.id.ContentId
 
 @Accessors
 abstract class Content {
 	
-	 Integer id
+	 ContentId id
 	 String title
 	 Date release
 	 List<Assessment> assessments
@@ -28,8 +29,5 @@ abstract class Content {
 	 }
 	 
 	 
-	 def boolean isAMovie()
-	 
-	 def boolean isAEpisode()
 	 
 }
