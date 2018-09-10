@@ -6,19 +6,20 @@ import ar.edu.unq.TraiFlix.models.id.SerieId
 import ar.edu.unq.TraiFlix.models.id.EpisodeId
 
 @Accessors
-class Serie implements RatingableAndRecommenable{
+class Serie implements Ratingable{
 	
 	SerieId id
 	String title
 	List<Category> categories
 	Clasification clasification
 	String creators
-	List<RatingableAndRecommenable> relateds
+	List<Ratingable> relateds
 	List<Episode> episodes;
 	
 	
 	new(){
 		super()
+		id = new SerieId()
 		categories = newArrayList
 		relateds = newArrayList
 		episodes = newArrayList
@@ -63,15 +64,13 @@ class Serie implements RatingableAndRecommenable{
 	}
 	
 	def serieHasCategory(Category category){
-		categories.contains(category)
+		categories.exists[elem | elem.name == category.name]
 	}
 	
 	def clasificationIs(Clasification clasification1){
-		clasification == clasification1
+		clasification.name == clasification1.name
 	}
 	
-	override recommend() {
-		this
-	}
+
 	
 }

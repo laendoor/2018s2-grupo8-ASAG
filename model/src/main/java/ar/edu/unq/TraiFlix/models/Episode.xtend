@@ -4,11 +4,15 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import ar.edu.unq.TraiFlix.models.id.EpisodeId
 
 @Accessors
-class Episode extends Content implements RatingableAndRecommenable{
+class Episode extends Content implements Ratingable{
 	
 	Serie serie;
 	Integer season;
 	Integer EpisodeNumber;
+	
+	new(){
+		super.id = new EpisodeId();
+	}
 	
 	override def EpisodeId getId() {super.id as EpisodeId}
 	
@@ -20,18 +24,8 @@ class Episode extends Content implements RatingableAndRecommenable{
 		return sum/assessments.size
 	}
 	
-	override isAMovie() {
-		false
-	}
-	
-	override isAEpisode() {
-		true
-	}
-	
-	override recommend() {
-		serie
-	}
-	
-	
-	
 }
+		
+	
+	
+

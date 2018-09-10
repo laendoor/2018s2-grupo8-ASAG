@@ -29,8 +29,5 @@ abstract class Content {
 	 }
 	 
 	 
-	 def boolean isAMovie()
-	 
-	 def boolean isAEpisode()
 	 
 }

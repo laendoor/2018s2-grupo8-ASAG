@@ -210,29 +210,31 @@ class TraiFlixTest{
 	def void seriesYPeliculasConlaMismaCategoria() {
 		var TraiFlix triflix = new TraiFlix()
 		val elPadrino = new Movie;
-		val lost = new Serie;		
+		val lost = new Serie;
+		val category = new Category("Accion")		
+		val category2 = new Category("Terror")
 		
 		elPadrino.id = new MovieId
 		elPadrino.title = "El Padrino"
-		elPadrino.categories.add(Category.ACCION) 
+		elPadrino.categories.add(category) 
 		lost.id = new SerieId
 		lost.title = "Lost"
-		lost.categories.add(Category.ACCION)
+		lost.categories.add(category)
 					
 		triflix.setNewMovie(elPadrino)
 		triflix.setNewSerie(lost)
 		
 		assertTrue(triflix.moviesAndSeriesCategory
-			(Category.ACCION).contains(lost)
+			(category).contains(lost)
 		)
 		assertTrue(triflix.moviesAndSeriesCategory
-			(Category.ACCION).contains(elPadrino)
+			(category).contains(elPadrino)
 		)
 		assertFalse(triflix.moviesAndSeriesCategory
-			(Category.TERROR).contains(lost)
+			(category2).contains(lost)
 		)
 		assertFalse(triflix.moviesAndSeriesCategory
-			(Category.TERROR).contains(elPadrino)
+			(category2).contains(elPadrino)
 		)
 		
 	}
@@ -373,8 +375,8 @@ class TraiFlixTest{
 		
 	}
 	
-		@Test
-	def void DadoUnUsuarioSsaberQuePelículasVio(){
+	@Test
+	def void DadoUnUsuarioSaberQuePelículasVio(){
 		var User pepe = new User()
 		
 		val elPadrino = new Movie
@@ -392,7 +394,7 @@ class TraiFlixTest{
 		pepe.seeContent(luisMiguel)
 		
 		val watchedMovies = pepe.watchedMovies()
-		
+		System.out.println(pepe.watched.size )
 		assertTrue(watchedMovies.size == 2)
 		assertTrue(watchedMovies.exists[elem | elem == elPadrino])
 		assertFalse(watchedMovies.exists[elem | elem == karateKid])

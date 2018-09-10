@@ -1,6 +1,14 @@
 package ar.edu.unq.TraiFlix.models
 
-enum Category {
-	ACCION,
-	TERROR
+import org.eclipse.xtend.lib.annotations.Accessors
+
+@Accessors
+class Category {
+	
+	String name
+	
+	new(String name){
+		this.name = name;
+	}
+	
 }

@@ -5,16 +5,17 @@ import java.util.List
 import ar.edu.unq.TraiFlix.models.id.MovieId
 
 @Accessors
-class Movie extends Content implements RatingableAndRecommenable{
+class Movie extends Content implements Ratingable{
 	
 	List<Category> categories
 	Clasification clasification
-	List<RatingableAndRecommenable> relateds
+	List<Ratingable> relateds
 	
 	new(){
 		super()
 		categories = newArrayList
 		relateds = newArrayList
+		super.id = new MovieId()
 	}
 
 	override def MovieId getId() {super.id as MovieId}
@@ -28,23 +29,13 @@ class Movie extends Content implements RatingableAndRecommenable{
 	}
 
 	def movieHasCategory(Category category){
-		categories.contains(category)
+		categories.exists[elem | elem.name == category.name]
 	}
 	
 	def clasificationIs(Clasification clasification1){
-		clasification == clasification1
+		clasification.name == clasification1.name
 	}
 	
-	override isAMovie() {
-		true
-	}
-	
-	override isAEpisode() {
-		false
-	}
-	
-	override recommend() {
-		this
-	}
+
 	
 }
