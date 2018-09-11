@@ -2,23 +2,21 @@ package ar.edu.unq.TraiFlix.models
 
 import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.List
-import ar.edu.unq.TraiFlix.models.id.MovieId
+import org.uqbar.commons.model.annotations.Observable
 
+@Observable
 @Accessors
-class Movie extends Content implements Ratingable{
+class Movie extends Content implements RatingableAndRecommenable{
 	
 	List<Category> categories
 	Clasification clasification
-	List<Ratingable> relateds
+	List<RatingableAndRecommenable> relateds
 	
 	new(){
 		super()
 		categories = newArrayList
 		relateds = newArrayList
-		super.id = new MovieId()
 	}
-
-	override def MovieId getId() {super.id as MovieId}
 
 	override getRating() {
 		var Integer sum = 0
@@ -29,13 +27,23 @@ class Movie extends Content implements Ratingable{
 	}
 
 	def movieHasCategory(Category category){
-		categories.exists[elem | elem.name == category.name]
+		categories.contains(category)
 	}
 	
 	def clasificationIs(Clasification clasification1){
-		clasification.name == clasification1.name
+		clasification == clasification1
 	}
 	
-
+	override isAMovie() {
+		true
+	}
+	
+	override isAEpisode() {
+		false
+	}
+	
+	override recommend() {
+		this
+	}
 	
 }
