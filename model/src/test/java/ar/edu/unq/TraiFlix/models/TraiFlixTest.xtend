@@ -9,6 +9,9 @@ import ar.edu.unq.TraiFlix.models.User
 import ar.edu.unq.TraiFlix.models.Assessment
 import ar.edu.unq.TraiFlix.models.Episode
 import org.junit.Before
+import ar.edu.unq.TraiFlix.models.id.SerieId
+import ar.edu.unq.TraiFlix.models.id.MovieId
+import ar.edu.unq.TraiFlix.models.id.EpisodeId
 
 class TraiFlixTest{
 	/*
@@ -108,7 +111,7 @@ class TraiFlixTest{
 		val pepita = new User;
 		
 		
-		elPadrino.id = 1
+		elPadrino.id = new MovieId
 		elPadrino.title = "El Padrino" 
 		pepito.nick = "Pepito"
 		pepito.name = "Pepito"
@@ -125,7 +128,7 @@ class TraiFlixTest{
 		elPadrino.addAssessment(new Assessment(pepito, 1,"me gustan las romanticas, una mierda"))
 
 		
-		assertTrue(triflix.movieRating(1) == 3)
+		assertTrue(triflix.movieRating(elPadrino.id) == 3)
 	}
 	
 	
@@ -140,7 +143,7 @@ class TraiFlixTest{
 		val pepita = new User;
 		
 		
-		lost.id = 1
+		lost.id = new SerieId
 		lost.title = "Lost"
 		pepito.nick = "Pepito"
 		pepito.name = "Pepito"
@@ -150,7 +153,7 @@ class TraiFlixTest{
 		
 		triflix.setNewSerie(lost)
 		
-		episodio1.id = 1
+		episodio1.id = new EpisodeId
 		lost.episodes.add(episodio1)
 		lost.episodes.add(episodio2)
 		
@@ -162,7 +165,7 @@ class TraiFlixTest{
 		
 		
 		
-		assertTrue(triflix.episodeRating(1, 1) == 3)
+		assertTrue(triflix.episodeRating(lost.id, episodio1.id) == 3)
 	}
 	
 	
@@ -176,7 +179,7 @@ class TraiFlixTest{
 		val pepita = new User;
 		
 		
-		lost.id = 1
+		lost.id = new SerieId
 		lost.title = "Lost"
 		pepito.nick = "Pepito"
 		pepito.name = "Pepito"
@@ -198,7 +201,7 @@ class TraiFlixTest{
 		
 		
 		
-		assertTrue(triflix.serieRating(1) == 3)
+		assertTrue(triflix.serieRating(lost.id) == 3)
 	}
 	
 	
@@ -208,39 +211,30 @@ class TraiFlixTest{
 		var TraiFlix triflix = new TraiFlix()
 		val elPadrino = new Movie;
 		val lost = new Serie;
-		val episodio1 = new Episode;
-		val episodio2 = new Episode;
+		val category = new Category("Accion")		
+		val category2 = new Category("Terror")
 		
-		
-		elPadrino.id = 1
+		elPadrino.id = new MovieId
 		elPadrino.title = "El Padrino"
-		elPadrino.categories.add(Category.ACCION) 
-		lost.id = 1
+		elPadrino.categories.add(category) 
+		lost.id = new SerieId
 		lost.title = "Lost"
-		lost.categories.add(Category.ACCION)
-		
-		
-		
+		lost.categories.add(category)
+					
 		triflix.setNewMovie(elPadrino)
 		triflix.setNewSerie(lost)
 		
-
-		lost.episodes.add(episodio1)
-		lost.episodes.add(episodio2)
-		
-
-
 		assertTrue(triflix.moviesAndSeriesCategory
-			(Category.ACCION).contains(lost)
+			(category).contains(lost)
 		)
 		assertTrue(triflix.moviesAndSeriesCategory
-			(Category.ACCION).contains(elPadrino)
+			(category).contains(elPadrino)
 		)
 		assertFalse(triflix.moviesAndSeriesCategory
-			(Category.TERROR).contains(lost)
+			(category2).contains(lost)
 		)
 		assertFalse(triflix.moviesAndSeriesCategory
-			(Category.TERROR).contains(elPadrino)
+			(category2).contains(elPadrino)
 		)
 		
 	}
@@ -252,14 +246,15 @@ class TraiFlixTest{
 		val lost = new Serie;
 		val episodio1 = new Episode;
 		val episodio2 = new Episode;
+		val atp = new Clasification("ATP");
+		val plus13 = new Clasification("plus13")
 		
-		
-		elPadrino.id = 1
+		elPadrino.id = new MovieId
 		elPadrino.title = "El Padrino"
-		elPadrino.clasification = Clasification.ATP 
-		lost.id = 1
+		elPadrino.clasification = atp
+		lost.id = new SerieId
 		lost.title = "Lost"
-		lost.clasification = Clasification.ATP
+		lost.clasification = atp
 		
 		
 		
@@ -274,17 +269,17 @@ class TraiFlixTest{
 
 		
 		assertTrue(triflix.moviesAndSeriesClasification
-			(Clasification.ATP).contains(lost)
+			(atp).contains(lost)
 		)
 		assertTrue(triflix.moviesAndSeriesClasification
-			(Clasification.ATP).contains(elPadrino)
+			(atp).contains(elPadrino)
 		)
 		
 		assertFalse(triflix.moviesAndSeriesClasification
-			(Clasification.PLUS13).contains(lost)
+			(plus13).contains(lost)
 		)
 		assertFalse(triflix.moviesAndSeriesClasification
-			(Clasification.PLUS13).contains(elPadrino)
+			(plus13).contains(elPadrino)
 		)
 		
 	}
@@ -298,7 +293,7 @@ class TraiFlixTest{
 	
 		
 		
-		lost.id = 1
+		lost.id = new SerieId
 		lost.title = "Lost"
 	
 		episodio1.season = 1
@@ -311,7 +306,7 @@ class TraiFlixTest{
 		lost.episodes.add(episodio2)
 		
 		
-		assertTrue(triflix.quantityOfSeasonsSerie(1) == 1)
+		assertTrue(triflix.quantityOfSeasonsSerie(lost.id) == 1)
 		
 		val episodioS2 = new Episode;
 		
@@ -319,8 +314,8 @@ class TraiFlixTest{
 		
 		lost.episodes.add(episodioS2)
 		
-		assertFalse(triflix.quantityOfSeasonsSerie(1) == 1)
-		assertTrue(triflix.quantityOfSeasonsSerie(1) == 2)
+		assertFalse(triflix.quantityOfSeasonsSerie(lost.id) == 1)
+		assertTrue(triflix.quantityOfSeasonsSerie(lost.id) == 2)
 		
 	}
 		
@@ -334,7 +329,7 @@ class TraiFlixTest{
 	
 		
 		
-		lost.id = 1
+		lost.id = new SerieId
 		lost.title = "Lost"
 	
 		episodio1.season = 1
@@ -347,7 +342,7 @@ class TraiFlixTest{
 		lost.episodes.add(episodio2)
 		
 		
-		assertTrue(triflix.quantityOfEpisodesSereie(1) == 2)
+		assertTrue(triflix.quantityOfEpisodesSereie(lost.id) == 2)
 		
 		val episodioS2 = new Episode;
 		
@@ -355,8 +350,8 @@ class TraiFlixTest{
 		
 		lost.episodes.add(episodioS2)
 		
-		assertFalse(triflix.quantityOfEpisodesSereie(1) == 2)
-		assertTrue(triflix.quantityOfEpisodesSereie(1) == 3)
+		assertFalse(triflix.quantityOfEpisodesSereie(lost.id) == 2)
+		assertTrue(triflix.quantityOfEpisodesSereie(lost.id) == 3)
 		
 	}
 		
@@ -381,8 +376,8 @@ class TraiFlixTest{
 		
 	}
 	
-		@Test
-	def void DadoUnUsuarioSsaberQuePelículasVio(){
+	@Test
+	def void DadoUnUsuarioSaberQuePelículasVio(){
 		var User pepe = new User()
 		
 		val elPadrino = new Movie
@@ -400,7 +395,7 @@ class TraiFlixTest{
 		pepe.seeContent(luisMiguel)
 		
 		val watchedMovies = pepe.watchedMovies()
-		
+		System.out.println(pepe.watched.size )
 		assertTrue(watchedMovies.size == 2)
 		assertTrue(watchedMovies.exists[elem | elem == elPadrino])
 		assertFalse(watchedMovies.exists[elem | elem == karateKid])
