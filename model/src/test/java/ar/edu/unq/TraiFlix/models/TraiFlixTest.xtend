@@ -418,6 +418,39 @@ class TraiFlixTest{
 		assertTrue( watchedAndFinishedSeries.contains(lostSerie) )
 		assertFalse( watchedAndFinishedSeries.contains(foundSerie) )	
 	}
+	
+	@Test
+	def void dadoUnUsuarioSaberCualEsElContenidoQueLeRecomendaronSusAmigos(){
+		var pepe = new User()
+		pepe.id = 1
+		var amigoDePepe = new User()
+		amigoDePepe.id = 2
+		var triflix = new TraiFlix()
+		
+		triflix.setNewUser(pepe)
+		triflix.setNewUser(amigoDePepe)
+		
+
+		
+		val elPadrino = new Movie
+		elPadrino.title = "El Padrino"
+		val teletubis = new Movie
+		teletubis.title = "La venganza del teletubi rojo"
+		
+		triflix.setNewMovie(elPadrino)
+		triflix.setNewMovie(teletubis)
+		
+
+		triflix.recomendMovieToUser(amigoDePepe, pepe, elPadrino)
+
+		assertTrue(triflix.recommendedContentOfUser(1).isEmpty)
+		
+		triflix.userBeacomeFriendOf(pepe, amigoDePepe)
+		
+		triflix.recomendMovieToUser(amigoDePepe, pepe, elPadrino)
+
+		assertTrue(triflix.recommendedContentOfUser(1).size == 1)
+	}
 
 
 	

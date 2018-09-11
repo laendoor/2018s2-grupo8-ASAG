@@ -120,13 +120,18 @@ class TraiFlix {
 		this.user(id).watchedAndFinishedSeries();
 	}
 	
-	def recomendMovieToUser(User recommendedUser, Movie content){
-		recommendedUser.recommended.add(content)	
+	def recomendMovieToUser(User recommenderUser, User recommendedUser, Movie content){
+		if(recommenderUser.isFriend(recommendedUser)){
+			recommendedUser.recommended.add(content)	
+		}
+			
 		
 	}
 	
-	def recomendSerieToUser(User recommendedUser, Serie content){
-		recommendedUser.recommended.add(content)	
+	def recomendSerieToUser(User recommenderUser, User recommendedUser, Serie content){
+		if(recommenderUser.isFriend(recommendedUser)){
+			recommendedUser.recommended.add(content)	
+		}
 		
 	}
 	

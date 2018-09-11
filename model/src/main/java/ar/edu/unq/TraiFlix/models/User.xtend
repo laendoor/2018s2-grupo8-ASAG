@@ -22,6 +22,7 @@ class User {
 		friends = newArrayList
 		watched = newArrayList
 		favorite = newArrayList
+		recommended = newArrayList
 	}
 	
 	def seeContent(Content content) {
@@ -42,6 +43,12 @@ class User {
 	
 	def watchedAndFinishedSeries() {
 		watchedSeries().filter[ elem | watched.containsAll(elem.episodes) ].toList
+	}
+	
+	def isFriend(User user) {
+		friends.exists[ elem |
+			elem.id == user.id
+		]
 	}
 	
 	
