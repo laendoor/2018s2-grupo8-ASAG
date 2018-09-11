@@ -2,7 +2,9 @@ package ar.edu.unq.TraiFlix.models
 
 import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.List
+import org.uqbar.commons.model.annotations.Observable
 
+@Observable
 @Accessors
 class Movie extends Content implements RatingableAndRecommenable{
 	
