@@ -138,4 +138,17 @@ class TraiFlix {
 	def recommendedContentOfUser(Integer id){
 		this.user(id).recommended
 	}
+	
+
+	def linklessContent() {
+		var List <Content> content = newArrayList
+		var List <Episode> episode = newArrayList
+		
+		content.addAll(movies.filter[link.nullOrEmpty])
+		for(serie:series){
+			episode.addAll(serie.episodes)
+			}
+		content.addAll(episode.filter[link.nullOrEmpty])
+		return content
+	}
 }
