@@ -5,8 +5,11 @@ import java.util.Date
 import java.util.Calendar
 import org.eclipse.xtend.lib.annotations.Accessors
 import ar.edu.unq.TraiFlix.models.id.ContentId
+import java.util.ArrayList
+import org.uqbar.commons.model.annotations.Observable
 
 @Accessors
+@Observable
 abstract class Content {
 	
 	 ContentId id
@@ -19,9 +22,9 @@ abstract class Content {
 	 String link
 	 
 	 new(){
-	 	assessments = newArrayList
-	 	directors = newArrayList
-	 	actors = newArrayList
+	 	assessments = new ArrayList()
+	 	directors = new ArrayList()
+	 	actors = new ArrayList()
 	 } 
 	 
 	 def addAssessment(Assessment critic){

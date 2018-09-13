@@ -16,6 +16,8 @@ import ar.edu.unq.TraiFlix.usecase.SerieManagementUseCase
 import ar.edu.unq.TraiFlix.models.Serie
 import ar.edu.unq.TraiFlix.models.Clasification
 import ar.edu.unq.TraiFlix.models.Category
+import ar.edu.unq.TraiFlix.models.Episode
+import java.util.ArrayList
 
 class TraiFlixMainWindow extends Window<TraiFlix> {
 	
@@ -46,7 +48,7 @@ class TraiFlixMainWindow extends Window<TraiFlix> {
 		new Button(otherPanel) => [ 
 				caption = "*Prueba Administrar Serie*"
 				alignCenter
-				onClick [ | manageSerie ]
+				onClick [ | onManageSerie ]
 //				bindEnabled(new NotNullObservable(""))
 		]
 
@@ -104,7 +106,7 @@ class TraiFlixMainWindow extends Window<TraiFlix> {
 		
 	}
 	
-	def void manageSerie() {
+	def void onManageSerie() {
 		var useCase = new SerieManagementUseCase()=>[ 				
 				serie = new Serie => [
 					// ** Datos de prueba **
@@ -112,9 +114,18 @@ class TraiFlixMainWindow extends Window<TraiFlix> {
 					clasification = new Clasification("ATP")
 					addCategory( new Category("Estrenos") )
 					creators = "[Sin definir]"
+					addEpisode( new Episode(it,1,1) => [
+						title = "El primer capitulo"
+					] )
+					addEpisode( new Episode(it,1,2) => [
+						title = "El segundo capitulo"
+					] )					
 				]
 				availableClassifications = modelObject.classifications
 				availableCategories = modelObject.categories
+				availableContents = new ArrayList()
+				availableContents.add( new Movie() => [ title = "La Momia" ] )
+				
 			]
 			
 		var window = new SerieManagementWindow( this, useCase )
