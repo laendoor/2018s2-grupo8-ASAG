@@ -7,6 +7,7 @@ import org.uqbar.commons.model.annotations.Observable
 import ar.edu.unq.TraiFlix.models.id.EpisodeId
 import ar.edu.unq.TraiFlix.models.id.SerieId
 import ar.edu.unq.TraiFlix.models.id.MovieId
+import ar.edu.unq.TraiFlix.models.Category
 
 @Accessors
 @Observable
@@ -15,12 +16,19 @@ class TraiFlix {
 	List<Movie> movies;
 	List<Serie> series;
 	List<User> users;
+	List<Category> categories
+	List<Clasification> classifications
 	
 	
 	new(){
 		movies = new ArrayList()
 		series = new ArrayList()
 		users = new ArrayList()
+		categories = new ArrayList()
+		classifications = new ArrayList()
+		
+		// Estoy hay que inyectarlo desde afuera...
+		loadDefaultData()
 	}
 	
 	
@@ -34,6 +42,14 @@ class TraiFlix {
 	
 	def setNewUser(User user) {
 		users.add(user);
+	}
+	
+	def addCategory( Category category ) {
+		categories.add( category )
+	}
+	
+	def addClassification( Clasification classification ) {
+		classifications.add( classification )
 	}
 	
 	def movie(MovieId id){
@@ -132,5 +148,22 @@ class TraiFlix {
 	
 	def recommendedContentOfUser(Integer id){
 		this.user(id).recommended
+	}
+
+	
+	private def void loadDefaultData() {
+		loadDefaultClassifications()
+		loadDefaultCategories()
+	}
+	private def void loadDefaultClassifications() {		
+		addClassification( new Clasification("ATP") )
+		addClassification( new Clasification("+13") )
+		addClassification( new Clasification("+16") )
+		addClassification( new Clasification("+18") )	
+	}	
+	private def void loadDefaultCategories() {		
+		addCategory( new Category("Estrenos") )
+		addCategory( new Category("Destacadas") )
+		addCategory( new Category("Pochocleras") )		
 	}
 }

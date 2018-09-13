@@ -12,6 +12,10 @@ import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.widgets.tables.Column
 import org.uqbar.arena.windows.Window
 import org.uqbar.arena.windows.WindowOwner
+import ar.edu.unq.TraiFlix.usecase.SerieManagementUseCase
+import ar.edu.unq.TraiFlix.models.Serie
+import ar.edu.unq.TraiFlix.models.Clasification
+import ar.edu.unq.TraiFlix.models.Category
 
 class TraiFlixMainWindow extends Window<TraiFlix> {
 	
@@ -37,6 +41,13 @@ class TraiFlixMainWindow extends Window<TraiFlix> {
 				alignCenter
 //				onClick [ | modelObject.convertir ]
 //				bindEnabled(new NotNullObservable("conversion"))
+		]
+		
+		new Button(otherPanel) => [ 
+				caption = "*Prueba Administrar Serie*"
+				alignCenter
+				onClick [ | manageSerie ]
+//				bindEnabled(new NotNullObservable(""))
 		]
 
 
@@ -91,6 +102,23 @@ class TraiFlixMainWindow extends Window<TraiFlix> {
 //				bindEnabled(new NotNullObservable("conversion"))
 				]
 		
+	}
+	
+	def void manageSerie() {
+		var useCase = new SerieManagementUseCase()=>[ 				
+				serie = new Serie => [
+					// ** Datos de prueba **
+					title = "[Titulo de la serie]"
+					clasification = new Clasification("ATP")
+					addCategory( new Category("Estrenos") )
+					creators = "[Sin definir]"
+				]
+				availableClassifications = modelObject.classifications
+				availableCategories = modelObject.categories
+			]
+			
+		var window = new SerieManagementWindow( this, useCase )
+		window.open()
 	}
 
 }
