@@ -12,7 +12,7 @@ import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.widgets.tables.Column
 import org.uqbar.arena.windows.Window
 import org.uqbar.arena.windows.WindowOwner
-import ar.edu.unq.TraiFlix.usecase.SerieManagementUseCase
+import ar.edu.unq.TraiFlix.appModel.SerieManagementAppModel
 import ar.edu.unq.TraiFlix.models.Serie
 import ar.edu.unq.TraiFlix.models.Clasification
 import ar.edu.unq.TraiFlix.models.Category
@@ -107,7 +107,7 @@ class TraiFlixMainWindow extends Window<TraiFlix> {
 	}
 	
 	def void onManageSerie() {
-		var useCase = new SerieManagementUseCase()=>[ 				
+		var useCase = new SerieManagementAppModel()=>[ 				
 				serie = new Serie => [
 					// ** Datos de prueba **
 					title = "[Titulo de la serie]"

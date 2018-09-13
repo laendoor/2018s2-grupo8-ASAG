@@ -1,4 +1,4 @@
-package ar.edu.unq.TraiFlix.usecase
+package ar.edu.unq.TraiFlix.appModel
 
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.commons.model.annotations.Observable
@@ -10,7 +10,7 @@ import ar.edu.unq.TraiFlix.models.Content
 
 @Accessors
 @Observable
-class SerieManagementUseCase {
+class SerieManagementAppModel {
 	
 	Serie serie	
 	List<Clasification> availableClassifications

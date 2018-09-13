@@ -9,20 +9,18 @@ import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.windows.WindowOwner
 import org.uqbar.arena.widgets.Selector
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-import ar.edu.unq.TraiFlix.usecase.SerieManagementUseCase
+import ar.edu.unq.TraiFlix.appModel.SerieManagementAppModel
 import org.uqbar.arena.widgets.List
 import org.uqbar.arena.windows.ErrorsPanel
 import ar.edu.unq.TraiFlix.models.Episode
 import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.widgets.tables.Column
 import org.uqbar.arena.widgets.Button
-import org.uqbar.arena.widgets.GroupPanel
-import org.uqbar.arena.layout.ColumnLayout
 import ar.edu.unq.TraiFlix.models.Content
 
-class SerieManagementWindow extends Window<SerieManagementUseCase> {
+class SerieManagementWindow extends Window<SerieManagementAppModel> {
 	
-	new( WindowOwner owner, SerieManagementUseCase model ) {
+	new( WindowOwner owner, SerieManagementAppModel model ) {
 		super(owner, model)
 	}
 	
@@ -213,7 +211,13 @@ class SerieManagementWindow extends Window<SerieManagementUseCase> {
 	}
 	
 	
-	private def onAddEpisode() {		
+	private def onAddEpisode() {
+		/* TO-DO:
+		 * - instanciar el appModel para el caso de uso "crear un capitulo"
+		 * 		ese appModel contiene un nuevo Episode y el resto de los datos necesarios para el caso de uso
+		 * - instanciar la ventana de administracion de capitulos y pasarle su appModel
+		 * - si se sale de la ventana con onAccept, llamar a mi modelObject.serie.addEpisode() con el capitulo creado
+		 */
 	}
 	
 	
@@ -221,7 +225,13 @@ class SerieManagementWindow extends Window<SerieManagementUseCase> {
 	}
 	
 	
-	private def onAddRelatedContent() {		
+	private def onAddRelatedContent() {	
+		/* TO-DO:
+		 * - instanciar el appModel para el caso de uso "seleccionar un contenido relacionado (pelicula, serie, capitulo)"
+		 * 		ese appModel contiene una lista de todos los contenidos disponibles en Traiflix, excepto la serie que se esta administrando
+		 * - instanciar la ventana de seleccion de contenido y pasarle su appModel
+		 * - si se sale de la ventana con onAccept, llamar a mi modelObject.serie.addRelated() con el contenido elegido
+		 */	
 	}
 	
 	
