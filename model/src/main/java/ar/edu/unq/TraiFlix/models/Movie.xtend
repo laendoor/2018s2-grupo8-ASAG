@@ -4,6 +4,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.List
 import org.uqbar.commons.model.annotations.Observable
 import ar.edu.unq.TraiFlix.models.id.MovieId
+import java.util.ArrayList
 
 @Observable
 @Accessors
@@ -15,8 +16,8 @@ class Movie extends Content implements Ratingable {
 	
 	new(){
 		super()
-		categories = newArrayList
-		relateds = newArrayList
+		categories = new ArrayList
+		relateds = new ArrayList
 		super.id = new MovieId()
  	}
  
