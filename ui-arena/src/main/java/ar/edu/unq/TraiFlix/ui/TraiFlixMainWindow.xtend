@@ -119,12 +119,14 @@ class TraiFlixMainWindow extends Window<TraiFlix> {
 					] )
 					addEpisode( new Episode(it,1,2) => [
 						title = "El segundo capitulo"
-					] )					
+					] )
+					addRelated( new Movie() => [ title = "La Momia" ] )			
 				]
 				availableClassifications = modelObject.classifications
 				availableCategories = modelObject.categories
-				availableContents = new ArrayList()
-				availableContents.add( new Movie() => [ title = "La Momia" ] )
+				availableRelatableContent = new ArrayList()
+				availableRelatableContent.add( new Movie() => [ title = "La Momia" ] )
+				availableRelatableContent.add( new Movie() => [ title = "Volver al Futuro" ] )
 				
 			]
 			

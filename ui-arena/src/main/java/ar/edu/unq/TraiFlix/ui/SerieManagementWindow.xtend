@@ -17,6 +17,8 @@ import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.widgets.tables.Column
 import org.uqbar.arena.widgets.Button
 import ar.edu.unq.TraiFlix.models.Content
+import org.uqbar.arena.bindings.NotNullObservable
+import org.uqbar.arena.widgets.GroupPanel
 
 class SerieManagementWindow extends Window<SerieManagementAppModel> {
 	
@@ -43,6 +45,9 @@ class SerieManagementWindow extends Window<SerieManagementAppModel> {
 
 		// Build related content panel...
 		createRelatedContentPanel(mainPanel)
+		
+		// Build ok/cancel button panel...
+		createOkCancelButtonPanel(mainPanel)
 		
 		new ErrorsPanel( mainPanel, "" ) 
 			
@@ -86,15 +91,46 @@ class SerieManagementWindow extends Window<SerieManagementAppModel> {
 	
 	private def void createCategoriesPanel(Panel parentPanel) {
 				
-		new Panel(parentPanel) => [
-			layout = new VerticalLayout
-
-			new Label(it) => [			
-				text = "Categorias" 
-				alignLeft
+		new GroupPanel(parentPanel) => [
+			title = "Categorias"
+			layout = new HorizontalLayout
+			
+			new Panel(it) => [
+				layout = new VerticalLayout			
+				new Label(it) => [
+					text = "Disponibles"
+					alignLeft
+				]
+				new List(it) => [
+					items <=> "selectablesCategories"				
+				]
 			]
-			new List(it) => [
-				items <=> "availableCategories"				
+			
+			new Panel(it) => [
+				layout = new VerticalLayout
+				new Button(it) => [ 
+					caption = ">"
+					alignCenter
+					bindEnabled(new NotNullObservable("selectedAvailableCategory"))
+					onClick [ | modelObject.addSelectedCategory ]
+				]
+				new Button(it) => [ 
+					caption = "<"
+					alignCenter
+					bindEnabled(new NotNullObservable("selectedAssignedCategory"))
+					onClick [ | modelObject.removeSelectedAssignedCategory]
+				]
+			]
+			
+			new Panel(it) => [
+				layout = new VerticalLayout			
+				new Label(it) => [
+					text = "Seleccionadas"
+					alignLeft
+				]
+				new List(it) => [
+					items <=> "serie.categories"				
+				]
 			]
 		]
 		
@@ -113,16 +149,18 @@ class SerieManagementWindow extends Window<SerieManagementAppModel> {
 			
 			// Episodes grid
 			new Table<Episode>(it, typeof(Episode))=> [				
-				items <=> "serie.episodes"
+				items <=> "serie.episodes"				
+				selection <=> "selectedEpisode"
+				//width = value
 						
 				new Column<Episode>(it) => [
 				    title = "Temporada"
-				    fixedSize = 200				    
+				    fixedSize = 100				    
 				    bindContentsToProperty("season")
 				]
 				new Column<Episode>(it) => [
 				    title = "Capitulo"
-				    fixedSize = 300
+				    fixedSize = 200
 				    bindContentsToProperty("title")
 				]
 			]
@@ -138,7 +176,8 @@ class SerieManagementWindow extends Window<SerieManagementAppModel> {
 				new Button(it) => [ 
 					caption = "Quitar"
 					alignCenter
-					onClick [ | onRemoveEpisode() ]
+					bindEnabled(new NotNullObservable("selectedEpisode"))
+					onClick [ | modelObject.removeSelectedEpisode ]
 				]
 			]
 		]
@@ -159,10 +198,11 @@ class SerieManagementWindow extends Window<SerieManagementAppModel> {
 			new Panel(it) => [
 				layout = new HorizontalLayout
 			
-				// Episodes grid
+				// Related content grid
 				new Table<Content>(it, typeof(Content))=> [				
-					items <=> "availableContents"
-							
+					items <=> "serie.relateds"
+					selection <=> "selectedRelatedContent"
+					
 					new Column<Content>(it) => [
 					    title = "Titulo"
 					    fixedSize = 270				    
@@ -175,7 +215,7 @@ class SerieManagementWindow extends Window<SerieManagementAppModel> {
 					]
 				]
 				
-				// Add/remove episode button panel...
+				// Add/remove related button panel...
 				new Panel(it) => [
 					layout = new VerticalLayout
 					new Button(it) => [ 
@@ -186,28 +226,34 @@ class SerieManagementWindow extends Window<SerieManagementAppModel> {
 					new Button(it) => [ 
 						caption = "Quitar"
 						alignCenter
-						onClick [ | onRemoveRelatedContent() ]
+						bindEnabled(new NotNullObservable("selectedRelatedContent"))
+						onClick [ | modelObject.removeSelectedRelatedContent ]
 					]
 				]
 			]
-			
-			// Cancel/Ok button panel...			
-			new Panel(it) => [
-				layout = new HorizontalLayout
-				new Button(it) => [ 
-					caption = "Cancelar"
-					alignCenter
-					width = 200
-					onClick [ | onCancel() ]
-				]
-				new Button(it) => [ 
-					caption = "Aceptar"
-					alignCenter
-					width = 200
-					onClick [ | onOk() ]
-				]				
-			]			
 		]
+	}
+	
+	
+	def createOkCancelButtonPanel(Panel parentPanel) {
+		
+		// Cancel/Ok button panel...			
+		new Panel(parentPanel) => [
+			layout = new HorizontalLayout
+			new Button(it) => [ 
+				caption = "Cancelar"
+				alignCenter
+				width = 200
+				onClick [ | onCancel ]
+			]
+			new Button(it) => [ 
+				caption = "Aceptar"
+				alignCenter
+				width = 200
+				onClick [ | onOk ]
+			]				
+		]
+		
 	}
 	
 	
@@ -220,11 +266,7 @@ class SerieManagementWindow extends Window<SerieManagementAppModel> {
 		 */
 	}
 	
-	
-	private def onRemoveEpisode() {		
-	}
-	
-	
+		
 	private def onAddRelatedContent() {	
 		/* TO-DO:
 		 * - instanciar el appModel para el caso de uso "seleccionar un contenido relacionado (pelicula, serie, capitulo)"
@@ -233,11 +275,7 @@ class SerieManagementWindow extends Window<SerieManagementAppModel> {
 		 * - si se sale de la ventana con onAccept, llamar a mi modelObject.serie.addRelated() con el contenido elegido
 		 */	
 	}
-	
-	
-	private def onRemoveRelatedContent() {		
-	}
-	
+		
 	
 	private def onCancel() {		
 	}
