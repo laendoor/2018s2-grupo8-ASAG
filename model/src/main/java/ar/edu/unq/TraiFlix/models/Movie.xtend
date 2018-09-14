@@ -8,11 +8,11 @@ import java.util.ArrayList
 
 @Observable
 @Accessors
-class Movie extends Content implements Ratingable {
+class Movie extends Content implements Ratingable, Relatable {
 	
 	List<Category> categories
 	Clasification clasification
-	List<Ratingable> relateds
+	List<Relatable> relateds
 	
 	new(){
 		super()
@@ -37,6 +37,22 @@ class Movie extends Content implements Ratingable {
 	
 	def clasificationIs(Clasification clasification1){
 		clasification.name == clasification1.name
+	}
+	
+	override title() {
+		super.title
+	}
+	
+	override contentType() {
+		class.simpleName
+	}
+	
+	override addRelated(Relatable related) {
+		relateds.add(related)
+	}
+	
+	override removeRelated(Relatable related) {
+		relateds.remove(related)
 	}
 		
 }

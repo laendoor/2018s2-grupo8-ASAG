@@ -1,7 +1,6 @@
 package ar.edu.unq.TraiFlix.ui
 
 import ar.edu.unq.TraiFlix.models.Movie
-import ar.edu.unq.TraiFlix.ui.appModels.AppModel
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.layout.VerticalLayout
 import org.uqbar.arena.widgets.Button
@@ -12,11 +11,13 @@ import org.uqbar.arena.widgets.tables.Column
 import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.windows.Window
 import org.uqbar.arena.windows.WindowOwner
+import ar.edu.unq.TraiFlix.ui.appModels.SerieManagementAppModel
+import ar.edu.unq.TraiFlix.ui.appModels.AdminModel
 
-class TraiFlixMainWindow extends Window<AppModel> {
+class TraiFlixMainWindow extends Window<AdminModel> {
 	
 	
-	new(WindowOwner owner, AppModel model) {
+	new(WindowOwner owner, AdminModel model) {
 		super(owner, model)
 	}
 	
@@ -38,28 +39,30 @@ class TraiFlixMainWindow extends Window<AppModel> {
 		
 		new TextBox(panel).withFilter(null)
 		
-		createCrudPanelMovies(panel);
-			
+		createCrudPanelMovies(panel);			
 	}
 	
 	def createCrudPanelMovies(Panel panel) {
+		
 		var moviePanel = new Panel(panel)
+
 		moviePanel.layout = new HorizontalLayout
 		
 		var table = new Table<Movie>(moviePanel, typeof(Movie))=> [
 		
 		]
+		
 		createHeadedTable(table)
 		
 		createCrudButtons(moviePanel)
 		
-		}
+	}
 	
 	def createCrudButtons(Panel panel) {
 		
-	var buttonPanel = new Panel(panel)
+		var buttonPanel = new Panel(panel)
 	
-	buttonPanel.layout = new VerticalLayout
+		buttonPanel.layout = new VerticalLayout
 	
 			new Button(buttonPanel) => [ 
 			caption = "Nuevo"
@@ -84,10 +87,11 @@ class TraiFlixMainWindow extends Window<AppModel> {
 			alignCenter
 //				onClick [ | modelObject.convertir ]
 //				bindEnabled(new NotNullObservable("conversion"))
-			]}
+			]
+	}
 
 	def createHeadedTable(Table<Movie> table) {
-new Column<Movie>(table) => [
+		new Column<Movie>(table) => [
 	    title = "Head1"
 	    fixedSize = 200
 	    bindContentsToProperty("fullName")
@@ -101,7 +105,8 @@ new Column<Movie>(table) => [
 	    title = "Head3"
 	    fixedSize = 200
 	    bindContentsToProperty("fullName")
-		]	}
+		]	
+	}
 	
 	def createTitlePanel(Panel panel) {
 		var titlePanel = new Panel(panel)
@@ -118,6 +123,25 @@ new Column<Movie>(table) => [
 //				onClick [ | modelObject.convertir ]
 //				bindEnabled(new NotNullObservable("conversion"))
 		]
-			}
+
+		/*********** TEMPORAL - BORRAR **************/		
+		new Button(titlePanel) => [ 
+				caption = "** Temporal - Administracion de Serie **"
+				alignCenter
+				onClick [ | onManageSerie ]
+		]
+		/*********** TEMPORAL - BORRAR **************/
+	}
+	
+	
+	def void onManageSerie() {
+		val serieModel = new SerieManagementAppModel(this.modelObject.model)
+		
+		new SerieManagementWindow( this, serieModel ) =>  [ 
+			onAccept[ this.modelObject.addSerie(serieModel.serie) ]
+			open						
+		]	
+	}
+
 
 }

@@ -7,6 +7,7 @@ import org.uqbar.commons.model.annotations.Observable
 import ar.edu.unq.TraiFlix.models.id.EpisodeId
 import ar.edu.unq.TraiFlix.models.id.SerieId
 import ar.edu.unq.TraiFlix.models.id.MovieId
+import ar.edu.unq.TraiFlix.models.Category
 
 @Accessors
 @Observable
@@ -15,12 +16,16 @@ class TraiFlix {
 	List<Movie> movies;
 	List<Serie> series;
 	List<User> users;
+	List<Category> categories
+	List<Clasification> classifications
 	
 	
 	new(){
 		movies = new ArrayList()
 		series = new ArrayList()
 		users = new ArrayList()
+		categories = new ArrayList()
+		classifications = new ArrayList()
 	}
 	
 	
@@ -34,6 +39,14 @@ class TraiFlix {
 	
 	def setNewUser(User user) {
 		users.add(user);
+	}
+	
+	def addCategory( Category category ) {
+		categories.add( category )
+	}
+	
+	def addClassification( Clasification classification ) {
+		classifications.add( classification )
 	}
 	
 	def movie(MovieId id){
@@ -138,7 +151,7 @@ class TraiFlix {
 	def recommendedContentOfUser(Integer id){
 		this.user(id).recommended
 	}
-	
+
 
 	def linklessContent() {
 		var List <Content> content = newArrayList
@@ -151,4 +164,15 @@ class TraiFlix {
 		content.addAll(episode.filter[link.nullOrEmpty])
 		return content
 	}
+
+
+	def getRelatableContent(Relatable toRelateWith) {
+		var List<Relatable> contentList = new ArrayList
+		
+		contentList.addAll(movies)
+		contentList.addAll(series)
+		
+		contentList.filter( elem | elem!=toRelateWith ).toList
+	}
+	
 }
