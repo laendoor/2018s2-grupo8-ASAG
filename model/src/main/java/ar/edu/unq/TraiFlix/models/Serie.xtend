@@ -7,6 +7,7 @@ import ar.edu.unq.TraiFlix.models.id.EpisodeId
 import org.uqbar.commons.model.annotations.Observable
 import java.util.ArrayList
 
+@Observable
 @Accessors
 @Observable
 class Serie implements Ratingable, Relatable {
@@ -23,9 +24,10 @@ class Serie implements Ratingable, Relatable {
 	new(){
 		super()
 		id = new SerieId()
-		categories = new ArrayList()
-		relateds = new ArrayList()
-		episodes = new ArrayList()
+		categories = new ArrayList
+		relateds = new ArrayList
+		episodes = new ArrayList
+
 	}
 	
 	

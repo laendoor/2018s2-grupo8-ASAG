@@ -6,6 +6,8 @@ import java.util.Calendar
 import org.eclipse.xtend.lib.annotations.Accessors
 import ar.edu.unq.TraiFlix.models.id.ContentId
 import java.util.ArrayList
+
+import org.joda.time.Period
 import org.uqbar.commons.model.annotations.Observable
 
 @Accessors
@@ -16,7 +18,7 @@ abstract class Content {
 	 String title
 	 Date release
 	 List<Assessment> assessments
-	 Calendar duration
+	 Period duration
 	 List<Director> directors
 	 List<Actor> actors
 	 String link

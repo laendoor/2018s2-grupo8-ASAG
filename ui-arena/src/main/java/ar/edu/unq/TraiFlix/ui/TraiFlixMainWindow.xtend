@@ -1,6 +1,7 @@
 package ar.edu.unq.TraiFlix.ui
 
 import ar.edu.unq.TraiFlix.models.Movie
+import ar.edu.unq.TraiFlix.ui.appModels.AdminModel
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.layout.VerticalLayout
 import org.uqbar.arena.widgets.Button
@@ -13,6 +14,10 @@ import org.uqbar.arena.windows.Window
 import org.uqbar.arena.windows.WindowOwner
 import ar.edu.unq.TraiFlix.ui.appModels.SerieManagementAppModel
 import ar.edu.unq.TraiFlix.ui.appModels.AdminModel
+
+import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
+import org.uqbar.arena.layout.ColumnLayout
+import ar.edu.unq.TraiFlix.models.Serie
 
 class TraiFlixMainWindow extends Window<AdminModel> {
 	
@@ -27,17 +32,39 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 		createPanelVisualizationMovies(mainPanel)
 		createPanelVisualizationSeries(mainPanel)
 		
+		
 	}
 	
 	def createPanelVisualizationSeries(Panel panel) {
-		//TODO FIXME LABURA GATO
+		createTitlePanel(panel, "SERIES")
+		
+		createCrudPanelSeries(panel);
 	}
 	
+	def createCrudPanelSeries(Panel panel) {
+		var seriePanel = new Panel(panel)
+		seriePanel.layout = new HorizontalLayout
+		
+		var tablePanel = new Panel(seriePanel)
+		
+		new TextBox(tablePanel).withFilter(null)
+		
+		var table = new Table<Serie>(tablePanel, typeof(Serie))=> [
+			numberVisibleRows = 3
+			items <=> "model.series"
+			selection <=> "selectedSerie"
+		]
+		createHeadedTableSeries(table)
+		
+		createCrudButtons(seriePanel)
+		
+		}
+		
 	def createPanelVisualizationMovies(Panel panel) {
 		
-		createTitlePanel(panel)
+		createTitlePanel(panel, "PELICULAS")
 		
-		new TextBox(panel).withFilter(null)
+		
 		
 		createCrudPanelMovies(panel);			
 	}
@@ -48,8 +75,14 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 
 		moviePanel.layout = new HorizontalLayout
 		
-		var table = new Table<Movie>(moviePanel, typeof(Movie))=> [
+		var tablePanel = new Panel(moviePanel)
 		
+		new TextBox(tablePanel).withFilter(null)
+		
+		var table = new Table<Movie>(tablePanel, typeof(Movie))=> [
+			numberVisibleRows = 3
+			items <=> "model.movies"
+			selection <=> "selectedMovie"
 		]
 		
 		createHeadedTable(table)
@@ -67,59 +100,78 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 			new Button(buttonPanel) => [ 
 			caption = "Nuevo"
 			alignCenter
-//				onClick [ | modelObject.convertir ]
-//				bindEnabled(new NotNullObservable("conversion"))
+				onClick [ | /*new ventanaDeLucas(this, this.modelObject.model).open */]
 			]
 					new Button(buttonPanel) => [ 
 			caption = "Ver"
 			alignCenter
-//				onClick [ | modelObject.convertir ]
+				onClick [ | modelObject.viewMovie ]
 //				bindEnabled(new NotNullObservable("conversion"))
 			]
-							new Button(buttonPanel) => [ 
+			new Button(buttonPanel) => [ 
 			caption = "Modificar"
 			alignCenter
-//				onClick [ | modelObject.convertir ]
+				onClick [ | modelObject.updateMovie ]
 //				bindEnabled(new NotNullObservable("conversion"))
 			]
 							new Button(buttonPanel) => [ 
 			caption = "Borrar"
 			alignCenter
-//				onClick [ | modelObject.convertir ]
+				onClick [ | modelObject.deleteMovie ]
 //				bindEnabled(new NotNullObservable("conversion"))
-			]
-	}
+
+			]}
+	
 
 	def createHeadedTable(Table<Movie> table) {
 		new Column<Movie>(table) => [
-	    title = "Head1"
+	    title = "Titulo"
+
 	    fixedSize = 200
-	    bindContentsToProperty("fullName")
+	    bindContentsToProperty("title")
 		]
 		new Column<Movie>(table) => [
-	    title = "Head2"
-	    fixedSize = 200
-	    bindContentsToProperty("fullName")
+	    title = "Duración"
+	    fixedSize = 150
+	    bindContentsToProperty("duration")
 		]
 		new Column<Movie>(table) => [
-	    title = "Head3"
-	    fixedSize = 200
-	    bindContentsToProperty("fullName")
-		]	
-	}
+	    title = "Link"
+	    fixedSize = 250
+	    bindContentsToProperty("link")
+		]	}
 	
-	def createTitlePanel(Panel panel) {
+	def createHeadedTableSeries(Table<Serie> table) {
+		new Column<Serie>(table) => [
+	    title = "Titulo"
+	    fixedSize = 200
+	    bindContentsToProperty("title")
+		]
+		new Column<Serie>(table) => [
+	    title = "Creadores"
+	    fixedSize = 150
+	    bindContentsToProperty("creators")
+		]
+		new Column<Serie>(table) => [
+	    title = "Episodios"
+	    fixedSize = 250
+	    bindContentsToProperty("episodes.size")
+		]	}
+	
+	
+	def createTitlePanel(Panel panel, String title) {
 		var titlePanel = new Panel(panel)
 		
-		titlePanel.layout = new HorizontalLayout
+		titlePanel.layout = new ColumnLayout(2)
 		
 		new Label(titlePanel) =>[
-			text = "PELICULAS"
+			text = title
 			fontSize= 16]
 			
+		
 		new Button(titlePanel) => [ 
 				caption = "Ver Usuarios"
-				alignCenter
+				
 //				onClick [ | modelObject.convertir ]
 //				bindEnabled(new NotNullObservable("conversion"))
 		]
