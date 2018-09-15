@@ -35,6 +35,7 @@ class DummyData {
 		] ) 
 		return res
 		}
+		/* 
 	def static createSeries() {
 		var List<Serie> res = new ArrayList
 		res.add(new Serie => [
@@ -50,7 +51,7 @@ class DummyData {
 
 		}
 
-	
+	*/
 		
 	def static createSeries() {
 		var List<Serie> series = new ArrayList

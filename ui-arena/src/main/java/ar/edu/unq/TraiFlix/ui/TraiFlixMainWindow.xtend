@@ -56,9 +56,40 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 		]
 		createHeadedTableSeries(table)
 		
-		createCrudButtons(seriePanel)
+		createCrudButtonsSeries(seriePanel)
 		
 		}
+	
+	def createCrudButtonsSeries(Panel panel) {
+		
+		var buttonPanel = new Panel(panel)
+	
+			new Button(buttonPanel) => [ 
+			caption = "Nuevo"
+				alignCenter
+				onClick [ | new SerieManagementWindow(this, new SerieManagementAppModel(this.modelObject.model)).open ]
+			]
+					new Button(buttonPanel) => [ 
+			caption = "Ver"
+			alignCenter
+				onClick [ | modelObject.viewMovie ]
+//				bindEnabled(new NotNullObservable("conversion"))
+			]
+			new Button(buttonPanel) => [ 
+			caption = "Modificar"
+			alignCenter
+				onClick [ | modelObject.updateMovie ]
+//				bindEnabled(new NotNullObservable("conversion"))
+			]
+							new Button(buttonPanel) => [ 
+			caption = "Borrar"
+			alignCenter
+				onClick [ | modelObject.deleteMovie ]
+//				bindEnabled(new NotNullObservable("conversion"))
+
+			]
+		}
+				
 		
 	def createPanelVisualizationMovies(Panel panel) {
 		
@@ -66,10 +97,10 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 		
 		
 		
-		createCrudPanelMovies(panel);			
+		createCrudPanelMovies(panel, "model.movies","selectedMovie");			
 	}
 	
-	def createCrudPanelMovies(Panel panel) {
+	def createCrudPanelMovies(Panel panel,String dirList, String selected) {
 		
 		var moviePanel = new Panel(panel)
 
@@ -81,8 +112,8 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 		
 		var table = new Table<Movie>(tablePanel, typeof(Movie))=> [
 			numberVisibleRows = 3
-			items <=> "model.movies"
-			selection <=> "selectedMovie"
+			items <=> dirList
+			selection <=> selected
 		]
 		
 		createHeadedTable(table)
@@ -95,12 +126,10 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 		
 		var buttonPanel = new Panel(panel)
 	
-		buttonPanel.layout = new VerticalLayout
-	
 			new Button(buttonPanel) => [ 
 			caption = "Nuevo"
-			alignCenter
-				onClick [ | /*new ventanaDeLucas(this, this.modelObject.model).open */]
+				alignCenter
+				onClick [ | new TraiFlixAdministratorMovieWindow(this, this.modelObject.model).open ]
 			]
 					new Button(buttonPanel) => [ 
 			caption = "Ver"

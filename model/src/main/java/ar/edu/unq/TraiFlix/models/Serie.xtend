@@ -7,7 +7,6 @@ import ar.edu.unq.TraiFlix.models.id.EpisodeId
 import org.uqbar.commons.model.annotations.Observable
 import java.util.ArrayList
 
-@Observable
 @Accessors
 @Observable
 class Serie implements Ratingable, Relatable {

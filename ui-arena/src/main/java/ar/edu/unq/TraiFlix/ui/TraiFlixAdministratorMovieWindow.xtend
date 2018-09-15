@@ -3,11 +3,13 @@ package ar.edu.unq.TraiFlix.ui
 import org.uqbar.arena.windows.MainWindow
 import ar.edu.unq.TraiFlix.models.TraiFlix
 import org.uqbar.arena.widgets.Panel
+import org.uqbar.arena.windows.Window
+import org.uqbar.arena.windows.WindowOwner
 
-class TraiFlixAdministratorMovieWindow extends MainWindow<TraiFlix>{
+class TraiFlixAdministratorMovieWindow extends Window<TraiFlix>{
 	
-	new(TraiFlix model) {
-		super(model)
+	new(WindowOwner owner, TraiFlix model) {
+		super(owner, model)
 	}
 	
 	override createContents(Panel mainPanel) {
