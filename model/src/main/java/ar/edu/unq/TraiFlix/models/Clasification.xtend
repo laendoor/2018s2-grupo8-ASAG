@@ -11,4 +11,11 @@ class Clasification {
 		this.name = name
 	}
 	
+	override String toString() {
+		name
+	}
+	
+	override boolean equals(Object otherClassification) {
+		name.equals( (otherClassification as Clasification).name )
+	}
 }

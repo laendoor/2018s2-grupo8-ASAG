@@ -12,6 +12,8 @@ import org.uqbar.arena.widgets.tables.Column
 import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.windows.Window
 import org.uqbar.arena.windows.WindowOwner
+import ar.edu.unq.TraiFlix.ui.appModels.SerieManagementAppModel
+import ar.edu.unq.TraiFlix.ui.appModels.AdminModel
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 import org.uqbar.arena.layout.ColumnLayout
@@ -64,12 +66,13 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 		
 		
 		
-		createCrudPanelMovies(panel);
-			
+		createCrudPanelMovies(panel);			
 	}
 	
 	def createCrudPanelMovies(Panel panel) {
+		
 		var moviePanel = new Panel(panel)
+
 		moviePanel.layout = new HorizontalLayout
 		
 		var tablePanel = new Panel(moviePanel)
@@ -81,17 +84,18 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 			items <=> "model.movies"
 			selection <=> "selectedMovie"
 		]
+		
 		createHeadedTable(table)
 		
 		createCrudButtons(moviePanel)
 		
-		}
+	}
 	
 	def createCrudButtons(Panel panel) {
 		
-	var buttonPanel = new Panel(panel)
+		var buttonPanel = new Panel(panel)
 	
-	buttonPanel.layout = new VerticalLayout
+		buttonPanel.layout = new VerticalLayout
 	
 			new Button(buttonPanel) => [ 
 			caption = "Nuevo"
@@ -115,12 +119,14 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 			alignCenter
 				onClick [ | modelObject.deleteMovie ]
 //				bindEnabled(new NotNullObservable("conversion"))
+
 			]}
 	
 
 	def createHeadedTable(Table<Movie> table) {
 		new Column<Movie>(table) => [
 	    title = "Titulo"
+
 	    fixedSize = 200
 	    bindContentsToProperty("title")
 		]
@@ -169,6 +175,25 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 //				onClick [ | modelObject.convertir ]
 //				bindEnabled(new NotNullObservable("conversion"))
 		]
-			}
+
+		/*********** TEMPORAL - BORRAR **************/		
+		new Button(titlePanel) => [ 
+				caption = "** Temporal - Administracion de Serie **"
+				alignCenter
+				onClick [ | onManageSerie ]
+		]
+		/*********** TEMPORAL - BORRAR **************/
+	}
+	
+	
+	def void onManageSerie() {
+		val serieModel = new SerieManagementAppModel(this.modelObject.model)
+		
+		new SerieManagementWindow( this, serieModel ) =>  [ 
+			onAccept[ this.modelObject.addSerie(serieModel.serie) ]
+			open						
+		]	
+	}
+
 
 }

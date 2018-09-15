@@ -3,6 +3,7 @@ package ar.edu.unq.TraiFlix.ui.appModels
 import ar.edu.unq.TraiFlix.models.Movie
 import ar.edu.unq.TraiFlix.models.TraiFlix
 import org.eclipse.xtend.lib.annotations.Accessors
+
 import ar.edu.unq.TraiFlix.models.Serie
 
 @Accessors
@@ -15,6 +16,7 @@ class AdminModel extends AppModel{
 	new(TraiFlix model) {
 		super(model)
 	}
+
 
 	
 	def updateMovie() {
@@ -29,8 +31,10 @@ class AdminModel extends AppModel{
 	def deleteMovie() {
 		//TODO FIXME ESTE LO TENGO QUE HACER YO
 	}
-	
-	
+
+	def addSerie( Serie serie ) {
+		model.setNewSerie(serie)
+	}
 	
 	
 }

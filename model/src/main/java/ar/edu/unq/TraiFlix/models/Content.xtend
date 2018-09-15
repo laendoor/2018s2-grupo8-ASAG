@@ -6,9 +6,12 @@ import java.util.Calendar
 import org.eclipse.xtend.lib.annotations.Accessors
 import ar.edu.unq.TraiFlix.models.id.ContentId
 import java.util.ArrayList
+
 import org.joda.time.Period
+import org.uqbar.commons.model.annotations.Observable
 
 @Accessors
+@Observable
 abstract class Content {
 	
 	 ContentId id
@@ -28,8 +31,6 @@ abstract class Content {
 	 
 	 def addAssessment(Assessment critic){
 	 	assessments.add(critic)
-	 }
-	 
-	 
+	 }	 
 	 
 }

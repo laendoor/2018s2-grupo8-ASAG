@@ -9,14 +9,15 @@ import java.util.ArrayList
 
 @Observable
 @Accessors
-class Serie implements Ratingable{
+@Observable
+class Serie implements Ratingable, Relatable {
 	
 	SerieId id
 	String title
 	List<Category> categories
 	Clasification clasification
 	String creators
-	List<Ratingable> relateds
+	List<Relatable> relateds
 	List<Episode> episodes;
 	
 	
@@ -26,6 +27,7 @@ class Serie implements Ratingable{
 		categories = new ArrayList
 		relateds = new ArrayList
 		episodes = new ArrayList
+
 	}
 	
 	
@@ -56,6 +58,12 @@ class Serie implements Ratingable{
 		episodes.add(episode)
 	}
 	
+	
+	def removeEpisode(Episode episode) {
+		episodes.remove(episode)
+	}
+	
+	
 	def quantityOfSeasonsSerie(){
 		episodes.map[elem |
 			elem.season
@@ -74,6 +82,27 @@ class Serie implements Ratingable{
 		clasification.name == clasification1.name
 	}
 	
-
+	def addCategory(Category category) {
+		categories.add(category)
+	}
 	
+	def removeCategory(Category category) {
+		categories.remove(category)
+	}
+	
+	override title() {
+		this.title
+	}
+	
+	override contentType() {
+		class.simpleName
+	}
+	
+	override addRelated(Relatable related) {
+		relateds.add(related)
+	}
+	
+	override removeRelated(Relatable related) {
+		relateds.remove(related)
+	}
 }

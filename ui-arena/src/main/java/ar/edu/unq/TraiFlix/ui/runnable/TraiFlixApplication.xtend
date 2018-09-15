@@ -5,7 +5,6 @@ import ar.edu.unq.TraiFlix.ui.TraiFlixMainWindow
 import org.uqbar.arena.windows.Window
 import org.uqbar.arena.Application
 import ar.edu.unq.TraiFlix.ui.appModels.AdminModel
-import ar.edu.unq.TraiFlix.ui.appModels.AppModel
 
 class TraiFlixApplication extends Application{
 	
@@ -15,11 +14,19 @@ class TraiFlixApplication extends Application{
 	}
 
 	override protected Window<AdminModel> createMainWindow() {
+
 		var traiflix = new TraiFlix =>[
 		movies = DummyData.createMovies()
 		series = DummyData.createSeries()
 			]		
+
 		
+		var traiflix = new TraiFlix =>[
+			movies = DummyData.createMovies()
+			series = DummyData.createSeries()
+			categories = DummyData.createCategories()
+			classifications = DummyData.createClassifications()
+		]			
 			
 		return new TraiFlixMainWindow(this,new AdminModel(traiflix))
 	}
