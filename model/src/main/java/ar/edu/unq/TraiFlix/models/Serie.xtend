@@ -4,7 +4,10 @@ import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import ar.edu.unq.TraiFlix.models.id.SerieId
 import ar.edu.unq.TraiFlix.models.id.EpisodeId
+import org.uqbar.commons.model.annotations.Observable
+import java.util.ArrayList
 
+@Observable
 @Accessors
 class Serie implements Ratingable{
 	
@@ -20,9 +23,9 @@ class Serie implements Ratingable{
 	new(){
 		super()
 		id = new SerieId()
-		categories = newArrayList
-		relateds = newArrayList
-		episodes = newArrayList
+		categories = new ArrayList
+		relateds = new ArrayList
+		episodes = new ArrayList
 	}
 	
 	

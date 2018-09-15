@@ -14,9 +14,10 @@ class TraiFlixApplication extends Application{
 		new TraiFlixApplication().start()
 	}
 
-	override protected Window<AppModel> createMainWindow() {
+	override protected Window<AdminModel> createMainWindow() {
 		var traiflix = new TraiFlix =>[
-		movies = DummyData.crearMovies()
+		movies = DummyData.createMovies()
+		series = DummyData.createSeries()
 			]		
 		
 			
