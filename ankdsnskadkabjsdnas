@@ -1,0 +1,243 @@
+[33mcommit e463c241db551cdba6243fb64bdbf0c7455504cf[m
+Author: mgarzonunq <marcelo.garzon@gmail.com>
+Date:   Sun Sep 16 20:14:53 2018 -0300
+
+    Se completa binding para seleccion de categorias...
+
+[33mcommit bef1b9c5db672f1a68251483f69bf97273b40cdb[m
+Author: mgarzonunq <marcelo.garzon@gmail.com>
+Date:   Sun Sep 16 16:26:27 2018 -0300
+
+    Ajuste del list "seleccionadas" para el manejo de categorias...
+
+[33mcommit 844c3dd52719339b31309d2a1c5a2bca394ea4e8[m
+Merge: 8981f2c 1fb9f40
+Author: mgarzonunq <marcelo.garzon@gmail.com>
+Date:   Sun Sep 16 15:27:17 2018 -0300
+
+    Se ajusta adapter para menejo de colecciones Relatable en Table de Arena...
+
+[33mcommit 8981f2c9474c7532d90654f72585f82e92788720[m
+Author: mgarzonunq <marcelo.garzon@gmail.com>
+Date:   Sun Sep 16 15:04:04 2018 -0300
+
+    Se agrega ventana y modelo para manejo de contenido relacionado...
+
+[33mcommit 1fb9f40f791886bcd21090917019c212ef9ae492[m
+Author: leavalos <l.e.avalos1@gmail.com>
+Date:   Sun Sep 16 13:03:25 2018 -0300
+
+    Se modifica Bootstrap para que sea donde se carga la informacion de TraFlix.
+
+[33mcommit 864f6d55bd09a8023575d51b2951283af209d41b[m
+Author: wisaku <sabaliauskaspablo@gmail.com>
+Date:   Sat Sep 15 18:57:46 2018 -0300
+
+    fix: se corrigio la forma de mostrar la duracion de las peliculas
+
+[33mcommit a231012c85d43cbdcb4826ea35f62cd219f3175b[m
+Author: wisaku <sabaliauskaspablo@gmail.com>
+Date:   Sat Sep 15 18:22:09 2018 -0300
+
+    integracion con vistas
+
+[33mcommit 35e1bac486589d5b959df3925afd5653932f7268[m
+Merge: 1a14fd5 f2d6aa1
+Author: Pablo Nicolas <sabaliauskaspablo@gmail.com>
+Date:   Sat Sep 15 16:06:56 2018 -0300
+
+    Merge pull request #6 from unq-ui/vistaSaba
+    
+    feat: pantalla principal y controlador, modificaciones simples a algu…
+
+[33mcommit f2d6aa1bf630f713475d0088bb0bc95a8f6e7874[m
+Merge: 108467a 1a14fd5
+Author: Pablo Nicolas <sabaliauskaspablo@gmail.com>
+Date:   Sat Sep 15 16:06:44 2018 -0300
+
+    Merge branch 'master' into vistaSaba
+
+[33mcommit 108467a005388834e33357714c7f565ff52e4dd5[m
+Author: wisaku <sabaliauskaspablo@gmail.com>
+Date:   Sat Sep 15 15:56:22 2018 -0300
+
+    feat: pantalla principal y controlador, modificaciones simples a algunas clases, aun queda un refactor
+
+[33mcommit 1a14fd58ea8afc87e4c4b81a179c0fa8c92be4c6[m
+Merge: 4bee676 a1ceaf1
+Author: mgarzonunq <marcelo.garzon@gmail.com>
+Date:   Fri Sep 14 17:14:31 2018 -0300
+
+    Se hace merge a master de app model y UI para administracion de series...
+
+[33mcommit a1ceaf10946fe274ab7682f233a01391e20faab8[m
+Author: mgarzonunq <marcelo.garzon@gmail.com>
+Date:   Fri Sep 14 13:51:57 2018 -0300
+
+    Se agrega interface Relatable para aquellos contenidos que pueden ser relacionados con otros...
+
+[33mcommit 106b41fb60d2172b2914b1e95f8b8a850f4a8d2a[m
+Author: mgarzonunq <marcelo.garzon@gmail.com>
+Date:   Fri Sep 14 13:50:15 2018 -0300
+
+    Se agrega manejo de contenido relacionado...
+
+[33mcommit 4bee6761d9ec9a56fe54a323a5a4f5b1de2af151[m
+Author: wisaku <sabaliauskaspablo@gmail.com>
+Date:   Thu Sep 13 21:05:31 2018 -0300
+
+    fix/feat: se creo AppModel para extender del, se corrigio creacion de listas
+
+[33mcommit 23aa9b4b4b77646751ebedfc6d3978cec2de5e6c[m
+Author: mgarzonunq <marcelo.garzon@gmail.com>
+Date:   Thu Sep 13 18:58:56 2018 -0300
+
+    Refactor de nombres para acomodarse al esquema de appModel
+
+[33mcommit 799a819f44129dca49149bbfb9ef32094e58a606[m
+Author: leavalos <l.e.avalos1@gmail.com>
+Date:   Thu Sep 13 16:56:29 2018 -0300
+
+    Se agrega package bootstrap. Interface Bootstrap y clase MovieBootstrap
+
+[33mcommit fc910a4fb2eaa4dc3c3a9a14a31a22c53c4f92bc[m
+Author: mgarzonunq <marcelo.garzon@gmail.com>
+Date:   Thu Sep 13 15:18:25 2018 -0300
+
+    Se completa layout draft de la ventana de administracion de series...
+
+[33mcommit 3706ae845e534fac5f4710d65b46e7573fc132fd[m
+Author: mgarzonunq <marcelo.garzon@gmail.com>
+Date:   Thu Sep 13 00:30:16 2018 -0300
+
+    Prueba conceptual de gestion de series y clase repositorio para el caso de uso...
+
+[33mcommit 17b1bf405e59ead96e7e7aa7ccf99687f02b9ba5[m
+Author: = <=>
+Date:   Tue Sep 11 23:43:26 2018 -0300
+
+    agrego el punto 'n' con test correspondiente
+
+[33mcommit 0221436588927c00d1d8fa7ec92ccd1c94d3559c[m
+Author: leavalos <l.e.avalos1@gmail.com>
+Date:   Tue Sep 11 19:00:11 2018 -0300
+
+    Nuevo test para saber el contenido recomendado de un usuario
+
+[33mcommit 5d367e747220207a86aae1bb8a2f2254f356ef3c[m
+Author: mgarzonunq <marcelo.garzon@gmail.com>
+Date:   Tue Sep 11 18:20:33 2018 -0300
+
+    Se recupera ultima version de Movie...
+
+[33mcommit d197ec9fa911c908500ba386fb1b55904f0db916[m
+Merge: 5bdd6b4 fb570b3
+Author: Pablo Nicolas <sabaliauskaspablo@gmail.com>
+Date:   Tue Sep 11 15:43:44 2018 -0300
+
+    Merge pull request #5 from unq-ui/dev
+    
+    Dev
+
+[33mcommit fb570b3bbc7cb485aa9ebd19495161ea28b067e8[m
+Merge: 91e76d9 5bdd6b4
+Author: wisaku <sabaliauskaspablo@gmail.com>
+Date:   Tue Sep 11 15:42:51 2018 -0300
+
+    quite cambios para poder hacer meerge en master
+
+[33mcommit 91e76d94a08adc7e17236ae2857cf922f3d79c09[m
+Author: wisaku <sabaliauskaspablo@gmail.com>
+Date:   Tue Sep 11 15:31:06 2018 -0300
+
+    feat: vista y main
+
+[33mcommit 5bdd6b45a510885ae3f35981b48fb3a9578a1b45[m
+Merge: 572f155 7c17c60
+Author: leavalos <31226302+leavalos@users.noreply.github.com>
+Date:   Mon Sep 10 17:59:34 2018 -0300
+
+    Merge pull request #4 from unq-ui/id
+    
+    Id
+
+[33mcommit 7c17c6066a44e24cf7d8fe66f5883a321ac4baaa[m
+Author: leavalos <l.e.avalos1@gmail.com>
+Date:   Mon Sep 10 17:33:49 2018 -0300
+
+    Se cambia enum Clasification por clase.
+
+[33mcommit 745a1f13cb72ec988dfc47554f46d935ee96650f[m
+Author: leavalos <l.e.avalos1@gmail.com>
+Date:   Mon Sep 10 17:23:30 2018 -0300
+
+    Se realiza refactor en User, Movie, Episode y Serie dado que se reemplaza id integer por un objeto ContentId. se modifica funcionalidades de User y de traiflix. Se arreglan test. Se cambia el enum Category por una clase Category.
+
+[33mcommit df5b99010a140a0e6e6cac97931e7f3e1f85eda2[m
+Author: mgarzonunq <marcelo.garzon@gmail.com>
+Date:   Sun Sep 9 12:24:09 2018 -0300
+
+    Prueba conceptual de jerarquia ContentId para encapsular la gestion de IDs...
+
+[33mcommit 572f155940b8679e56f7d6174da1b9b937f560a7[m
+Author: leavalos <l.e.avalos1@gmail.com>
+Date:   Thu Sep 6 17:52:27 2018 -0300
+
+    Se agrega metodo para conocer el contenido recomendado de un usuario.
+
+[33mcommit 17daef7d5bec9f67d6b1f18884c2028b6ac3c0f0[m
+Author: leavalos <l.e.avalos1@gmail.com>
+Date:   Thu Sep 6 16:33:55 2018 -0300
+
+    Se distribuye responsabilidades. Se agrean metodos a Serie y Pelicula.
+
+[33mcommit 9ebf7864b045caeb7f155c8dab5d895532a1c289[m
+Author: mgarzonunq <marcelo.garzon@gmail.com>
+Date:   Thu Sep 6 01:14:12 2018 -0300
+
+    Se implementa consulta: l. Dado un usuario, saber que series vio de forma completa...
+
+[33mcommit ecde47a47cc1c403da034da88d607d8ec1f2cd59[m
+Merge: 0617c35 335543e
+Author: Pablo Nicolas <sabaliauskaspablo@gmail.com>
+Date:   Wed Sep 5 22:01:04 2018 -0300
+
+    Merge pull request #2 from unq-ui/devSaba
+    
+    Merge pull request #1 from unq-ui/master
+
+[33mcommit 0617c35ad1d2f6d8476febc154f2a9405b7a23f4[m
+Author: wisaku <sabaliauskaspablo@gmail.com>
+Date:   Wed Sep 5 22:00:13 2018 -0300
+
+    fix: corrección gramatical
+
+[33mcommit 335543e0434b78d591e63b7d38872db6ba1a8226[m
+Merge: a4077af d768dbd
+Author: Pablo Nicolas <sabaliauskaspablo@gmail.com>
+Date:   Wed Sep 5 21:14:29 2018 -0300
+
+    Merge pull request #1 from unq-ui/master
+    
+    feat: k. Dado un usuario, saber qué películas vió
+
+[33mcommit d768dbdda7f65318d9f332af7b2f6b375e382e73[m
+Author: wisaku <sabaliauskaspablo@gmail.com>
+Date:   Wed Sep 5 20:59:45 2018 -0300
+
+    feat: k. Dado un usuario, saber qué películas vió
+
+[33mcommit a4077af853b1d3f8521a289f4731d851beb125ad[m
+Author: leavalos <l.e.avalos1@gmail.com>
+Date:   Wed Sep 5 01:43:16 2018 -0300
+
+    Nuevas funcionalidades de Traiflix
+
+[33mcommit 672891654ca4eb2ba039f1924fc7d6dcf30a786b[m
+Author: leavalos <l.e.avalos1@gmail.com>
+Date:   Wed Sep 5 00:31:01 2018 -0300
+
+    fix de test, funcionalidades de traiflix
+
+[33mcommit aa335f17b2728e5ad1871fdf68af4efbcf41f5a8[m
+Author: leavalos <l.e.avalos1@gmai
