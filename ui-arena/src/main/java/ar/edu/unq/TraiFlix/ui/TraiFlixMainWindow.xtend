@@ -212,9 +212,7 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 	
 	
 	def onNewSerie() {
-		val serieModel = new SerieManagementAppModel(this.modelObject.model) => [
-				serie = new Serie 
-		]
+		val serieModel = new SerieManagementAppModel(this.modelObject.model, new Serie)
 		
 		new SerieManagementWindow( this, serieModel ) =>  [ 
 			title = "TraiFlix - Crear Nueva Serie"

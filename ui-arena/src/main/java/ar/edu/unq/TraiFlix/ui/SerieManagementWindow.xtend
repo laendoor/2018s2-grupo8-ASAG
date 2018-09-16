@@ -101,7 +101,8 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 				]
 				new List(it) => [
 					items <=> "availableCategories"	
-					value <=> "selectedAvailableCategory"			
+					value <=> "selectedAvailableCategory"
+					height = 50	
 				]
 			]
 			
@@ -111,7 +112,7 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 					caption = ">"
 					alignCenter
 					bindEnabled(new NotNullObservable("selectedAvailableCategory"))
-					onClick [ | modelObject.addSelectedCategory ]
+					onClick [ | modelObject.addSelectedAvailableCategory ]
 				]
 				new Button(it) => [ 
 					caption = "<"
@@ -129,7 +130,8 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 				]
 				new List(it) => [
 					items <=> "serie.categories"	
-					value <=> "selectedAssignedCategory"			
+					value <=> "selectedAssignedCategory"
+					height = 50	
 				]
 			]
 		]
