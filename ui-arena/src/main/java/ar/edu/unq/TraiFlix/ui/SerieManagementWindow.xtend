@@ -156,7 +156,7 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 				    bindContentsToProperty("season")
 				]
 				new Column<Episode>(it) => [
-				    title = "Capitulo"
+				    title = "Capitulo" 
 				    fixedSize = 200
 				    bindContentsToProperty("title")
 				]
