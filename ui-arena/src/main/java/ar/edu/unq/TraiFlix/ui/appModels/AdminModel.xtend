@@ -13,6 +13,8 @@ class AdminModel extends AppModel{
 	
 	Serie selectedSerie
 	
+	String searchMovie
+	
 	new(TraiFlix model) {
 		super(model)
 	}

@@ -10,7 +10,7 @@ import ar.edu.unq.TraiFlix.models.Relatable
 class RelatableContentAppModel extends AppModel {
 	
 	Relatable toRelateWith
-	RelatableToTableAdapter selectedRelatableContent
+	Relatable selectedRelatableContent
 	
 	new(TraiFlix model, Relatable toRelateWith) {
 		super(model)
@@ -18,7 +18,7 @@ class RelatableContentAppModel extends AppModel {
 	}
 	
 	def availableRelatableContents() {
-		model.getRelatableContent(toRelateWith).map[ elem | new RelatableToTableAdapter(elem) ]
+		model.getRelatableContent(toRelateWith)
 	}
 	
 }

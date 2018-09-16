@@ -258,7 +258,7 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 		
 		new RelatableContentSelectionDialog(this,relatableContentModel) => [
 			title = "Contenidos disponibles para relacionar"
-			onAccept[ this.modelObject.serie.addRelated(relatableContentModel.selectedRelatableContent.relatable) ]
+			onAccept[ this.modelObject.serie.addRelated(relatableContentModel.selectedRelatableContent) ]
 			open
 		]
 	}

@@ -18,6 +18,7 @@ import ar.edu.unq.TraiFlix.ui.appModels.AdminModel
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 import org.uqbar.arena.layout.ColumnLayout
 import ar.edu.unq.TraiFlix.models.Serie
+import org.eclipse.jface.viewers.deferred.ChangeQueue.Change
 
 class TraiFlixMainWindow extends Window<AdminModel> {
 	
@@ -46,8 +47,9 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 		seriePanel.layout = new HorizontalLayout
 		
 		var tablePanel = new Panel(seriePanel)
-		
-		new TextBox(tablePanel).withFilter(null)
+		new TextBox(tablePanel).value <=> "searchMovie" => [
+	
+		]
 		
 		var table = new Table<Serie>(tablePanel, typeof(Serie))=> [
 			numberVisibleRows = 3
@@ -162,7 +164,7 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 		new Column<Movie>(table) => [
 	    title = "Duración"
 	    fixedSize = 150
-	    bindContentsToProperty("duration")
+	    bindContentsToProperty("timeToString")
 		]
 		new Column<Movie>(table) => [
 	    title = "Link"
@@ -200,7 +202,7 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 		
 		new Button(titlePanel) => [ 
 				caption = "Ver Usuarios"
-				
+		
 //				onClick [ | modelObject.convertir ]
 //				bindEnabled(new NotNullObservable("conversion"))
 		]
