@@ -19,6 +19,7 @@ import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 import org.uqbar.arena.layout.ColumnLayout
 import ar.edu.unq.TraiFlix.models.Serie
 import org.eclipse.jface.viewers.deferred.ChangeQueue.Change
+import ar.edu.unq.TraiFlix.models.Clasification
 
 class TraiFlixMainWindow extends Window<AdminModel> {
 	
@@ -211,7 +212,9 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 	
 	
 	def onNewSerie() {
-		val serieModel = new SerieManagementAppModel(this.modelObject.model)
+		val serieModel = new SerieManagementAppModel(this.modelObject.model) => [
+				serie = new Serie 
+		]
 		
 		new SerieManagementWindow( this, serieModel ) =>  [ 
 			title = "TraiFlix - Crear Nueva Serie"

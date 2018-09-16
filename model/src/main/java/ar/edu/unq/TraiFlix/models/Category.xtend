@@ -16,8 +16,5 @@ class Category {
 	override String toString() {
 		name
 	}
-	
-	override boolean equals(Object otherCategory) {
-		name.equals( (otherCategory as Category).name )
-	}
+			
 }

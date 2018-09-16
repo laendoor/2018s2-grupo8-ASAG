@@ -100,7 +100,7 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 					alignLeft
 				]
 				new List(it) => [
-					items <=> "selectablesCategories"	
+					items <=> "availableCategories"	
 					value <=> "selectedAvailableCategory"			
 				]
 			]
