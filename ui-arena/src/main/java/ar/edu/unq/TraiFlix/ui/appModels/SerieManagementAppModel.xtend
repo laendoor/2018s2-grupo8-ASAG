@@ -9,6 +9,7 @@ import ar.edu.unq.TraiFlix.models.Clasification
 import ar.edu.unq.TraiFlix.models.Episode
 import ar.edu.unq.TraiFlix.models.Relatable
 import ar.edu.unq.TraiFlix.models.TraiFlix
+import org.uqbar.commons.model.annotations.Dependencies
 
 @Accessors
 @Observable
@@ -16,11 +17,12 @@ class SerieManagementAppModel extends AppModel {
 	
 	Serie serie	
 	Episode selectedEpisode
-	Relatable selectedRelatedContent
+	RelatableToTableAdapter selectedRelatedContent
 	Category selectedAvailableCategory
 	Category selectedAssignedCategory
+	boolean readOnly
 
-	new( TraiFlix model ) {
+	new(TraiFlix model) {
 		super(model)
 		serie = new Serie => [
 					title = "El titulo"
@@ -33,7 +35,8 @@ class SerieManagementAppModel extends AppModel {
 					addEpisode( new Episode(it,1,2) => [
 							title = "Capitulo 2"
 					] )					
-				]	
+				]
+		readOnly = false
 	}
 	
 	def List<Clasification> availableClassifications() {
@@ -41,9 +44,10 @@ class SerieManagementAppModel extends AppModel {
 	}
 	
 	def List<Relatable> availableRelatableContents() {
-		model.getRelatableContent(serie)
+		model.getRelatableContent(serie).map[ elem | new RelatableToTableAdapter(elem) ]
 	}
-		
+	
+	@Dependencies("serie.categories")
 	def List<Category> selectablesCategories() {
 		model.categories.filter( elem | !serie.categories.contains(elem) ).toList
 	}
@@ -61,7 +65,7 @@ class SerieManagementAppModel extends AppModel {
 	}
 	
 	def void removeSelectedRelatedContent() {
-		serie.removeRelated(selectedRelatedContent)
+		serie.removeRelated(selectedRelatedContent.relatable)
 	}	
 	
 }

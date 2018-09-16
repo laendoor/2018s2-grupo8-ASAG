@@ -14,10 +14,12 @@ import ar.edu.unq.TraiFlix.models.Episode
 import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.widgets.tables.Column
 import org.uqbar.arena.widgets.Button
-import ar.edu.unq.TraiFlix.models.Content
 import org.uqbar.arena.bindings.NotNullObservable
 import org.uqbar.arena.widgets.GroupPanel
 import org.uqbar.arena.windows.Dialog
+import ar.edu.unq.TraiFlix.ui.appModels.RelatableContentAppModel
+import ar.edu.unq.TraiFlix.ui.appModels.RelatableToTableAdapter
+import org.uqbar.arena.layout.ColumnLayout
 
 class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 	
@@ -25,46 +27,43 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 		super(owner, model)
 	}
 	
+	
+	override createErrorsPanel(Panel mainPanel) {}
+	
+	
 	override createFormPanel(Panel mainPanel) {
-		
-		this.title = "TraiFlix - Administrar Series [EN CONSTRUCCION]"
+				
 		mainPanel.layout = new VerticalLayout		
 				
 		// Build general information panel...
-		createGeneralInfoPanel( mainPanel )
-		
-		var centralPanel = new Panel(mainPanel)
-		centralPanel.layout = new HorizontalLayout
-		
-		// Build categories panel...		
-		createCategoriesPanel(centralPanel)
+		createGeneralInfoPanel(mainPanel)
 		
 		// Build episodes panel...
-		createEpisodesPanel(centralPanel)
+		createEpisodesPanel(mainPanel)
 
 		// Build related content panel...
 		createRelatedContentPanel(mainPanel)
-		
+
 		// Build ok/cancel button panel...
 		createOkCancelButtonPanel(mainPanel)
 		
 	}
 	
 
-	private def void createGeneralInfoPanel(Panel parentPanel) {
+	private def createGeneralInfoPanel(Panel parentPanel) {
 		
 		new Panel(parentPanel) => [
-			layout = new HorizontalLayout
-		
+			layout = new ColumnLayout(2)
+			
 			// Title
 			new Label(it) => [			
 				text = "Titulo" 
 			]
 			new TextBox(it) => [
 				value <=> "serie.title"
-				width = 170
+				width = 200
 			]			
-				
+					
 			// Classificacion
 			new Label(it) => [
 				text = "Clasificacion" 
@@ -73,20 +72,22 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 				items <=> "availableClassifications"
 				value <=> "serie.clasification"
 			]
-			
+				
 			// Creators
 			new Label(it) => [			
 				text = "Creadores" 			
 			]
 			new TextBox(it) => [
 				value <=> "serie.creators"
-				width = 170
+				width = 200
 			]
+				
+			createCategoriesPanel(it)				
 		]
 	}
 	
 	
-	private def void createCategoriesPanel(Panel parentPanel) {
+	private def createCategoriesPanel(Panel parentPanel) {
 				
 		new GroupPanel(parentPanel) => [
 			title = "Categorias"
@@ -99,7 +100,8 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 					alignLeft
 				]
 				new List(it) => [
-					items <=> "selectablesCategories"				
+					items <=> "selectablesCategories"	
+					value <=> "selectedAvailableCategory"			
 				]
 			]
 			
@@ -126,7 +128,8 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 					alignLeft
 				]
 				new List(it) => [
-					items <=> "serie.categories"				
+					items <=> "serie.categories"	
+					value <=> "selectedAssignedCategory"			
 				]
 			]
 		]
@@ -134,21 +137,16 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 	}
 	
 
-	def createEpisodesPanel(Panel parentPanel) {
-		
-		new Panel(parentPanel) => [
+	private def createEpisodesPanel(Panel parentPanel) {
+
+		new GroupPanel(parentPanel) => [
+			title = "Capitulos"
 			layout = new HorizontalLayout
-					
-			new Label(it) => [			
-				text = "Capitulos"
-				alignLeft
-			]
-			
+				
 			// Episodes grid
 			new Table<Episode>(it, typeof(Episode))=> [				
 				items <=> "serie.episodes"				
 				selection <=> "selectedEpisode"
-				//width = value
 						
 				new Column<Episode>(it) => [
 				    title = "Temporada"
@@ -157,11 +155,11 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 				]
 				new Column<Episode>(it) => [
 				    title = "Capitulo"
-				    fixedSize = 200
+				    fixedSize = 300
 				    bindContentsToProperty("title")
 				]
 			]
-			
+				
 			// Add/remove episode button panel...
 			new Panel(it) => [
 				layout = new VerticalLayout
@@ -178,61 +176,52 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 				]
 			]
 		]
-		
 	}
 	
 	
-	def createRelatedContentPanel(Panel parentPanel) {
+	private def createRelatedContentPanel(Panel parentPanel) {
 		
-		new Panel(parentPanel) => [
-			layout = new VerticalLayout
-					
-			new Label(it) => [			
-				text = "Contenido relacionado"
-				alignLeft
+		new GroupPanel(parentPanel) => [
+			title = "Contenido relacionado"
+			layout = new HorizontalLayout
+			
+			// Related content grid
+			new Table<RelatableToTableAdapter>(it, typeof(RelatableToTableAdapter))=> [				
+				items <=> "serie.relateds"
+				selection <=> "selectedRelatedContent"
+				
+				new Column<RelatableToTableAdapter>(it) => [
+				    title = "Titulo"
+				    fixedSize = 300				    
+				    bindContentsToProperty("title")
+				]
+				new Column<RelatableToTableAdapter>(it) => [
+				    title = "Contenido"
+				    fixedSize = 100
+				    bindContentsToProperty("contentType")
+				]
 			]
 			
+			// Add/remove related button panel...
 			new Panel(it) => [
-				layout = new HorizontalLayout
-			
-				// Related content grid
-				new Table<Content>(it, typeof(Content))=> [				
-					items <=> "serie.relateds"
-					selection <=> "selectedRelatedContent"
-					
-					new Column<Content>(it) => [
-					    title = "Titulo"
-					    fixedSize = 270				    
-					    bindContentsToProperty("title")
-					]
-					new Column<Content>(it) => [
-					    title = "Contenido"
-					    fixedSize = 270
-					    bindContentsToProperty("title")
-					]
+				layout = new VerticalLayout
+				new Button(it) => [ 
+					caption = "Agregar"
+					alignCenter
+					onClick [ | onAddRelatedContent() ]
 				]
-				
-				// Add/remove related button panel...
-				new Panel(it) => [
-					layout = new VerticalLayout
-					new Button(it) => [ 
-						caption = "Agregar"
-						alignCenter
-						onClick [ | onAddRelatedContent() ]
-					]
-					new Button(it) => [ 
-						caption = "Quitar"
-						alignCenter
-						bindEnabled(new NotNullObservable("selectedRelatedContent"))
-						onClick [ | modelObject.removeSelectedRelatedContent ]
-					]
+				new Button(it) => [ 
+					caption = "Quitar"
+					alignCenter
+					bindEnabled(new NotNullObservable("selectedRelatedContent"))
+					onClick [ | modelObject.removeSelectedRelatedContent ]
 				]
 			]
 		]
 	}
 	
 	
-	def createOkCancelButtonPanel(Panel parentPanel) {
+	private def createOkCancelButtonPanel(Panel parentPanel) {
 		
 		// Cancel/Ok button panel...			
 		new Panel(parentPanel) => [
@@ -265,12 +254,13 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 	
 		
 	private def onAddRelatedContent() {	
-		/* TO-DO:
-		 * - instanciar el appModel para el caso de uso "seleccionar un contenido relacionado (pelicula, serie, capitulo)"
-		 * 		ese appModel contiene una lista de todos los contenidos disponibles en Traiflix, excepto la serie que se esta administrando
-		 * - instanciar la ventana de seleccion de contenido y pasarle su appModel
-		 * - si se sale de la ventana con onAccept, llamar a mi modelObject.serie.addRelated() con el contenido elegido
-		 */	
+		val relatableContentModel = new RelatableContentAppModel(modelObject.model,modelObject.serie)
+		
+		new RelatableContentSelectionDialog(this,relatableContentModel) => [
+			title = "Contenidos disponibles para relacionar"
+			onAccept[ this.modelObject.serie.addRelated(relatableContentModel.selectedRelatableContent.relatable) ]
+			open
+		]
 	}
 
 	

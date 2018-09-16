@@ -67,24 +67,24 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 			new Button(buttonPanel) => [ 
 			caption = "Nuevo"
 				alignCenter
-				onClick [ | new SerieManagementWindow(this, new SerieManagementAppModel(this.modelObject.model)).open ]
+				onClick [ | onNewSerie ]
 			]
 					new Button(buttonPanel) => [ 
 			caption = "Ver"
 			alignCenter
-				onClick [ | modelObject.viewMovie ]
+				onClick [ | onViewSerie ]
 //				bindEnabled(new NotNullObservable("conversion"))
 			]
 			new Button(buttonPanel) => [ 
 			caption = "Modificar"
 			alignCenter
-				onClick [ | modelObject.updateMovie ]
+				onClick [ | onUpdateSerie ]
 //				bindEnabled(new NotNullObservable("conversion"))
 			]
 							new Button(buttonPanel) => [ 
 			caption = "Borrar"
 			alignCenter
-				onClick [ | modelObject.deleteMovie ]
+				onClick [ | onRemoveSerie ]
 //				bindEnabled(new NotNullObservable("conversion"))
 
 			]
@@ -205,23 +205,26 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 //				bindEnabled(new NotNullObservable("conversion"))
 		]
 
-		/*********** TEMPORAL - BORRAR **************/		
-		new Button(titlePanel) => [ 
-				caption = "** Temporal - Administracion de Serie **"
-				alignCenter
-				onClick [ | onManageSerie ]
-		]
-		/*********** TEMPORAL - BORRAR **************/
 	}
 	
 	
-	def void onManageSerie() {
+	def onNewSerie() {
 		val serieModel = new SerieManagementAppModel(this.modelObject.model)
 		
 		new SerieManagementWindow( this, serieModel ) =>  [ 
+			title = "TraiFlix - Crear Nueva Serie"
 			onAccept[ this.modelObject.addSerie(serieModel.serie) ]
 			open						
 		]	
+	}
+	
+	def onUpdateSerie() {
+	}
+	
+	def onRemoveSerie() {
+	}
+	
+	def onViewSerie() {
 	}
 
 
