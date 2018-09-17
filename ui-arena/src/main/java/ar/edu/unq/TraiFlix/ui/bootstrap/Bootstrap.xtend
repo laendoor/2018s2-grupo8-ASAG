@@ -22,11 +22,11 @@ class Bootstrap {
 	private static Bootstrap instance = null
 
 	private new() {
-		movies = this.createMovies
-		series = this.createSeries
-		users = this.createUsers
 		categories = this.createCategories
 		clasifications = this.createClasifications
+		movies = this.createMovies
+		series = this.createSeries
+		users = this.createUsers		
 	}
 
 	static def getInstance() {

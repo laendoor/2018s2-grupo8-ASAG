@@ -6,10 +6,8 @@ import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.windows.WindowOwner
-import org.uqbar.arena.widgets.Selector
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 import ar.edu.unq.TraiFlix.ui.appModels.SerieManagementAppModel
-import org.uqbar.arena.widgets.List
 import ar.edu.unq.TraiFlix.models.Episode
 import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.widgets.tables.Column
@@ -20,7 +18,8 @@ import org.uqbar.arena.windows.Dialog
 import ar.edu.unq.TraiFlix.ui.appModels.RelatableContentAppModel
 import ar.edu.unq.TraiFlix.ui.appModels.RelatableToTableAdapter
 import org.uqbar.arena.layout.ColumnLayout
-import org.uqbar.arena.windows.MainWindow
+import ar.edu.unq.TraiFlix.ui.components.ClassificationSelector
+import ar.edu.unq.TraiFlix.ui.components.CategorySelector
 
 class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 	
@@ -66,13 +65,7 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 			]			
 					
 			// Classificacion
-			new Label(it) => [
-				text = "Clasificacion" 
-			]
-			new Selector(it) => [
-				items <=> "availableClassifications"
-				value <=> "serie.clasification"
-			]
+			new ClassificationSelector(it,"availableClassifications","serie.clasification")
 				
 			// Creators
 			new Label(it) => [			
@@ -89,54 +82,17 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 	
 	
 	private def createCategoriesPanel(Panel parentPanel) {
-				
-		new GroupPanel(parentPanel) => [
-			title = "Categorias"
-			layout = new HorizontalLayout
 			
-			new Panel(it) => [
-				layout = new VerticalLayout			
-				new Label(it) => [
-					text = "Disponibles"
-					alignLeft
-				]
-				new List(it) => [
-					items <=> "availableCategories"	
-					value <=> "selectedAvailableCategory"
-					height = 50	
-				]
-			]
-			
-			new Panel(it) => [
-				layout = new VerticalLayout
-				new Button(it) => [ 
-					caption = ">"
-					alignCenter
-					bindEnabled(new NotNullObservable("selectedAvailableCategory"))
-					onClick [ | modelObject.addSelectedAvailableCategory ]
-				]
-				new Button(it) => [ 
-					caption = "<"
-					alignCenter
-					bindEnabled(new NotNullObservable("selectedAssignedCategory"))
-					onClick [ | modelObject.removeSelectedAssignedCategory]
-				]
-			]
-			
-			new Panel(it) => [
-				layout = new VerticalLayout			
-				new Label(it) => [
-					text = "Seleccionadas"
-					alignLeft
-				]
-				new List(it) => [
-					items <=> "serie.categories"	
-					value <=> "selectedAssignedCategory"
-					height = 50	
-				]
-			]
+		new CategorySelector(parentPanel) => [
+			availableCategoriesPropertyName = "availableCategories"	
+			selectedAvailableCategoryPropertyName = "selectedAvailableCategory"
+			assignedCategoriesPropertyName = "serie.categories"
+			selectedAssignedCategoryPropertyName = "selectedAssignedCategory"
+			onAddCategory = [ this.modelObject.addSelectedAvailableCategory ]
+			onRemoveCategory = [ this.modelObject.removeSelectedAssignedCategory ]
+			show
 		]
-		
+	
 	}
 	
 
