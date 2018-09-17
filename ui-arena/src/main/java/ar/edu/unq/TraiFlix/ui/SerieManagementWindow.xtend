@@ -16,10 +16,10 @@ import org.uqbar.arena.bindings.NotNullObservable
 import org.uqbar.arena.widgets.GroupPanel
 import org.uqbar.arena.windows.Dialog
 import ar.edu.unq.TraiFlix.ui.appModels.RelatableContentAppModel
-import ar.edu.unq.TraiFlix.ui.appModels.RelatableToTableAdapter
 import org.uqbar.arena.layout.ColumnLayout
 import ar.edu.unq.TraiFlix.ui.components.ClassificationSelector
 import ar.edu.unq.TraiFlix.ui.components.CategorySelector
+import ar.edu.unq.TraiFlix.ui.components.RelatableContentSelector
 
 class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 	
@@ -140,43 +140,21 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 	
 	private def createRelatedContentPanel(Panel parentPanel) {
 		
-		new GroupPanel(parentPanel) => [
-			title = "Contenido relacionado"
-			layout = new HorizontalLayout
-			
-			// Related content grid
-			new Table<RelatableToTableAdapter>(it, typeof(RelatableToTableAdapter))=> [				
-				items <=> "serie.relateds"
-				selection <=> "selectedRelatedContent"
-				
-				new Column<RelatableToTableAdapter>(it) => [
-				    title = "Titulo"
-				    fixedSize = 300				    
-				    bindContentsToProperty("title")
-				]
-				new Column<RelatableToTableAdapter>(it) => [
-				    title = "Contenido"
-				    fixedSize = 100
-				    bindContentsToProperty("contentType")
-				]
-			]
-			
-			// Add/remove related button panel...
-			new Panel(it) => [
-				layout = new VerticalLayout
-				new Button(it) => [ 
-					caption = "Agregar"
-					alignCenter
-					onClick [ | onAddRelatedContent() ]
-				]
-				new Button(it) => [ 
-					caption = "Quitar"
-					alignCenter
-					bindEnabled(new NotNullObservable("selectedRelatedContent"))
-					onClick [ | modelObject.removeSelectedRelatedContent ]
-				]
-			]
+		new RelatableContentSelector(parentPanel) => [
+			relatedContentsPropertyName = "serie.relateds"
+			selectedRelatedContentPropertyName = "selectedRelatedContent"
+			onRemoveRelatedContent = [ this.modelObject.removeSelectedRelatedContent ]
+			onAddRelatedContent = [ val relatableContentModel = new RelatableContentAppModel(this.modelObject.model,this.modelObject.serie)
+									
+									new RelatableContentSelectionDialog(this,relatableContentModel) => [
+												title = "Contenidos disponibles para relacionar"
+												onAccept[ this.modelObject.serie.addRelated(relatableContentModel.selectedRelatableContent) ]
+												open
+											]
+									]
+			show
 		]
+				
 	}
 	
 	
@@ -210,19 +188,5 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 		 * - si se sale de la ventana con onAccept, llamar a mi modelObject.serie.addEpisode() con el capitulo creado
 		 */
 	}
-	
-		
-	private def onAddRelatedContent() {	
-		val relatableContentModel = new RelatableContentAppModel(modelObject.model,modelObject.serie)
-		
-		new RelatableContentSelectionDialog(this,relatableContentModel) => [
-			title = "Contenidos disponibles para relacionar"
-			onAccept[ this.modelObject.serie.addRelated(relatableContentModel.selectedRelatableContent) ]
-			open
-		]
-	}
-	
-		
-
 	
 }

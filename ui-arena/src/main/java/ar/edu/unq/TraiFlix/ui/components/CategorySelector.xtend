@@ -50,13 +50,13 @@ class CategorySelector extends GroupPanel {
 				caption = ">"
 				alignCenter
 				bindEnabled(new NotNullObservable(selectedAvailableCategoryPropertyName))
-				onClick [ | onAddCategory.run() ]
+				onClick [ | onAddCategory.run ]
 			]
 			new Button(it) => [ 
 				caption = "<"
 				alignCenter
 				bindEnabled(new NotNullObservable(selectedAssignedCategoryPropertyName))
-				onClick [ | onRemoveCategory.run() ]
+				onClick [ | onRemoveCategory.run ]
 			]
 		]
 			
