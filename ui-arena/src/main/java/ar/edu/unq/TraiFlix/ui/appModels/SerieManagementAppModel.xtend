@@ -5,7 +5,6 @@ import org.uqbar.commons.model.annotations.Observable
 import ar.edu.unq.TraiFlix.models.Serie
 import java.util.List
 import ar.edu.unq.TraiFlix.models.Category
-import ar.edu.unq.TraiFlix.models.Clasification
 import ar.edu.unq.TraiFlix.models.Episode
 import ar.edu.unq.TraiFlix.models.Relatable
 import ar.edu.unq.TraiFlix.models.TraiFlix
@@ -20,16 +19,16 @@ class SerieManagementAppModel extends AppModel {
 	Category selectedAvailableCategory
 	Category selectedAssignedCategory
 	List<Category> availableCategories
-	boolean readOnly
+	boolean viewMode
 
 	new(TraiFlix model, Serie serie) {
 		super(model)
 		this.serie = serie
 		updateAvailableCategories
-		readOnly = false
+		viewMode = false
 	}
 	
-	def List<Clasification> availableClassifications() {
+	def availableClassifications() {
 		model.classifications
 	}
 	
