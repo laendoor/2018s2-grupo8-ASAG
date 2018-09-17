@@ -20,6 +20,7 @@ import org.uqbar.arena.windows.Dialog
 import ar.edu.unq.TraiFlix.ui.appModels.RelatableContentAppModel
 import ar.edu.unq.TraiFlix.ui.appModels.RelatableToTableAdapter
 import org.uqbar.arena.layout.ColumnLayout
+import org.uqbar.arena.windows.MainWindow
 
 class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 	
@@ -264,6 +265,8 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 			open
 		]
 	}
+	
+		
 
 	
 }
