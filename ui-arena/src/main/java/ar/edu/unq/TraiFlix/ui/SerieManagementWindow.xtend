@@ -20,6 +20,7 @@ import org.uqbar.arena.layout.ColumnLayout
 import ar.edu.unq.TraiFlix.ui.components.ClassificationSelector
 import ar.edu.unq.TraiFlix.ui.components.CategorySelector
 import ar.edu.unq.TraiFlix.ui.components.RelatableContentSelector
+import org.uqbar.arena.windows.MessageBox
 
 class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 	
@@ -174,7 +175,9 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 				alignCenter
 				width = 200
 				//enabled <=> "canSave" // TO-DO: no funciona este binding ...
-				onClick [ | this.accept ]
+				onClick [ | if( this.modelObject.canSave ) this.accept
+							else showMessageBox(MessageBox.Type.Error,"No ha ingresado todos los datos obligatorios.")
+					]
 			]				
 		]
 		

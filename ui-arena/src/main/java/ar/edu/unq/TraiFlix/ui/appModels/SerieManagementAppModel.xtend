@@ -57,10 +57,10 @@ class SerieManagementAppModel extends AppModel {
 	
 	def void removeSelectedRelatedContent() {
 		serie.removeRelated(selectedRelatedContent)
-	}	
-	
+	}
+		
 	@Dependencies("serie.title","serie.categories","serie.clasification")
-	def getCanSave() {
+	def canSave() {
 		(serie.getTitle()!==null) && (serie.getTitle().trim.length>0) && (serie.categories.size>0) && (serie.clasification!==null)
 	}
 	
