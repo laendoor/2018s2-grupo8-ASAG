@@ -19,11 +19,13 @@ class CategorySelector extends GroupPanel {
 	String selectedAvailableCategoryPropertyName
 	String assignedCategoriesPropertyName
 	String selectedAssignedCategoryPropertyName
+	boolean editMode
 	Runnable onAddCategory
 	Runnable onRemoveCategory
 		
 	new(Container container) {
 		super(container)
+		editMode = true
 	}
 	
 	def show() {
@@ -40,6 +42,7 @@ class CategorySelector extends GroupPanel {
 			new List(it) => [
 				items <=> availableCategoriesPropertyName
 				value <=> selectedAvailableCategoryPropertyName
+				enabled <=> "editMode"
 				height = 50	
 			]
 		]
@@ -50,12 +53,14 @@ class CategorySelector extends GroupPanel {
 				caption = ">"
 				alignCenter
 				bindEnabled(new NotNullObservable(selectedAvailableCategoryPropertyName))
+				visible <=> "editMode"
 				onClick [ | onAddCategory.run ]
 			]
 			new Button(it) => [ 
 				caption = "<"
 				alignCenter
 				bindEnabled(new NotNullObservable(selectedAssignedCategoryPropertyName))
+				visible <=> "editMode"
 				onClick [ | onRemoveCategory.run ]
 			]
 		]
@@ -70,6 +75,7 @@ class CategorySelector extends GroupPanel {
 				items <=> assignedCategoriesPropertyName
 				value <=> selectedAssignedCategoryPropertyName
 				height = 50	
+				enabled <=> "editMode"
 			]
 		]
 		

@@ -8,14 +8,16 @@ import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 class ClassificationSelector {
 	
 	new( Panel parentPanel,
-		 String availableClassificationsProperty, 
-		 String selectedClassificationProperty ) {
-		createLayout(parentPanel,availableClassificationsProperty,selectedClassificationProperty)
+		 String availableClassificationsPropertyName, 
+		 String selectedClassificationPropertyName,
+		 String enabledPropertyName ) {
+		createLayout(parentPanel,availableClassificationsPropertyName,selectedClassificationPropertyName,enabledPropertyName)
 	}
 	
 	private def createLayout( Panel parentPanel,
 							String availableClassificationsProperty, 
-							String selectedClassificationProperty ) {
+							String selectedClassificationProperty,
+							String enabledPropertyName ) {
 
 		new Label(parentPanel) => [
 			text = "Clasificacion" 
@@ -23,6 +25,7 @@ class ClassificationSelector {
 		new Selector(parentPanel) => [
 			items <=> availableClassificationsProperty
 			value <=> selectedClassificationProperty
+			enabled <=> enabledPropertyName
 		]
 	}
 	

@@ -20,9 +20,11 @@ class RelatableContentSelector extends GroupPanel {
 	String selectedRelatedContentPropertyName
 	Runnable onAddRelatedContent
 	Runnable onRemoveRelatedContent
+	boolean editMode
 	
 	new(Container container) {
 		super(container)
+		editMode = true
 	}
 	
 	
@@ -53,12 +55,14 @@ class RelatableContentSelector extends GroupPanel {
 			new Button(it) => [ 
 				caption = "Agregar"
 				alignCenter
+				visible <=> "editMode"
 				onClick [ | onAddRelatedContent.run ]
 			]
 			new Button(it) => [ 
 				caption = "Quitar"
 				alignCenter
 				bindEnabled(new NotNullObservable(selectedRelatedContentPropertyName))
+				visible <=> "editMode"
 				onClick [ | onRemoveRelatedContent.run ]
 			]
 		]

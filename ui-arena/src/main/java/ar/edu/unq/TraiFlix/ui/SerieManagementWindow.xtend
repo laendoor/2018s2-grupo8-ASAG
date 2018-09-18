@@ -63,10 +63,11 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 			new TextBox(it) => [
 				value <=> "serie.title"
 				width = 200
+				enabled <=> "editMode"
 			]			
 					
 			// Classificacion
-			new ClassificationSelector(it,"availableClassifications","serie.clasification")
+			new ClassificationSelector(it,"availableClassifications","serie.clasification","editMode")
 				
 			// Creators
 			new Label(it) => [			
@@ -75,6 +76,7 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 			new TextBox(it) => [
 				value <=> "serie.creators"
 				width = 200
+				enabled <=> "editMode"
 			]
 				
 			createCategoriesPanel(it)				
@@ -126,11 +128,13 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 				new Button(it) => [ 
 					caption = "Agregar"
 					alignCenter
+					bindVisibleToProperty("editMode")
 					onClick [ | onAddEpisode() ]
 				]
 				new Button(it) => [ 
 					caption = "Quitar"
 					alignCenter
+					bindVisibleToProperty("editMode")
 					bindEnabled(new NotNullObservable("selectedEpisode"))
 					onClick [ | modelObject.removeSelectedEpisode ]
 				]

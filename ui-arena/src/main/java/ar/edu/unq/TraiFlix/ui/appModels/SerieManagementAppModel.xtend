@@ -20,13 +20,13 @@ class SerieManagementAppModel extends AppModel {
 	Category selectedAvailableCategory
 	Category selectedAssignedCategory
 	List<Category> availableCategories
-	boolean viewMode
+	boolean editMode
 
 	new(TraiFlix model, Serie serie) {
 		super(model)
 		this.serie = serie
 		updateAvailableCategories
-		viewMode = false
+		editMode = true
 	}
 	
 	def availableClassifications() {
