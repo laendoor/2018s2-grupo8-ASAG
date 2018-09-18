@@ -173,6 +173,7 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 				caption = "Aceptar"
 				alignCenter
 				width = 200
+				//enabled <=> "canSave" // TO-DO: no funciona este binding ...
 				onClick [ | this.accept ]
 			]				
 		]

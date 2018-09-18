@@ -8,6 +8,7 @@ import ar.edu.unq.TraiFlix.models.Category
 import ar.edu.unq.TraiFlix.models.Episode
 import ar.edu.unq.TraiFlix.models.Relatable
 import ar.edu.unq.TraiFlix.models.TraiFlix
+import org.uqbar.commons.model.annotations.Dependencies
 
 @Accessors
 @Observable
@@ -57,5 +58,10 @@ class SerieManagementAppModel extends AppModel {
 	def void removeSelectedRelatedContent() {
 		serie.removeRelated(selectedRelatedContent)
 	}	
+	
+	@Dependencies("serie.title","serie.categories","serie.clasification")
+	def getCanSave() {
+		(serie.getTitle()!==null) && (serie.getTitle().trim.length>0) && (serie.categories.size>0) && (serie.clasification!==null)
+	}
 	
 }
