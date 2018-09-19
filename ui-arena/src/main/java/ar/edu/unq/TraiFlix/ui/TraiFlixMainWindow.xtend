@@ -25,6 +25,7 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 	
 	new(WindowOwner owner, AdminModel model) {
 		super(owner, model)
+		model.setView(this);
 	}
 	
 	override createContents(Panel mainPanel) {
@@ -81,19 +82,19 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 					new Button(buttonPanel) => [ 
 			caption = "Ver"
 			alignCenter
-				onClick [ | modelObject.viewMovie ]
+				onClick [ | modelObject.viewSerie ]
 //				bindEnabled(new NotNullObservable("conversion"))
 			]
 			new Button(buttonPanel) => [ 
 			caption = "Modificar"
 			alignCenter
-				onClick [ | modelObject.updateMovie ]
+				onClick [ | modelObject.updateSerie]
 //				bindEnabled(new NotNullObservable("conversion"))
 			]
 							new Button(buttonPanel) => [ 
 			caption = "Borrar"
 			alignCenter
-				onClick [ | modelObject.deleteMovieSelected ]
+				onClick [ | modelObject.deleteSerieSelected ]
 //				bindEnabled(new NotNullObservable("conversion"))
 
 			]
@@ -105,6 +106,7 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 		var titlePanel = createTitlePanel(panel, "PELICULAS")
 		new Button(titlePanel) => [ 
 				caption = "Ver Usuarios"
+				onClick [ | new TraiFlixUserAdminWindow(this, this.modelObject.model.users).open ]
 				]
 		createCrudPanelMovies(panel, "model.movies","selectedMovie");			
 	}
@@ -213,7 +215,7 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 }
 
 @Accessors
-class Terna<T,K,Z>{
+public class Terna<T,K,Z>{
 	T x
 	K y
 	Z z 

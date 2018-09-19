@@ -1,17 +1,17 @@
 package ar.edu.unq.TraiFlix.models
 
-import java.util.List
-import java.util.Date
-import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.ArrayList
+import java.util.List
+import org.eclipse.xtend.lib.annotations.Accessors
+import org.joda.time.DateTime
 
 @Accessors
 class User {
 	Integer id;
 	String nick;
 	String name;
-	Date created;
-	Date dateOfBirth;
+	DateTime created;
+	DateTime dateOfBirth;
 	List<User> friends;
 	List<Content> watched;
 	List<Content> favorite;
@@ -52,6 +52,6 @@ class User {
 		]
 	}
 	
-	
+
 	
 }

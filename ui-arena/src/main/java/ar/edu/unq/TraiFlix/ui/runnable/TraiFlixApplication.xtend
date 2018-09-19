@@ -21,6 +21,7 @@ class TraiFlixApplication extends Application{
 			series = Bootstrap.instance.series
 			categories = Bootstrap.instance.categories
 			classifications = Bootstrap.instance.clasifications
+			users = Bootstrap.instance.users
 		]			
 			
 		return new TraiFlixMainWindow(this,new AdminModel(traiflix))

@@ -10,6 +10,7 @@ import ar.edu.unq.TraiFlix.models.Category
 import ar.edu.unq.TraiFlix.models.Clasification
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.joda.time.Period
+import org.joda.time.DateTime
 
 @Accessors
 class Bootstrap {
@@ -43,21 +44,29 @@ class Bootstrap {
 		user1.id = 1
 		user1.nick = "Saba"
 		user1.name = "Pablo"
+		user1.dateOfBirth = new DateTime(1986, 7, 16, 0, 0, 0, 0);
+		user1.created = new DateTime(2015, 3, 14, 0, 0, 0, 0);
 
 		var user2 = new User()
 		user2.id = 2
 		user2.nick = "Lukitas"
 		user2.name = "Lucas"
+		user2.dateOfBirth = new DateTime(2000, 7, 16, 0, 0, 0, 0);
+		user2.created = new DateTime(2014, 3, 14, 0, 0, 0, 0);
 
 		var user3 = new User()
 		user3.id = 3
 		user3.nick = "Marce"
 		user3.name = "Marcelo"
+		user3.dateOfBirth = new DateTime(1983, 7, 16, 0, 0, 0, 0);
+		user3.created = new DateTime(2016, 3, 14, 0, 0, 0, 0);
 
 		var user4 = new User()
 		user4.id = 4
 		user4.nick = "Peter"
 		user4.name = "Pedro"
+		user4.dateOfBirth = new DateTime(1980, 7, 16, 0, 0, 0, 0);
+		user4.created = new DateTime(2011, 3, 14, 0, 0, 0, 0);
 
 		newArrayList(user1, user2, user3, user4)
 	}

@@ -180,4 +180,8 @@ class TraiFlix {
 		contentList.filter( elem | elem!=toRelateWith && !toRelateWith.getRelateds().contains(elem) ).toList
 	}
 	
+	def deleteSerie(SerieId id) {
+		series = series.filter( elem | !id.equals(elem.id) ).toList
+	}
+	
 }
