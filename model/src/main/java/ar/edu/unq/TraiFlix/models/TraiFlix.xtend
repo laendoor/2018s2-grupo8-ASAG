@@ -165,6 +165,9 @@ class TraiFlix {
 		return content
 	}
 
+	def deleteMovie(MovieId id){
+		movies = movies.filter( elem | !id.equals(elem.id) ).toList
+	}
 
 	def getRelatableContent(Relatable toRelateWith) {
 		var List<Relatable> contentList = new ArrayList
