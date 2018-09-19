@@ -20,6 +20,7 @@ import org.uqbar.arena.layout.ColumnLayout
 import ar.edu.unq.TraiFlix.models.Serie
 import org.eclipse.jface.viewers.deferred.ChangeQueue.Change
 import ar.edu.unq.TraiFlix.models.Clasification
+import ar.edu.unq.TraiFlix.ui.appModels.MovieManagementAppModel
 
 class TraiFlixMainWindow extends Window<AdminModel> {
 	
@@ -132,7 +133,9 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 			new Button(buttonPanel) => [ 
 			caption = "Nuevo"
 				alignCenter
-				onClick [ | new TraiFlixAdministratorMovieWindow(this, this.modelObject.model).open ]
+				onClick [ | new TraiFlixAdministratorMovieWindow(this, new MovieManagementAppModel
+					(this.modelObject.model)
+				).open ]
 			]
 					new Button(buttonPanel) => [ 
 			caption = "Ver"

@@ -9,6 +9,7 @@ import java.util.Date
 import ar.edu.unq.TraiFlix.models.Category
 import ar.edu.unq.TraiFlix.models.Clasification
 import org.eclipse.xtend.lib.annotations.Accessors
+import ar.edu.unq.TraiFlix.models.TraiFlix
 
 @Accessors
 class Bootstrap {
@@ -22,11 +23,11 @@ class Bootstrap {
 	private static Bootstrap instance = null
 
 	private new() {
+		categories = this.createCategories
+		clasifications = this.createClasifications
 		movies = this.createMovies
 		series = this.createSeries
 		users = this.createUsers
-		categories = this.createCategories
-		clasifications = this.createClasifications
 	}
 
 	static def getInstance() {
@@ -58,13 +59,19 @@ class Bootstrap {
 		user4.nick = "Peter"
 		user4.name = "Pedro"
 
-		newArrayList(user1, user2, user3, user4)
+		val list = new ArrayList()
+		
+		list.add(user1)
+		list.add(user2)
+		list.add(user3)
+		list.add(user4)
+		list
 	}
 
 	def createMovies() {
 
-		var directors = newArrayList("Spilbergo", "Jorge Lucas")
-		var actors = newArrayList("Obi One Kenobi", "Darin")
+		var directors = "Spilbergo, Jorge Lucas"
+		var actors = "Obi One Kenobi , Darin"
 
 		var movie = new Movie()
 		movie.title = "Las tortugas pinjas"
@@ -87,7 +94,12 @@ class Bootstrap {
 		movie2.directors = directors
 		movie2.link = "https://www.youtube.com/watch?v=lpFzTJN2y_o"
 		
-		newArrayList(movie,movie1,movie2)
+		val list = new ArrayList()
+		
+		list.add(movie)
+		list.add(movie1)
+		list.add(movie2)
+		list
 
 	}
 	
@@ -97,14 +109,27 @@ class Bootstrap {
 		var cate1 = new Category("Drama")
 		var cate2 = new Category("Zombies Nazis")
 		
-		newArrayList(cate, cate1, cate2)
+		val list = new ArrayList()
+		
+		list.add(cate)
+		list.add(cate1)
+		list.add(cate2)
+		list
 	}
 	
 	
 	def createClasifications(){
-		newArrayList(new Clasification("ATP"), new Clasification("+13"),
-			new Clasification("+17")
-		)
+		
+		var clas1 = new Clasification("ATP")
+		var clas2 = new Clasification("+13")
+		var clas3 = new Clasification("+17")
+		
+		val list = new ArrayList()
+		
+		list.add(clas1)
+		list.add(clas2)
+		list.add(clas3)
+		list
 	}
 	
 	
@@ -126,7 +151,21 @@ class Bootstrap {
 		serie2.categories = this.categories
 		serie2.clasification = this.clasifications.get(0)
 	
-		 newArrayList(serie, serie1, serie2)
+		 val list = new ArrayList()
+		
+		list.add(serie)
+		list.add(serie1)
+		list.add(serie2)
+		list
+	}
+	
+	def load(TraiFlix model){
+		model.categories = this.categories
+		model.classifications = this.clasifications
+		model.movies = this.movies
+		model.series = this.series
+		model.users = this.users
+
 	}
 
 }

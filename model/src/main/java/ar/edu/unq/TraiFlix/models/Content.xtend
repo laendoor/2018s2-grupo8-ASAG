@@ -18,14 +18,12 @@ abstract class Content {
 	 Date release
 	 List<Assessment> assessments
 	 Period duration
-	 List<String> directors
-	 List<String> actors
+	 String directors
+	 String actors
 	 String link
 	 
 	 new(){
 	 	this.assessments = new ArrayList
-	 	this.directors = new ArrayList
-	 	this.actors = new ArrayList
 	 } 
 	 
 	 def addAssessment(Assessment critic){
