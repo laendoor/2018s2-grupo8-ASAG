@@ -1,3 +1,4 @@
+
 package ar.edu.unq.TraiFlix.ui
 
 import ar.edu.unq.TraiFlix.models.Movie
@@ -75,7 +76,7 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 			new Button(buttonPanel) => [ 
 			caption = "Nuevo"
 				alignCenter
-				onClick [ | new SerieManagementWindow(this, new SerieManagementAppModel(this.modelObject.model)).open ]
+				onClick [ | new SerieManagementWindow(this, new SerieManagementAppModel(this.modelObject.model,null)).open ]
 			]
 					new Button(buttonPanel) => [ 
 			caption = "Ver"
@@ -202,7 +203,7 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 	
 	
 	def void onManageSerie() {
-		val serieModel = new SerieManagementAppModel(this.modelObject.model)
+		val serieModel = new SerieManagementAppModel(this.modelObject.model,null)
 		
 		new SerieManagementWindow( this, serieModel ) =>  [ 
 			onAccept[ this.modelObject.addSerie(serieModel.serie) ]
@@ -222,4 +223,5 @@ class Terna<T,K,Z>{
 		this.y = y
 		this.z = z
 	}
+
 }

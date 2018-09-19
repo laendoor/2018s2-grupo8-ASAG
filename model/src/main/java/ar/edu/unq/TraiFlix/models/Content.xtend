@@ -18,8 +18,8 @@ abstract class Content {
 	 Date release
 	 List<Assessment> assessments
 	 Period duration
-	 List<Director> directors
-	 List<Actor> actors
+	 List<String> directors
+	 List<String> actors
 	 String link
 	 
 	 new(){

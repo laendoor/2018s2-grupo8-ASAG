@@ -5,6 +5,7 @@ import ar.edu.unq.TraiFlix.models.TraiFlix
 import org.uqbar.commons.model.annotations.Observable
 import org.eclipse.xtend.lib.annotations.Accessors
 
+
 @Accessors
 @Observable
 abstract class AppModel {

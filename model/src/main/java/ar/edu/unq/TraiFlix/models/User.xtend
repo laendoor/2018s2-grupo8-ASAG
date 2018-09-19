@@ -3,6 +3,7 @@ package ar.edu.unq.TraiFlix.models
 import java.util.List
 import java.util.Date
 import org.eclipse.xtend.lib.annotations.Accessors
+import java.util.ArrayList
 
 @Accessors
 class User {
@@ -19,10 +20,10 @@ class User {
 	
 	
 	new(){
-		friends = newArrayList
-		watched = newArrayList
-		favorite = newArrayList
-		recommended = newArrayList
+		friends = new ArrayList
+		watched = new ArrayList
+		favorite = new ArrayList
+		recommended = new ArrayList
 	}
 	
 	def seeContent(Content content) {

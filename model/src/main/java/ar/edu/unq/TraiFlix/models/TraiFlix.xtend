@@ -8,6 +8,7 @@ import ar.edu.unq.TraiFlix.models.id.EpisodeId
 import ar.edu.unq.TraiFlix.models.id.SerieId
 import ar.edu.unq.TraiFlix.models.id.MovieId
 import ar.edu.unq.TraiFlix.models.Category
+import org.uqbar.commons.model.annotations.Dependencies
 
 @Accessors
 @Observable
@@ -169,13 +170,14 @@ class TraiFlix {
 		movies = movies.filter( elem | !id.equals(elem.id) ).toList
 	}
 
+	@Dependencies("movies", "series")
 	def getRelatableContent(Relatable toRelateWith) {
 		var List<Relatable> contentList = new ArrayList
 		
 		contentList.addAll(movies)
 		contentList.addAll(series)
 		
-		contentList.filter( elem | elem!=toRelateWith ).toList
+		contentList.filter( elem | elem!=toRelateWith && !toRelateWith.getRelateds().contains(elem) ).toList
 	}
 	
 }

@@ -5,10 +5,10 @@ import org.uqbar.commons.model.annotations.Observable
 import ar.edu.unq.TraiFlix.models.Serie
 import java.util.List
 import ar.edu.unq.TraiFlix.models.Category
-import ar.edu.unq.TraiFlix.models.Clasification
 import ar.edu.unq.TraiFlix.models.Episode
 import ar.edu.unq.TraiFlix.models.Relatable
 import ar.edu.unq.TraiFlix.models.TraiFlix
+import org.uqbar.commons.model.annotations.Dependencies
 
 @Accessors
 @Observable
@@ -19,41 +19,36 @@ class SerieManagementAppModel extends AppModel {
 	Relatable selectedRelatedContent
 	Category selectedAvailableCategory
 	Category selectedAssignedCategory
+	List<Category> availableCategories
+	boolean editMode
 
-	new( TraiFlix model ) {
+	new(TraiFlix model, Serie serie) {
 		super(model)
-		serie = new Serie => [
-					title = "El titulo"
-					clasification = new Clasification("ATP")
-					addCategory( new Category("Estrenos") )
-					creators = "Los creadores"
-					addEpisode( new Episode(it,1,1) => [
-							title = "Capitulo 1"
-						] )
-					addEpisode( new Episode(it,1,2) => [
-							title = "Capitulo 2"
-					] )					
-				]	
+		this.serie = serie
+		updateAvailableCategories
+		editMode = true
 	}
 	
-	def List<Clasification> availableClassifications() {
+	def availableClassifications() {
 		model.classifications
 	}
 	
-	def List<Relatable> availableRelatableContents() {
+	def availableRelatableContents() {
 		model.getRelatableContent(serie)
 	}
-		
-	def List<Category> selectablesCategories() {
-		model.categories.filter( elem | !serie.categories.contains(elem) ).toList
+
+	private def updateAvailableCategories() {
+		availableCategories = model.categories.filter( elem | !serie.categories.contains(elem) ).toList
 	}
 	
-	def void addSelectedCategory() {
+	def void addSelectedAvailableCategory() {
 		serie.addCategory(selectedAvailableCategory)
+		updateAvailableCategories
 	}
 	
 	def void removeSelectedAssignedCategory() {
 		serie.removeCategory(selectedAssignedCategory)
+		updateAvailableCategories
 	}
 	
 	def void removeSelectedEpisode() {
@@ -62,6 +57,11 @@ class SerieManagementAppModel extends AppModel {
 	
 	def void removeSelectedRelatedContent() {
 		serie.removeRelated(selectedRelatedContent)
-	}	
+	}
+		
+	@Dependencies("serie.title","serie.categories","serie.clasification")
+	def canSave() {
+		(serie.getTitle()!==null) && (serie.getTitle().trim.length>0) && (serie.categories.size>0) && (serie.clasification!==null)
+	}
 	
 }

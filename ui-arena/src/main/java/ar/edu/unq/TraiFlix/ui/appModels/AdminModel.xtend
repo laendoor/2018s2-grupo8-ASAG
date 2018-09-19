@@ -68,6 +68,4 @@ class AdminModel extends AppModel{
 		model.deleteMovie(selectedMovie.id)
 		searchMovie()
 	}
-	
-	
 }
