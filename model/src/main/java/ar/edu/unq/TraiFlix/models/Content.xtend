@@ -53,7 +53,8 @@ abstract class Content {
 	 }
 	 
 	 def stringSimpleMinute(String string){
-	 	this.addCero(string)":00"
+	 	this.addCero(string)+":00"
+	 	
 	 }
 	 
 

@@ -27,6 +27,7 @@ import ar.edu.unq.TraiFlix.transformer.DurationTransformer
 import org.uqbar.arena.windows.MessageBox
 import ar.edu.unq.TraiFlix.filters.LinkTextFilter
 import ar.edu.unq.TraiFlix.transformer.DateTransformer
+import ar.edu.unq.TraiFlix.filters.DurationFilter
 
 class TraiFlixAdministratorMovieWindow extends Dialog<MovieManagementAppModel>{
 	
@@ -92,7 +93,7 @@ class TraiFlixAdministratorMovieWindow extends Dialog<MovieManagementAppModel>{
 			layout = new HorizontalLayout
 			this.label(it,title)
 			new TextBox(it) => [
-				//withFilter(new DurationFilter)
+				withFilter(new DurationFilter)
 				(value <=> value1).transformer = new DurationTransformer
 			]
 		]
@@ -210,7 +211,7 @@ class TraiFlixAdministratorMovieWindow extends Dialog<MovieManagementAppModel>{
 			title = "Contenido relacionado"
 			layout = new VerticalLayout
 			width = 400
-			// Related content grid
+			
 			new Table<RelatableToTableAdapter>(it, typeof(RelatableToTableAdapter))=> [				
 				items <=> "movie.relateds"
 				selection <=> "selectedRelatedContent"
@@ -227,7 +228,7 @@ class TraiFlixAdministratorMovieWindow extends Dialog<MovieManagementAppModel>{
 				]
 			]
 			
-			// Add/remove related button panel...
+			
 			new Panel(it) => [
 				layout = new HorizontalLayout
 				new Button(it) => [ 
