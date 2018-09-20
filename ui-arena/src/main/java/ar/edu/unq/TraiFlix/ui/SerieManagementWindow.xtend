@@ -23,6 +23,7 @@ import ar.edu.unq.TraiFlix.ui.components.RelatableContentSelector
 import org.uqbar.arena.windows.MessageBox
 import ar.edu.unq.TraiFlix.ui.appModels.EpisodeManagementAppModel
 
+
 class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 	
 	new( WindowOwner owner, SerieManagementAppModel model ) {
@@ -190,6 +191,7 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 	
 	
 	private def onAddEpisode() {
+
 		val episode = new Episode(this.modelObject.serie)
 		val appModelEpisode= new EpisodeManagementAppModel(episode)
 		
@@ -200,6 +202,5 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 			open						
 		]	
 	}
-	
-	
+
 }

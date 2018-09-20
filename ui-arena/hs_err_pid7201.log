@@ -1,3 +1,4 @@
+
 #
 # A fatal error has been detected by the Java Runtime Environment:
 #
@@ -688,4 +689,5 @@ vm_info: OpenJDK 64-Bit Server VM (25.181-b13) for linux-amd64 JRE (1.8.0_181-8u
 
 time: Tue Sep 18 19:10:32 2018
 elapsed time: 1 seconds (0d 0h 0m 1s)
+
 

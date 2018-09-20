@@ -3,7 +3,8 @@ package ar.edu.unq.TraiFlix.models
 import java.util.ArrayList
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
-import org.joda.time.DateTime
+import java.util.ArrayList
+
 
 @Accessors
 class User {

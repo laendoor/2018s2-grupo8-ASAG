@@ -15,14 +15,11 @@ class TraiFlixApplication extends Application{
 	}
 
 	override protected Window<AdminModel> createMainWindow() {
+
+		var traiflix = new TraiFlix
 		
-		var traiflix = new TraiFlix =>[
-			movies = Bootstrap.instance.movies
-			series = Bootstrap.instance.series
-			categories = Bootstrap.instance.categories
-			classifications = Bootstrap.instance.clasifications
-			users = Bootstrap.instance.users
-		]			
+		Bootstrap.instance.load(traiflix) 			
+
 			
 		return new TraiFlixMainWindow(this,new AdminModel(traiflix))
 	}

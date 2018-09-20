@@ -69,6 +69,8 @@ class AdminModel extends AppModel{
 		model.deleteMovie(selectedMovie.id)
 		searchMovie()
 	}
+  
+  
 	
 	//----------------------//
 	//--- BOTONES SERIES ---//
@@ -113,7 +115,12 @@ class AdminModel extends AppModel{
 	def setView(TraiFlixMainWindow window) {
 		this.view = window
 	}
+  
+  def addMovie(Movie movie){
+		model.setNewMovie(movie)
+	}
 	
 
 	
 }
+
