@@ -15,10 +15,11 @@ class TraiFlixApplication extends Application{
 	}
 
 	override protected Window<AdminModel> createMainWindow() {
-		
+
 		var traiflix = new TraiFlix
 		
 		Bootstrap.instance.load(traiflix) 			
+
 			
 		return new TraiFlixMainWindow(this,new AdminModel(traiflix))
 	}

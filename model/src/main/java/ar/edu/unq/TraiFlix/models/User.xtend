@@ -1,17 +1,18 @@
 package ar.edu.unq.TraiFlix.models
 
+import java.util.ArrayList
 import java.util.List
-import java.util.Date
 import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.ArrayList
+
 
 @Accessors
 class User {
 	Integer id;
 	String nick;
 	String name;
-	Date created;
-	Date dateOfBirth;
+	DateTime created;
+	DateTime dateOfBirth;
 	List<User> friends;
 	List<Content> watched;
 	List<Content> favorite;
@@ -46,6 +47,10 @@ class User {
 		watchedSeries().filter[ elem | watched.containsAll(elem.episodes) ].toList
 	}
 	
+	def addFriend(User user) {
+		friends.add(user)
+	}
+	
 	def isFriend(User user) {
 		friends.exists[ elem |
 			elem.id == user.id
@@ -53,5 +58,6 @@ class User {
 	}
 	
 	
+
 	
 }

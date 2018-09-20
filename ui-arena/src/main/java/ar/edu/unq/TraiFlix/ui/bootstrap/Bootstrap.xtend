@@ -14,6 +14,7 @@ import ar.edu.unq.TraiFlix.models.TraiFlix
 import org.joda.time.Duration
 import org.joda.time.LocalTime
 
+
 @Accessors
 class Bootstrap {
 
@@ -32,6 +33,7 @@ class Bootstrap {
 		series = this.createSeries
 		users = this.createUsers
 
+
 	}
 
 	static def getInstance() {
@@ -47,21 +49,29 @@ class Bootstrap {
 		user1.id = 1
 		user1.nick = "Saba"
 		user1.name = "Pablo"
+		user1.dateOfBirth = new DateTime(1986, 7, 16, 0, 0, 0, 0);
+		user1.created = new DateTime(2015, 3, 14, 0, 0, 0, 0);
 
 		var user2 = new User()
 		user2.id = 2
 		user2.nick = "Lukitas"
 		user2.name = "Lucas"
+		user2.dateOfBirth = new DateTime(2000, 7, 16, 0, 0, 0, 0);
+		user2.created = new DateTime(2014, 3, 14, 0, 0, 0, 0);
 
 		var user3 = new User()
 		user3.id = 3
 		user3.nick = "Marce"
 		user3.name = "Marcelo"
+		user3.dateOfBirth = new DateTime(1983, 7, 16, 0, 0, 0, 0);
+		user3.created = new DateTime(2016, 3, 14, 0, 0, 0, 0);
 
 		var user4 = new User()
 		user4.id = 4
 		user4.nick = "Peter"
 		user4.name = "Pedro"
+		user4.dateOfBirth = new DateTime(1980, 7, 16, 0, 0, 0, 0);
+		user4.created = new DateTime(2011, 3, 14, 0, 0, 0, 0);
 
 		val list = new ArrayList()
 		
@@ -77,11 +87,13 @@ class Bootstrap {
 		var directors = "Spilbergo, Jorge Lucas"
 		var actors = "Obi One Kenobi , Darin"
 
+
 		var movie = new Movie()
 		movie.title = "Las tortugas pinjas"
 		movie.release = new Date()
 		movie.actors = actors
 		movie.duration = Duration.standardMinutes(12).plus(Duration.standardSeconds(50))
+
 		movie.directors = directors
 		movie.link = "https://www.youtube.com/watch?v=HoBo9ilFAlI"
 

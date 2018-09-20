@@ -24,6 +24,8 @@ abstract class Content {
 	 
 	 new(){
 	 	this.assessments = new ArrayList
+	 	this.directors = new ArrayList
+	 	this.actors = new ArrayList
 	 } 
 	 
 	 def addAssessment(Assessment critic){

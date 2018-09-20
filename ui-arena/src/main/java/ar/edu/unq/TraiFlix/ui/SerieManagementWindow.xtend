@@ -21,6 +21,8 @@ import ar.edu.unq.TraiFlix.ui.components.ClassificationSelector
 import ar.edu.unq.TraiFlix.ui.components.CategorySelector
 import ar.edu.unq.TraiFlix.ui.components.RelatableContentSelector
 import org.uqbar.arena.windows.MessageBox
+import ar.edu.unq.TraiFlix.ui.appModels.EpisodeManagementAppModel
+
 
 class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 	
@@ -189,12 +191,16 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 	
 	
 	private def onAddEpisode() {
-		/* TO-DO:  
-		 * - instanciar el appModel para el caso de uso "crear un capitulo"
-		 * 		ese appModel contiene un nuevo Episode y el resto de los datos necesarios para el caso de uso
-		 * - instanciar la ventana de administracion de capitulos y pasarle su appModel
-		 * - si se sale de la ventana con onAccept, llamar a mi modelObject.serie.addEpisode() con el capitulo creado
-		 */
+
+		val episode = new Episode(this.modelObject.serie)
+		val appModelEpisode= new EpisodeManagementAppModel(episode)
+		
+		new EpisodeWindow(this, appModelEpisode ) =>  [ 
+			
+			title = "TraiFlix - Crear Nuevo Episodio"
+			onAccept[ this.modelObject.addEpisode(episode) ]
+			open						
+		]	
 	}
-	
+
 }
