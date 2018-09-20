@@ -69,22 +69,22 @@ class Bootstrap {
 		var movie = new Movie()
 		movie.title = "Las tortugas pinjas"
 		movie.release = new Date()
-		movie.actors = actors
-		movie.directors = directors
+		movie.actors = "actors"
+		movie.directors =" directors"
 		movie.link = "https://www.youtube.com/watch?v=HoBo9ilFAlI"
 
 		var movie1 = new Movie()
 		movie1.title = "I'm Batman"
 		movie1.release = new Date()
-		movie1.actors = actors
-		movie1.directors = directors
+		movie1.actors = "actors"
+		movie1.directors = "directors"
 		movie1.link = "https://www.youtube.com/watch?v=PfEXKi83glA"
 
 		var movie2 = new Movie()
 		movie2.title = "Cmen"
 		movie2.release = new Date()
-		movie2.actors = actors
-		movie2.directors = directors
+		movie2.actors = "actors"
+		movie2.directors =" directors"
 		movie2.link = "https://www.youtube.com/watch?v=lpFzTJN2y_o"
 		
 		newArrayList(movie,movie1,movie2)

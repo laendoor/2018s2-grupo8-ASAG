@@ -16,6 +16,12 @@ class Episode extends Content implements Ratingable{
 		super.id = new EpisodeId();
 	}
 	
+	
+	new (Serie serie){
+		this()
+		this.serie =serie
+	}
+	
 	new( Serie serie, Integer season, Integer episodeNumber ){
 		this()
 		this.serie = serie
