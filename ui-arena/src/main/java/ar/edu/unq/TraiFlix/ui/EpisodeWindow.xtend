@@ -99,8 +99,18 @@ class EpisodeWindows extends Dialog<EpisodeManagementAppModel> {
 			new Panel(it)=>[
 				layout = new ColumnLayout(3)
 				
+				
+			/**  new TextBox(form) => [
+            withFilter [ event | event.potentialTextResult.matches("[0-9,.]*") ]
+            bindValueToProperty("numero")
+            width = 100
+        								] */
+				
+				
 				//TextBox Temporada
 				new TextBox(it)=>[
+							//solo se puede  ingresar  0 a 3 numeros, sin punt decimal
+							withFilter[	event| event.potentialTextResult.matches("[0-9]{0,3}")]
 							value<=> "episode.season"
 							alignLeft
 							height = 17
@@ -115,6 +125,8 @@ class EpisodeWindows extends Dialog<EpisodeManagementAppModel> {
 					]
 				//TextBox Capitulo
 				new TextBox(it)=>[
+							//solo se puede  ingresar  0 a 3 numeros, sin punt decimal
+							withFilter[	event| event.potentialTextResult.matches("[0-9]{0,3}")]
 							value<=> "episode.episodeNumber"
 							alignRight
 							height = 17
@@ -136,10 +148,10 @@ class EpisodeWindows extends Dialog<EpisodeManagementAppModel> {
 					]
 				//TextBox Duration
 				new TextBox(it)=>[
-							value<=> "episode.duration"
-							alignRight
-							height = 17
-						//	width = 400
+						value<=> "episode.duration"
+						alignRight
+						height = 17
+					//	width = 400
 					]
 				
 				]//fin 3 columnas layout

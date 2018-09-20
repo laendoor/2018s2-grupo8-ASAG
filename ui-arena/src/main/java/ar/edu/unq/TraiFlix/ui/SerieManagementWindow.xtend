@@ -199,9 +199,11 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 		
 	
 		val episode = new Episode(this.modelObject.serie )
+		//this.modelObject.serie.title = "titulo de serie" 		para probar
 		val appModelEpisode= new EpisodeManagementAppModel(episode)
 		
 		new EpisodeWindows(this, appModelEpisode ) =>  [ 
+			
 			title = "TraiFlix - Crear Nueva Episodio"
 			onAccept[ this.modelObject.serie.addEpisode(episode) ]
 			open						
