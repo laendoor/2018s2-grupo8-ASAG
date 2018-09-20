@@ -13,7 +13,7 @@ import org.joda.time.Period
 import ar.edu.unq.TraiFlix.models.TraiFlix
 import org.joda.time.Duration
 import org.joda.time.LocalTime
-
+import org.joda.time.DateTime
 
 @Accessors
 class Bootstrap {

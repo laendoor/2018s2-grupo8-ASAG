@@ -3,6 +3,7 @@ package ar.edu.unq.TraiFlix.models.id
 import java.util.concurrent.atomic.AtomicLong
 
 abstract class GenericContentId implements ContentId, Comparable<ContentId> {	
+	
 	private static AtomicLong nextNumber = new AtomicLong(1)
 	private Long number
 	

@@ -62,8 +62,7 @@ class TraiFlixAdministratorMovieWindow extends Dialog<MovieManagementAppModel>{
 		new Selector(parent) => [
 			items <=> items1
 			value <=> value1
-			width = 170
-			height = 239
+			width = 215
 		]
 	}
 	
@@ -84,7 +83,6 @@ class TraiFlixAdministratorMovieWindow extends Dialog<MovieManagementAppModel>{
 				this.panelDuration(it, "Duracion", "movie.duration")
 				this.colunmLabels(it)
 			]	
-			this.textBoxesAndSelector(it)	
 		]		
 	}
 	
@@ -102,45 +100,44 @@ class TraiFlixAdministratorMovieWindow extends Dialog<MovieManagementAppModel>{
 	
 	
 	private def colunmLabels(Panel parent){
-		new Panel(parent)=> [
-			this.label(it, "Clasificasion")	
-			this.label(it,"Fecha de estreno")	
-			this.label(it, "Directores")
-			this.label(it,"Actores principales")
-			this.label(it,"Link Youtube")
-		]
+		var columnPanel = new Panel(parent)
+		columnPanel.layout = new ColumnLayout(2)
+		this.label(columnPanel, "Clasificasion")
+		this.selector(columnPanel, "availableClassifications", "movie.clasification")	
+		this.label(columnPanel,"Fecha de estreno")	
+		new TextBox(columnPanel)=> [
+			width = 200
+			withFilter(new DateTextFilter)
+			(value <=> "movie.release" ).transformer = new DateTransformer
+			]
+		this.label(columnPanel, "Directores")
+		this.textBox(columnPanel, "movie.directors")	
+		this.label(columnPanel,"Actores principales")
+		this.textBox(columnPanel, "movie.actors")
+		this.label(columnPanel,"Link")
+		this.textBox(columnPanel, "movie.link")=>[
+			//withFilter = new LinkTextFilter
+			]	
+		
+
+							
+				
+		
 	}
 	
 	private def label(Panel panel, String title){
 		new Label(panel) => [			
 			text = title
-			height = 50 			
-		]
-	}
-	
-	private def textBoxesAndSelector(Panel parent){
-		new Panel(parent) =>[
-				this.selector(it, "availableClassifications", "movie.clasification")
-				new TextBox(it)=> [
-					withFilter(new DateTextFilter)
-					(value <=> "movie.release" ).transformer = new DateTransformer
-				]
-				this.textBox(it, "movie.directors")				
-				this.textBox(it, "movie.actors")
-				this.textBox(it, "movie.link")=>[
-					//withFilter = new LinkTextFilter
-				]			
 				
 		]
-		
 	}
-	
+		
 	
 	private def textBox(Panel parent, String value1){
 		new TextBox(parent) =>[
 			value <=> value1
 			width = 200
-			height = 50
+			//height = 50
 		]
 	}
 	
@@ -199,7 +196,6 @@ class TraiFlixAdministratorMovieWindow extends Dialog<MovieManagementAppModel>{
 	
 	private def panelInf(Panel parent){
 		new Panel(parent)=>[
-			layout = new HorizontalLayout
 			this.createRelatedContentPanel(it)
 			this.createOkCancelButtonPanel(it)
 		]
@@ -261,7 +257,7 @@ class TraiFlixAdministratorMovieWindow extends Dialog<MovieManagementAppModel>{
 		
 		// Cancel/Ok button panel...			
 		new Panel(parentPanel) => [
-			layout = new VerticalLayout
+			layout = new HorizontalLayout
 			new Button(it) => [ 
 				caption = "Cancelar"
 				alignCenter

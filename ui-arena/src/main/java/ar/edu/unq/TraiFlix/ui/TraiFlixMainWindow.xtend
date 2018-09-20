@@ -80,7 +80,15 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 			new Button(buttonPanel) => [ 
 			caption = "Nuevo"
 				alignCenter
-				onClick [ | new SerieManagementWindow(this, new SerieManagementAppModel(this.modelObject.model,null)).open ]
+				onClick [ |
+					val serie = new Serie
+					 new SerieManagementWindow
+					(this, new SerieManagementAppModel(this.modelObject.model,serie))=>[
+						onAccept[this.modelObject.addSerie(serie)]
+						open
+					]
+					
+				]
 			]
 					new Button(buttonPanel) => [ 
 			caption = "Ver"
@@ -179,10 +187,16 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 			new Button(buttonPanel) => [ 
 			caption = "Modificar"
 			alignCenter
-				onClick [ | modelObject.updateMovie ]
+				onClick [  if(modelObject.selectedMovie!= null)
+					new TraiFlixAdministratorMovieWindow(this,
+					new MovieManagementAppModel(this.modelObject.model, modelObject.selectedMovie))=>[
+					
+					open 
+					]
 //				bindEnabled(new NotNullObservable("conversion"))
 			]
-							new Button(buttonPanel) => [ 
+			]
+			new Button(buttonPanel) => [ 
 			caption = "Borrar"
 			alignCenter
 				onClick [ | modelObject.deleteMovieSelected ]

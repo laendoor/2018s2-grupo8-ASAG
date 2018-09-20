@@ -89,7 +89,9 @@ class AdminModel extends AppModel{
 			//TODO FIXME crear error
 			return
 		}
-		new SerieManagementWindow(view, new SerieManagementAppModel(this.model,selectedSerie)).open
+		new SerieManagementWindow(view, new SerieManagementAppModel(this.model,selectedSerie)=>[
+			editMode = false
+		]).open
 	}
 
 	def deleteSerieSelected() {
