@@ -18,5 +18,9 @@ interface ContentManagementAppModel {
 	def void removeSelectedAssignedCategory();
 	
 	def void removeSelectedRelatedContent();
+	
+	def void updateAvailableCategories();
+	
+	def void addSelectedAvailableCategory();
 
 }

@@ -3,7 +3,8 @@ package ar.edu.unq.TraiFlix.models
 import java.util.ArrayList
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
-import org.joda.time.DateTime
+import java.util.ArrayList
+
 
 @Accessors
 class User {
@@ -46,11 +47,16 @@ class User {
 		watchedSeries().filter[ elem | watched.containsAll(elem.episodes) ].toList
 	}
 	
+	def addFriend(User user) {
+		friends.add(user)
+	}
+	
 	def isFriend(User user) {
 		friends.exists[ elem |
 			elem.id == user.id
 		]
 	}
+	
 	
 
 	

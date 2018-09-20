@@ -1,3 +1,4 @@
+
 package ar.edu.unq.TraiFlix.ui.components
 
 import org.uqbar.arena.widgets.Panel
@@ -81,4 +82,5 @@ class CategorySelector extends GroupPanel {
 		
 	}
 	
+
 }

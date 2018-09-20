@@ -10,7 +10,10 @@ import ar.edu.unq.TraiFlix.models.Category
 import ar.edu.unq.TraiFlix.models.Clasification
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.joda.time.Period
-import org.joda.time.DateTime
+import ar.edu.unq.TraiFlix.models.TraiFlix
+import org.joda.time.Duration
+import org.joda.time.LocalTime
+
 
 @Accessors
 class Bootstrap {
@@ -28,7 +31,9 @@ class Bootstrap {
 		clasifications = this.createClasifications
 		movies = this.createMovies
 		series = this.createSeries
-		users = this.createUsers		
+		users = this.createUsers
+
+
 	}
 
 	static def getInstance() {
@@ -68,19 +73,27 @@ class Bootstrap {
 		user4.dateOfBirth = new DateTime(1980, 7, 16, 0, 0, 0, 0);
 		user4.created = new DateTime(2011, 3, 14, 0, 0, 0, 0);
 
-		newArrayList(user1, user2, user3, user4)
+		val list = new ArrayList()
+		
+		list.add(user1)
+		list.add(user2)
+		list.add(user3)
+		list.add(user4)
+		list
 	}
 
 	def createMovies() {
 
-		var directors = newArrayList("Spilbergo", "Jorge Lucas")
-		var actors = newArrayList("Obi One Kenobi", "Darin")
+		var directors = "Spilbergo, Jorge Lucas"
+		var actors = "Obi One Kenobi , Darin"
+
 
 		var movie = new Movie()
 		movie.title = "Las tortugas pinjas"
 		movie.release = new Date()
 		movie.actors = actors
-		movie.duration = new Period(0, 2, 16, 0)
+		movie.duration = Duration.standardMinutes(12).plus(Duration.standardSeconds(50))
+
 		movie.directors = directors
 		movie.link = "https://www.youtube.com/watch?v=HoBo9ilFAlI"
 
@@ -88,19 +101,24 @@ class Bootstrap {
 		movie1.title = "I'm Batman"
 		movie1.release = new Date()
 		movie1.actors = actors
-		movie1.duration = new Period(0, 2, 16, 0)
+		movie1.duration = Duration.standardMinutes(2)
 		movie1.directors = directors
 		movie1.link = "https://www.youtube.com/watch?v=PfEXKi83glA"
 
 		var movie2 = new Movie()
 		movie2.title = "Cmen"
 		movie2.release = new Date()
-		movie2.duration = new Period(0, 2, 16, 0)
+		movie2.duration = Duration.standardMinutes(5)
 		movie2.actors = actors
 		movie2.directors = directors
 		movie2.link = "https://www.youtube.com/watch?v=lpFzTJN2y_o"
 		
-		newArrayList(movie,movie1,movie2)
+		val list = new ArrayList()
+		
+		list.add(movie)
+		list.add(movie1)
+		list.add(movie2)
+		list
 
 	}
 	
@@ -110,14 +128,27 @@ class Bootstrap {
 		var cate1 = new Category("Drama")
 		var cate2 = new Category("Zombies Nazis")
 		
-		newArrayList(cate, cate1, cate2)
+		val list = new ArrayList()
+		
+		list.add(cate)
+		list.add(cate1)
+		list.add(cate2)
+		list
 	}
 	
 	
 	def createClasifications(){
-		newArrayList(new Clasification("ATP"), new Clasification("+13"),
-			new Clasification("+17")
-		)
+		
+		var clas1 = new Clasification("ATP")
+		var clas2 = new Clasification("+13")
+		var clas3 = new Clasification("+17")
+		
+		val list = new ArrayList()
+		
+		list.add(clas1)
+		list.add(clas2)
+		list.add(clas3)
+		list
 	}
 	
 	
@@ -125,21 +156,38 @@ class Bootstrap {
 
 		var serie = new Serie()
 		serie.title = "ALF"
+		serie.creators = "Spilbergo"
 		serie.categories = this.categories
-		serie.clasification = this.clasifications.get(0)
+		serie.clasification = this.clasifications.get(1)
 		
 		
 		var serie1 = new Serie()
-		serie1.title = "ALF"
+		serie1.title = "Lost"
+		serie1.creators = "Luke SkyWalker"
 		serie1.categories = this.categories
 		serie1.clasification = this.clasifications.get(0)
 		
 		var serie2 = new Serie()
-		serie2.title = "ALF"
+		serie2.title = "Friends"
+		serie2.creators = "Matt Groening"
 		serie2.categories = this.categories
-		serie2.clasification = this.clasifications.get(0)
+		serie2.clasification = this.clasifications.get(1)
 	
-		 newArrayList(serie, serie1, serie2)
+		 val list = new ArrayList()
+		
+		list.add(serie)
+		list.add(serie1)
+		list.add(serie2)
+		list
+	}
+	
+	def load(TraiFlix model){
+		model.categories = this.categories
+		model.classifications = this.clasifications
+		model.movies = this.movies
+		model.series = this.series
+		model.users = this.users
+
 	}
 
 }
