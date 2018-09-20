@@ -73,8 +73,8 @@ class Bootstrap {
 
 	def createMovies() {
 
-		var directors = newArrayList("Spilbergo", "Jorge Lucas")
-		var actors = newArrayList("Obi One Kenobi", "Darin")
+		var directors = "Spilbergo, Jorge Lucas"
+		var actors ="Obi One Kenobi, Darin"
 
 		var movie = new Movie()
 		movie.title = "Las tortugas pinjas"

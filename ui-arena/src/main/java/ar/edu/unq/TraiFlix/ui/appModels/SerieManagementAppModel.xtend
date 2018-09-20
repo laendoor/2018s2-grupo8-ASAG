@@ -51,6 +51,10 @@ class SerieManagementAppModel extends AppModel {
 		updateAvailableCategories
 	}
 	
+	def void addEpisode(Episode episode) {
+		serie.addEpisode(episode)
+	}
+	
 	def void removeSelectedEpisode() {
 		serie.removeEpisode(selectedEpisode)
 	}
