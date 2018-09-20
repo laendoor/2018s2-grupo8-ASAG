@@ -46,11 +46,16 @@ class User {
 		watchedSeries().filter[ elem | watched.containsAll(elem.episodes) ].toList
 	}
 	
+	def addFriend(User user) {
+		friends.add(user)
+	}
+	
 	def isFriend(User user) {
 		friends.exists[ elem |
 			elem.id == user.id
 		]
 	}
+	
 	
 
 	

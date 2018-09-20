@@ -497,6 +497,85 @@ class TraiFlixTest{
 		
 		assertTrue( 3 == traiFlix.linklessContent.size)
 		}
+		
+		@Test
+		def void addCategory() {
+			var traiflix = new TraiFlix
+			var category = new Category("Western")
+			
+			traiflix.addCategory(category)
+			
+			assertTrue( traiflix.categories.contains(category) )
+		}
+		
+		@Test
+		def void addClassification() {
+			var traiflix = new TraiFlix
+			var clasification = new Clasification("Western")
+			
+			traiflix.addClassification(clasification)
+			
+			assertTrue( traiflix.classifications.contains(clasification) )
+		}
+		
+		@Test
+		def void deleteMovie() {
+			var traiflix = new TraiFlix
+			var movie = new Movie
+			
+			traiflix.setNewMovie(movie)
+			assertTrue( traiflix.movies.contains(movie) )
+			
+			traiflix.deleteMovie(movie.id)
+			assertFalse( traiflix.movies.contains(movie) )
+		}
+		
+		@Test
+		def void deleteSerie() {
+			var traiflix = new TraiFlix
+			var serie = new Serie
+			
+			traiflix.setNewSerie(serie)
+			assertTrue( traiflix.series.contains(serie) )
+			
+			traiflix.deleteSerie(serie.id)
+			assertFalse( traiflix.series.contains(serie) )
+		}
+		
+		@Test
+		def void recomendSerieToFriendUser() {
+			var traiflix = new TraiFlix
+			var carlos = new User => [ id=1 ]
+			var juan = new User => [ id=2 ]
+			var serie = new Serie
+			
+			traiflix.setNewUser(carlos)
+			traiflix.setNewUser(juan)
+			traiflix.userBeacomeFriendOf(carlos,juan)
+			
+			traiflix.recomendSerieToUser(juan,carlos,serie)			
 
+			assertTrue( traiflix.recommendedContentOfUser(carlos.id).contains(serie) )
+		}
+		
+		@Test
+		def void recomendSerieToNoFriendUser() {
+			var traiflix = new TraiFlix
+			var carlos = new User => [ id=1 ]
+			var juan = new User => [ id=2 ]
+			var serie = new Serie
+			
+			traiflix.setNewUser(carlos)
+			traiflix.setNewUser(juan)			
+			
+			traiflix.recomendSerieToUser(juan,carlos,serie)			
+
+			assertFalse( traiflix.recommendedContentOfUser(carlos.id).contains(serie) )
+		}
+
+		@Test
+		def void getRelatableContent() {
+			
+		}
 	
 }

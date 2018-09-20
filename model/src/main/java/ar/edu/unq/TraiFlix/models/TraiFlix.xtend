@@ -118,8 +118,8 @@ class TraiFlix {
 	}
 	
 	def userBeacomeFriendOf(User user1, User user2){
-		user1.friends.add(user2)
-		user2.friends.add(user1)
+		user1.addFriend(user2)
+		user2.addFriend(user1)
 	}
 	
 	def friendsOfUser(Integer id){
