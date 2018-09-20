@@ -19,13 +19,15 @@ import org.uqbar.arena.windows.Window
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-import org.uqbar.arena.windows.Dialog
+import ar.edu.unq.TraiFlix.ui.appModels.MovieManagementAppModel
+
 
 class TraiFlixMainWindow extends Window<AdminModel> {
 	
 	
 	new(WindowOwner owner, AdminModel model) {
 		super(owner, model)
+
 		model.setView(this);
 	}
 	
@@ -83,19 +85,25 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 					new Button(buttonPanel) => [ 
 			caption = "Ver"
 			alignCenter
+
 				onClick [ | modelObject.viewSerie ]
+
 //				bindEnabled(new NotNullObservable("conversion"))
 			]
 			new Button(buttonPanel) => [ 
 			caption = "Modificar"
 			alignCenter
+
 				onClick [ | modelObject.updateSerie]
+
 //				bindEnabled(new NotNullObservable("conversion"))
 			]
 							new Button(buttonPanel) => [ 
 			caption = "Borrar"
 			alignCenter
+
 				onClick [ | modelObject.deleteSerieSelected ]
+
 //				bindEnabled(new NotNullObservable("conversion"))
 
 			]
@@ -107,6 +115,7 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 		var titlePanel = createTitlePanel(panel, "PELICULAS")
 		new Button(titlePanel) => [ 
 				caption = "Ver Usuarios"
+
 				onClick [ | new TraiFlixUserAdminWindow(this, this.modelObject.model.users).open ]
 				]
 		createCrudPanelMovies(panel, "model.movies","selectedMovie");			
@@ -147,9 +156,21 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 			new Button(buttonPanel) => [ 
 			caption = "Nuevo"
 				alignCenter
-				onClick [ | new TraiFlixAdministratorMovieWindow(this, this.modelObject.model).open ]
+
+				onClick [  
+					val movie = new Movie()
+					new TraiFlixAdministratorMovieWindow(this,
+					new MovieManagementAppModel(this.modelObject.model, movie))=>[
+					onAccept[this.modelObject.addMovie(movie)]
+					open 
+					]
+					
+					
+				]
+			
 			]
-					new Button(buttonPanel) => [ 
+			new Button(buttonPanel) => [ 
+
 			caption = "Ver"
 			alignCenter
 				onClick [ | modelObject.viewMovie ]
@@ -213,11 +234,11 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 			open						
 		]	
 	}
-	
 }
 
 @Accessors
 public class Terna<T,K,Z>{
+
 	T x
 	K y
 	Z z 
