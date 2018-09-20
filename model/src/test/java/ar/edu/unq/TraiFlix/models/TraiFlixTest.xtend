@@ -575,7 +575,20 @@ class TraiFlixTest{
 
 		@Test
 		def void getRelatableContent() {
+			var traiflix = new TraiFlix
+			var movie = new Movie
+			var movietoRelateWith = new Movie
+			var serie = new Serie
 			
+			traiflix.setNewMovie(movie)
+			traiflix.setNewMovie(movietoRelateWith)
+			traiflix.setNewSerie(serie)
+			
+			var relatableContent = traiflix.getRelatableContent(movietoRelateWith)
+			assertTrue( relatableContent.size == 2 )
+			assertTrue( relatableContent.contains(movie) )
+			assertTrue( relatableContent.contains(serie) )
+			assertFalse( relatableContent.contains(movietoRelateWith) )			
 		}
 	
 }
