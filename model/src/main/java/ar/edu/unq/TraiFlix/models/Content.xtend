@@ -45,7 +45,7 @@ abstract class Content {
 		
 		 val String[] str =  daysHoursMinutes.print(duration.toPeriod).split(" ")
 		 if(str.length == 5){
- 		 	str.get(0)+":"+str.get(3)
+ 		 	this.addCero(str.get(0))+":"+str.get(3)
  		 }
  		 else{
  		 	this.stringSimpleMinute(str.get(0))
@@ -53,12 +53,17 @@ abstract class Content {
 	 }
 	 
 	 def stringSimpleMinute(String string){
-	 	if(string.length > 1){
- 		 	string+":00"
-	 	}
-	 	else{
- 		 	"0"+string+":00"
-	 	}
+	 	this.addCero(string)":00"
 	 }
+	 
+
+	def addCero(String str){
+		if(str.length == 1){
+			"0"+str
+		}
+		else{
+			str
+		}
+}
 	 
 }

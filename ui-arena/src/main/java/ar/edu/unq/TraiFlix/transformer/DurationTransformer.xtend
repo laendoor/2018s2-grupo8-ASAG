@@ -16,11 +16,15 @@ class DurationTransformer implements ValueTransformer<Duration, String> {
 	}
 	
 	override modelToView(Duration valueFromModel) {
-		/*val str = valueFromModel.toString    
+		val str = valueFromModel.toString    
 		var String[] value = str.split(" ")
-		value.get(0)+":"+value.get(3)
-		*/
-		""
+		if(value.get(0).length>1){
+			value.get(0)+":"+value.get(3)
+		}
+		else{
+			"0"+value.get(0)+":"+value.get(3)
+		}
+		
 	}
 	
 	override viewToModel(String valueFromView) {

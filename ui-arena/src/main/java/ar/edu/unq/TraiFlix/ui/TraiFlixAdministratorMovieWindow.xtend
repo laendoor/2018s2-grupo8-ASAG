@@ -26,6 +26,7 @@ import ar.edu.unq.TraiFlix.filters.DateTextFilter
 import ar.edu.unq.TraiFlix.transformer.DurationTransformer
 import org.uqbar.arena.windows.MessageBox
 import ar.edu.unq.TraiFlix.filters.LinkTextFilter
+import ar.edu.unq.TraiFlix.transformer.DateTransformer
 
 class TraiFlixAdministratorMovieWindow extends Dialog<MovieManagementAppModel>{
 	
@@ -119,8 +120,9 @@ class TraiFlixAdministratorMovieWindow extends Dialog<MovieManagementAppModel>{
 	private def textBoxesAndSelector(Panel parent){
 		new Panel(parent) =>[
 				this.selector(it, "availableClassifications", "movie.clasification")
-				this.textBox(it, "movie.release")=> [
-					withFilter = new DateTextFilter
+				new TextBox(it)=> [
+					withFilter(new DateTextFilter)
+					(value <=> "movie.release" ).transformer = new DateTransformer
 				]
 				this.textBox(it, "movie.directors")				
 				this.textBox(it, "movie.actors")
