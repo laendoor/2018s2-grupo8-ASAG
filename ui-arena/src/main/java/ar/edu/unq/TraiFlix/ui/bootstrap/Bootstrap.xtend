@@ -9,7 +9,10 @@ import java.util.Date
 import ar.edu.unq.TraiFlix.models.Category
 import ar.edu.unq.TraiFlix.models.Clasification
 import org.eclipse.xtend.lib.annotations.Accessors
+import org.joda.time.Period
 import ar.edu.unq.TraiFlix.models.TraiFlix
+import org.joda.time.Duration
+import org.joda.time.LocalTime
 
 @Accessors
 class Bootstrap {
@@ -28,6 +31,7 @@ class Bootstrap {
 		movies = this.createMovies
 		series = this.createSeries
 		users = this.createUsers
+
 	}
 
 	static def getInstance() {
@@ -77,6 +81,7 @@ class Bootstrap {
 		movie.title = "Las tortugas pinjas"
 		movie.release = new Date()
 		movie.actors = actors
+		movie.duration = Duration.standardMinutes(12).plus(Duration.standardSeconds(50))
 		movie.directors = directors
 		movie.link = "https://www.youtube.com/watch?v=HoBo9ilFAlI"
 
@@ -84,12 +89,14 @@ class Bootstrap {
 		movie1.title = "I'm Batman"
 		movie1.release = new Date()
 		movie1.actors = actors
+		movie1.duration = Duration.standardMinutes(2)
 		movie1.directors = directors
 		movie1.link = "https://www.youtube.com/watch?v=PfEXKi83glA"
 
 		var movie2 = new Movie()
 		movie2.title = "Cmen"
 		movie2.release = new Date()
+		movie2.duration = Duration.standardMinutes(5)
 		movie2.actors = actors
 		movie2.directors = directors
 		movie2.link = "https://www.youtube.com/watch?v=lpFzTJN2y_o"
@@ -137,19 +144,22 @@ class Bootstrap {
 
 		var serie = new Serie()
 		serie.title = "ALF"
+		serie.creators = "Spilbergo"
 		serie.categories = this.categories
-		serie.clasification = this.clasifications.get(0)
+		serie.clasification = this.clasifications.get(1)
 		
 		
 		var serie1 = new Serie()
-		serie1.title = "ALF"
+		serie1.title = "Lost"
+		serie1.creators = "Luke SkyWalker"
 		serie1.categories = this.categories
 		serie1.clasification = this.clasifications.get(0)
 		
 		var serie2 = new Serie()
-		serie2.title = "ALF"
+		serie2.title = "Friends"
+		serie2.creators = "Matt Groening"
 		serie2.categories = this.categories
-		serie2.clasification = this.clasifications.get(0)
+		serie2.clasification = this.clasifications.get(1)
 	
 		 val list = new ArrayList()
 		

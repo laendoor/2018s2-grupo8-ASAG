@@ -6,10 +6,8 @@ import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.windows.WindowOwner
-import org.uqbar.arena.widgets.Selector
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 import ar.edu.unq.TraiFlix.ui.appModels.SerieManagementAppModel
-import org.uqbar.arena.widgets.List
 import ar.edu.unq.TraiFlix.models.Episode
 import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.widgets.tables.Column
@@ -18,9 +16,11 @@ import org.uqbar.arena.bindings.NotNullObservable
 import org.uqbar.arena.widgets.GroupPanel
 import org.uqbar.arena.windows.Dialog
 import ar.edu.unq.TraiFlix.ui.appModels.RelatableContentAppModel
-import ar.edu.unq.TraiFlix.ui.appModels.RelatableToTableAdapter
 import org.uqbar.arena.layout.ColumnLayout
-import org.uqbar.arena.windows.MainWindow
+import ar.edu.unq.TraiFlix.ui.components.ClassificationSelector
+import ar.edu.unq.TraiFlix.ui.components.CategorySelector
+import ar.edu.unq.TraiFlix.ui.components.RelatableContentSelector
+import org.uqbar.arena.windows.MessageBox
 
 class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 	
@@ -63,16 +63,11 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 			new TextBox(it) => [
 				value <=> "serie.title"
 				width = 200
+				enabled <=> "editMode"
 			]			
 					
 			// Classificacion
-			new Label(it) => [
-				text = "Clasificacion" 
-			]
-			new Selector(it) => [
-				items <=> "availableClassifications"
-				value <=> "serie.clasification"
-			]
+			new ClassificationSelector(it,"availableClassifications","serie.clasification","editMode")
 				
 			// Creators
 			new Label(it) => [			
@@ -81,6 +76,7 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 			new TextBox(it) => [
 				value <=> "serie.creators"
 				width = 200
+				enabled <=> "editMode"
 			]
 				
 			createCategoriesPanel(it)				
@@ -89,54 +85,17 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 	
 	
 	private def createCategoriesPanel(Panel parentPanel) {
-				
-		new GroupPanel(parentPanel) => [
-			title = "Categorias"
-			layout = new HorizontalLayout
 			
-			new Panel(it) => [
-				layout = new VerticalLayout			
-				new Label(it) => [
-					text = "Disponibles"
-					alignLeft
-				]
-				new List(it) => [
-					items <=> "availableCategories"	
-					value <=> "selectedAvailableCategory"
-					height = 50	
-				]
-			]
-			
-			new Panel(it) => [
-				layout = new VerticalLayout
-				new Button(it) => [ 
-					caption = ">"
-					alignCenter
-					bindEnabled(new NotNullObservable("selectedAvailableCategory"))
-					onClick [ | modelObject.addSelectedAvailableCategory ]
-				]
-				new Button(it) => [ 
-					caption = "<"
-					alignCenter
-					bindEnabled(new NotNullObservable("selectedAssignedCategory"))
-					onClick [ | modelObject.removeSelectedAssignedCategory]
-				]
-			]
-			
-			new Panel(it) => [
-				layout = new VerticalLayout			
-				new Label(it) => [
-					text = "Seleccionadas"
-					alignLeft
-				]
-				new List(it) => [
-					items <=> "serie.categories"	
-					value <=> "selectedAssignedCategory"
-					height = 50	
-				]
-			]
+		new CategorySelector(parentPanel) => [
+			availableCategoriesPropertyName = "availableCategories"	
+			selectedAvailableCategoryPropertyName = "selectedAvailableCategory"
+			assignedCategoriesPropertyName = "serie.categories"
+			selectedAssignedCategoryPropertyName = "selectedAssignedCategory"
+			onAddCategory = [ this.modelObject.addSelectedAvailableCategory ]
+			onRemoveCategory = [ this.modelObject.removeSelectedAssignedCategory ]
+			show
 		]
-		
+	
 	}
 	
 
@@ -169,11 +128,13 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 				new Button(it) => [ 
 					caption = "Agregar"
 					alignCenter
+					bindVisibleToProperty("editMode")
 					onClick [ | onAddEpisode() ]
 				]
 				new Button(it) => [ 
 					caption = "Quitar"
 					alignCenter
+					bindVisibleToProperty("editMode")
 					bindEnabled(new NotNullObservable("selectedEpisode"))
 					onClick [ | modelObject.removeSelectedEpisode ]
 				]
@@ -184,43 +145,21 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 	
 	private def createRelatedContentPanel(Panel parentPanel) {
 		
-		new GroupPanel(parentPanel) => [
-			title = "Contenido relacionado"
-			layout = new HorizontalLayout
-			
-			// Related content grid
-			new Table<RelatableToTableAdapter>(it, typeof(RelatableToTableAdapter))=> [				
-				items <=> "serie.relateds"
-				selection <=> "selectedRelatedContent"
-				
-				new Column<RelatableToTableAdapter>(it) => [
-				    title = "Titulo"
-				    fixedSize = 300				    
-				    bindContentsToProperty("title")
-				]
-				new Column<RelatableToTableAdapter>(it) => [
-				    title = "Contenido"
-				    fixedSize = 100
-				    bindContentsToProperty("contentType")
-				]
-			]
-			
-			// Add/remove related button panel...
-			new Panel(it) => [
-				layout = new VerticalLayout
-				new Button(it) => [ 
-					caption = "Agregar"
-					alignCenter
-					onClick [ | onAddRelatedContent() ]
-				]
-				new Button(it) => [ 
-					caption = "Quitar"
-					alignCenter
-					bindEnabled(new NotNullObservable("selectedRelatedContent"))
-					onClick [ | modelObject.removeSelectedRelatedContent ]
-				]
-			]
+		new RelatableContentSelector(parentPanel) => [
+			relatedContentsPropertyName = "serie.relateds"
+			selectedRelatedContentPropertyName = "selectedRelatedContent"
+			onRemoveRelatedContent = [ this.modelObject.removeSelectedRelatedContent ]
+			onAddRelatedContent = [ val relatableContentModel = new RelatableContentAppModel(this.modelObject.model,this.modelObject.serie)
+									
+									new RelatableContentSelectionDialog(this,relatableContentModel) => [
+												title = "Contenidos disponibles para relacionar"
+												onAccept[ this.modelObject.serie.addRelated(relatableContentModel.selectedRelatableContent) ]
+												open
+											]
+									]
+			show
 		]
+				
 	}
 	
 	
@@ -239,7 +178,10 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 				caption = "Aceptar"
 				alignCenter
 				width = 200
-				onClick [ | this.accept ]
+				//enabled <=> "canSave" // TO-DO: no funciona este binding ...
+				onClick [ | if( this.modelObject.canSave ) this.accept
+							else showMessageBox(MessageBox.Type.Error,"No ha ingresado todos los datos obligatorios.")
+					]
 			]				
 		]
 		
@@ -247,26 +189,12 @@ class SerieManagementWindow extends Dialog<SerieManagementAppModel> {
 	
 	
 	private def onAddEpisode() {
-		/* TO-DO:
+		/* TO-DO:  
 		 * - instanciar el appModel para el caso de uso "crear un capitulo"
 		 * 		ese appModel contiene un nuevo Episode y el resto de los datos necesarios para el caso de uso
 		 * - instanciar la ventana de administracion de capitulos y pasarle su appModel
 		 * - si se sale de la ventana con onAccept, llamar a mi modelObject.serie.addEpisode() con el capitulo creado
 		 */
 	}
-	
-		
-	private def onAddRelatedContent() {	
-		val relatableContentModel = new RelatableContentAppModel(modelObject.model,modelObject.serie)
-		
-		new RelatableContentSelectionDialog(this,relatableContentModel) => [
-			title = "Contenidos disponibles para relacionar"
-			onAccept[ this.modelObject.serie.addRelated(relatableContentModel.selectedRelatableContent) ]
-			open
-		]
-	}
-	
-		
-
 	
 }

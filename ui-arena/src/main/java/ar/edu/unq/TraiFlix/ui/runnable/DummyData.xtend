@@ -5,14 +5,13 @@ import ar.edu.unq.TraiFlix.models.Serie
 import java.util.ArrayList
 import java.util.List
 
-import java.util.Calendar
-import org.joda.time.JodaTimePermission
-import org.joda.time.Period
+
 
 import ar.edu.unq.TraiFlix.models.Clasification
 import ar.edu.unq.TraiFlix.models.Category
 
 import ar.edu.unq.TraiFlix.models.Episode
+import org.joda.time.Duration
 
 class DummyData {
 
@@ -21,14 +20,14 @@ class DummyData {
 		var List<Movie> res = new ArrayList
 		res.add(new Movie => [
 			title = "El Padrino"
-			duration = new Period(0, 2, 16, 0)
+			duration = Duration.parse("30min")
 			
 			link = "https://www.youtube.com/watch?v=gCVj1LeYnsc"
 			
 		] ) 
 				res.add(new Movie => [
 			title = "Pulp Fiction"
-			duration = new Period(0, 2, 41, 0)
+			duration = Duration.parse("30min")
 			
 			link = "https://www.youtube.com/watch?v=ZFYCXAG6fdo"
 			

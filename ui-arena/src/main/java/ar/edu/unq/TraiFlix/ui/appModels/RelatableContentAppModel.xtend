@@ -21,4 +21,16 @@ class RelatableContentAppModel extends AppModel {
 		model.getRelatableContent(toRelateWith)
 	}
 	
+	def getRelateds() {
+		toRelateWith.relateds
+	}
+	
+	def removeSelectedRelatableContent() {
+		toRelateWith.removeRelated(selectedRelatableContent)
+	}
+	
+	def addSelectedRelatableContent() {
+		toRelateWith.addRelated(selectedRelatableContent)
+	}
+	
 }

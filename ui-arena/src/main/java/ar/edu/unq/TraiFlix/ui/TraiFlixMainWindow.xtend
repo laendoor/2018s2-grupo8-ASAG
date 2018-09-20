@@ -1,9 +1,13 @@
 package ar.edu.unq.TraiFlix.ui
 
 import ar.edu.unq.TraiFlix.models.Movie
+import ar.edu.unq.TraiFlix.models.Serie
 import ar.edu.unq.TraiFlix.ui.appModels.AdminModel
+import ar.edu.unq.TraiFlix.ui.appModels.SerieManagementAppModel
+import java.util.List
+import org.eclipse.xtend.lib.annotations.Accessors
+import org.uqbar.arena.layout.ColumnLayout
 import org.uqbar.arena.layout.HorizontalLayout
-import org.uqbar.arena.layout.VerticalLayout
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.Panel
@@ -12,14 +16,8 @@ import org.uqbar.arena.widgets.tables.Column
 import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.windows.Window
 import org.uqbar.arena.windows.WindowOwner
-import ar.edu.unq.TraiFlix.ui.appModels.SerieManagementAppModel
-import ar.edu.unq.TraiFlix.ui.appModels.AdminModel
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-import org.uqbar.arena.layout.ColumnLayout
-import ar.edu.unq.TraiFlix.models.Serie
-import org.eclipse.jface.viewers.deferred.ChangeQueue.Change
-import ar.edu.unq.TraiFlix.models.Clasification
 import ar.edu.unq.TraiFlix.ui.appModels.MovieManagementAppModel
 
 class TraiFlixMainWindow extends Window<AdminModel> {
@@ -49,16 +47,23 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 		seriePanel.layout = new HorizontalLayout
 		
 		var tablePanel = new Panel(seriePanel)
-		new TextBox(tablePanel).value <=> "searchMovie" => [
-	
+		new TextBox(tablePanel) =>[
+			value <=> "filterSerie"
 		]
 		
 		var table = new Table<Serie>(tablePanel, typeof(Serie))=> [
 			numberVisibleRows = 3
-			items <=> "model.series"
+			items <=> "filteredSeries"
 			selection <=> "selectedSerie"
 		]
-		createHeadedTableSeries(table)
+		
+				
+		val columns = newArrayList()
+		columns.add(new Terna("Titulo","title",200))
+		columns.add(new Terna("Creadores","creators",150))
+		columns.add(new Terna("Episodios","episodes.size",250))
+		
+		createHeadedTableSeries(table,columns)
 		
 		createCrudButtonsSeries(seriePanel)
 		
@@ -71,71 +76,7 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 			new Button(buttonPanel) => [ 
 			caption = "Nuevo"
 				alignCenter
-				onClick [ | onNewSerie ]
-			]
-					new Button(buttonPanel) => [ 
-			caption = "Ver"
-			alignCenter
-				onClick [ | onViewSerie ]
-//				bindEnabled(new NotNullObservable("conversion"))
-			]
-			new Button(buttonPanel) => [ 
-			caption = "Modificar"
-			alignCenter
-				onClick [ | onUpdateSerie ]
-//				bindEnabled(new NotNullObservable("conversion"))
-			]
-							new Button(buttonPanel) => [ 
-			caption = "Borrar"
-			alignCenter
-				onClick [ | onRemoveSerie ]
-//				bindEnabled(new NotNullObservable("conversion"))
-
-			]
-		}
-				
-		
-	def createPanelVisualizationMovies(Panel panel) {
-		
-		createTitlePanel(panel, "PELICULAS")
-		
-		
-		
-		createCrudPanelMovies(panel, "model.movies","selectedMovie");			
-	}
-	
-	def createCrudPanelMovies(Panel panel,String dirList, String selected) {
-		
-		var moviePanel = new Panel(panel)
-
-		moviePanel.layout = new HorizontalLayout
-		
-		var tablePanel = new Panel(moviePanel)
-		
-		new TextBox(tablePanel).withFilter(null)
-		
-		var table = new Table<Movie>(tablePanel, typeof(Movie))=> [
-			numberVisibleRows = 3
-			items <=> dirList
-			selection <=> selected
-		]
-		
-		createHeadedTable(table)
-		
-		createCrudButtons(moviePanel)
-		
-	}
-	
-	def createCrudButtons(Panel panel) {
-		
-		var buttonPanel = new Panel(panel)
-	
-			new Button(buttonPanel) => [ 
-			caption = "Nuevo"
-				alignCenter
-				onClick [ | new TraiFlixAdministratorMovieWindow(this, new MovieManagementAppModel
-					(this.modelObject.model)
-				).open ]
+				onClick [ | new SerieManagementWindow(this, new SerieManagementAppModel(this.modelObject.model,null)).open ]
 			]
 					new Button(buttonPanel) => [ 
 			caption = "Ver"
@@ -152,46 +93,109 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 							new Button(buttonPanel) => [ 
 			caption = "Borrar"
 			alignCenter
-				onClick [ | modelObject.deleteMovie ]
+				onClick [ | modelObject.deleteMovieSelected ]
 //				bindEnabled(new NotNullObservable("conversion"))
 
+			]
+		}
+				
+		
+	def createPanelVisualizationMovies(Panel panel) {
+		
+		var titlePanel = createTitlePanel(panel, "PELICULAS")
+		new Button(titlePanel) => [ 
+				caption = "Ver Usuarios"
+				]
+		createCrudPanelMovies(panel, "model.movies","selectedMovie");			
+	}
+	
+	def createCrudPanelMovies(Panel panel,String dirList, String selected) {
+		
+		var moviePanel = new Panel(panel)
+
+		moviePanel.layout = new HorizontalLayout
+		
+		var tablePanel = new Panel(moviePanel)
+		
+		new TextBox(tablePanel)=> [
+				value <=> "filterMovie"
+			]
+		
+		var table = new Table<Movie>(tablePanel, typeof(Movie))=> [
+			numberVisibleRows = 3
+			items <=> "filteredMovies"
+			selection <=> selected
+		]
+		val columns = newArrayList()
+		columns.add(new Terna("Titulo","title",200))
+		columns.add(new Terna("Duración","timeToString",150))
+		columns.add(new Terna("Link","link",250))
+	
+		createHeadedTable(table,columns)
+		
+		createCrudButtons(moviePanel)
+		
+	}
+	
+	def createCrudButtons(Panel panel) {
+		
+		var buttonPanel = new Panel(panel)
+	
+			new Button(buttonPanel) => [ 
+			caption = "Nuevo"
+				alignCenter
+				onClick [  
+					val movie = new Movie()
+					new TraiFlixAdministratorMovieWindow(this,
+					new MovieManagementAppModel(this.modelObject.model, movie))=>[
+					onAccept[this.modelObject.addMovie(movie)]
+					open 
+					]
+					
+					
+				]
+			
+			]
+			new Button(buttonPanel) => [ 
+			caption = "Ver"
+			alignCenter
+				onClick [ | modelObject.viewMovie ]
+//				bindEnabled(new NotNullObservable("conversion"))
+			]
+			new Button(buttonPanel) => [ 
+			caption = "Modificar"
+			alignCenter
+				onClick [ | modelObject.updateMovie ]
+//				bindEnabled(new NotNullObservable("conversion"))
+			]
+							new Button(buttonPanel) => [ 
+			caption = "Borrar"
+			alignCenter
+				onClick [ | modelObject.deleteMovieSelected ]
+				//bindEnabled()
+
 			]}
-	
 
-	def createHeadedTable(Table<Movie> table) {
-		new Column<Movie>(table) => [
-	    title = "Titulo"
-
-	    fixedSize = 200
-	    bindContentsToProperty("title")
-		]
-		new Column<Movie>(table) => [
-	    title = "Duración"
-	    fixedSize = 150
-	    bindContentsToProperty("timeToString")
-		]
-		new Column<Movie>(table) => [
-	    title = "Link"
-	    fixedSize = 250
-	    bindContentsToProperty("link")
-		]	}
+	def createHeadedTable(Table<Movie> table, List<Terna<String,String,Integer>> columns) {
+		for(Terna<String,String,Integer>column : columns){
+			new Column<Movie>(table) => [
+		    title = column.x
+		    fixedSize = column.z
+		    bindContentsToProperty(column.y)
+			]
+		}
+	}
 	
-	def createHeadedTableSeries(Table<Serie> table) {
-		new Column<Serie>(table) => [
-	    title = "Titulo"
-	    fixedSize = 200
-	    bindContentsToProperty("title")
-		]
-		new Column<Serie>(table) => [
-	    title = "Creadores"
-	    fixedSize = 150
-	    bindContentsToProperty("creators")
-		]
-		new Column<Serie>(table) => [
-	    title = "Episodios"
-	    fixedSize = 250
-	    bindContentsToProperty("episodes.size")
-		]	}
+	def createHeadedTableSeries(Table<Serie> table, List<Terna<String,String,Integer>> columns) {
+		for(Terna<String,String,Integer>column : columns){
+			new Column<Serie>(table) => [
+		    title = column.x
+		    fixedSize = column.z
+		    bindContentsToProperty(column.y)
+			]
+		}
+
+}
 	
 	
 	def createTitlePanel(Panel panel, String title) {
@@ -203,34 +207,31 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 			text = title
 			fontSize= 16]
 			
-		
-		new Button(titlePanel) => [ 
-				caption = "Ver Usuarios"
-		
-//				onClick [ | modelObject.convertir ]
-//				bindEnabled(new NotNullObservable("conversion"))
-		]
-
+		return titlePanel
+	
 	}
 	
 	
-	def onNewSerie() {
-		val serieModel = new SerieManagementAppModel(this.modelObject.model, new Serie)
+	def void onManageSerie() {
+		val serieModel = new SerieManagementAppModel(this.modelObject.model,null)
 		
 		new SerieManagementWindow( this, serieModel ) =>  [ 
-			title = "TraiFlix - Crear Nueva Serie"
 			onAccept[ this.modelObject.addSerie(serieModel.serie) ]
 			open						
 		]	
 	}
+}
+
+@Accessors
+class Terna<T,K,Z>{
+	T x
+	K y
+	Z z 
 	
-	def onUpdateSerie() {
-	}
-	
-	def onRemoveSerie() {
-	}
-	
-	def onViewSerie() {
+	new(T x, K y, Z z){
+		this.x = x
+		this.y = y
+		this.z = z
 	}
 
 

@@ -5,9 +5,9 @@ import java.util.ArrayList
 import java.util.Date
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
-import org.joda.time.Period
 import org.joda.time.format.PeriodFormatterBuilder
 import org.uqbar.commons.model.annotations.Observable
+import org.joda.time.Duration
 
 @Accessors
 @Observable
@@ -17,7 +17,7 @@ abstract class Content {
 	 String title
 	 Date release
 	 List<Assessment> assessments
-	 Period duration
+	 Duration duration
 	 String directors
 	 String actors
 	 String link
@@ -31,6 +31,7 @@ abstract class Content {
 	 }	 
 	 
 	 def timeToString(){
+	 
 	 	val daysHoursMinutes = new PeriodFormatterBuilder()
 	 		.appendHours()
 		    .appendSuffix(" Hour", " Horas")
@@ -42,7 +43,22 @@ abstract class Content {
 		    .appendSuffix(" second", " Segundos")
 		    .toFormatter();
 		
-		 daysHoursMinutes.print(duration);
+		 val String[] str =  daysHoursMinutes.print(duration.toPeriod).split(" ")
+		 if(str.length == 5){
+ 		 	str.get(0)+":"+str.get(3)
+ 		 }
+ 		 else{
+ 		 	this.stringSimpleMinute(str.get(0))
+ 		 }
+	 }
+	 
+	 def stringSimpleMinute(String string){
+	 	if(string.length > 1){
+ 		 	string+":00"
+	 	}
+	 	else{
+ 		 	"0"+string+":00"
+	 	}
 	 }
 	 
 }

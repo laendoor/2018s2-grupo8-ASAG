@@ -1,8 +1,7 @@
 package ar.edu.unq.TraiFlix.ui
 
-import ar.edu.unq.TraiFlix.models.TraiFlix
+
 import ar.edu.unq.TraiFlix.ui.appModels.MovieManagementAppModel
-import ar.edu.unq.TraiFlix.ui.bootstrap.Bootstrap
 import org.uqbar.arena.bindings.NotNullObservable
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.layout.VerticalLayout
@@ -13,7 +12,7 @@ import org.uqbar.arena.widgets.List
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.Selector
 import org.uqbar.arena.widgets.TextBox
-import org.uqbar.arena.windows.MainWindow
+
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 import org.uqbar.arena.layout.ColumnLayout
@@ -23,6 +22,10 @@ import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.widgets.tables.Column
 import ar.edu.unq.TraiFlix.ui.appModels.RelatableToTableAdapter
 import ar.edu.unq.TraiFlix.ui.appModels.RelatableContentAppModel
+import ar.edu.unq.TraiFlix.filters.DateTextFilter
+import ar.edu.unq.TraiFlix.transformer.DurationTransformer
+import org.uqbar.arena.windows.MessageBox
+import ar.edu.unq.TraiFlix.filters.LinkTextFilter
 
 class TraiFlixAdministratorMovieWindow extends Dialog<MovieManagementAppModel>{
 	
@@ -76,11 +79,22 @@ class TraiFlixAdministratorMovieWindow extends Dialog<MovieManagementAppModel>{
 			layout = new ColumnLayout(2)
 			new Panel(it)=>[
 				layout = new ColumnLayout(2)
-				this.panelWithLabelAndTextBox(it, "Duracion", "movie.duration")
+				this.panelDuration(it, "Duracion", "movie.duration")
 				this.colunmLabels(it)
 			]	
 			this.textBoxesAndSelector(it)	
 		]		
+	}
+	
+	private def panelDuration(Panel parent, String title, String value1){
+		new Panel(parent)=>[
+			layout = new HorizontalLayout
+			this.label(it,title)
+			new TextBox(it) => [
+				//withFilter(new DurationFilter)
+				(value <=> value1).transformer = new DurationTransformer
+			]
+		]
 	}
 	
 	
@@ -91,7 +105,7 @@ class TraiFlixAdministratorMovieWindow extends Dialog<MovieManagementAppModel>{
 			this.label(it,"Fecha de estreno")	
 			this.label(it, "Directores")
 			this.label(it,"Actores principales")
-			this.label(it,"Link Yotube")
+			this.label(it,"Link Youtube")
 		]
 	}
 	
@@ -105,10 +119,14 @@ class TraiFlixAdministratorMovieWindow extends Dialog<MovieManagementAppModel>{
 	private def textBoxesAndSelector(Panel parent){
 		new Panel(parent) =>[
 				this.selector(it, "availableClassifications", "movie.clasification")
-				this.textBox(it, "movie.release")
+				this.textBox(it, "movie.release")=> [
+					withFilter = new DateTextFilter
+				]
 				this.textBox(it, "movie.directors")				
 				this.textBox(it, "movie.actors")
-				this.textBox(it, "movie.link")			
+				this.textBox(it, "movie.link")=>[
+					//withFilter = new LinkTextFilter
+				]			
 				
 		]
 		
@@ -178,7 +196,7 @@ class TraiFlixAdministratorMovieWindow extends Dialog<MovieManagementAppModel>{
 	
 	private def panelInf(Panel parent){
 		new Panel(parent)=>[
-			layout = new ColumnLayout(2)
+			layout = new HorizontalLayout
 			this.createRelatedContentPanel(it)
 			this.createOkCancelButtonPanel(it)
 		]
@@ -251,7 +269,11 @@ class TraiFlixAdministratorMovieWindow extends Dialog<MovieManagementAppModel>{
 				caption = "Aceptar"
 				alignCenter
 				width = 200
-				onClick [ | this.accept ]
+				onClick [ | if( this.modelObject.canSave ){						
+							this.accept
+							}
+							else showMessageBox(MessageBox.Type.Error,"No ha ingresado todos los datos obligatorios.")
+					]
 			]				
 		]
 		

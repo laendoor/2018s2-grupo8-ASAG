@@ -6,7 +6,7 @@ import ar.edu.unq.TraiFlix.models.Relatable
 
 @Accessors
 @Observable
-class RelatableToTableAdapter implements Relatable {
+class RelatableToTableAdapter {
 	
 	Relatable relatable
 	
@@ -14,23 +14,23 @@ class RelatableToTableAdapter implements Relatable {
 		this.relatable = relatable
 	}
 	
-	override title() {
+	def title() {
 		relatable.title
 	}
 	
-	override contentType() {
+	def contentType() {
 		relatable.contentType
 	}
 	
-	override addRelated(Relatable related) {
+	def addRelated(Relatable related) {
 		relatable.addRelated(related)
 	}
 	
-	override removeRelated(Relatable related) {
+	def removeRelated(Relatable related) {
 		relatable.removeRelated(related)
 	}
 	
-	override getRelateds() {
+	def getRelateds() {
 		relatable.getRelateds
 	}
 	
