@@ -1,6 +1,5 @@
 package ar.edu.unq.TraiFlix.ui
 
-import org.uqbar.arena.windows.MainWindow
 import ar.edu.unq.TraiFlix.models.TraiFlix
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.Window

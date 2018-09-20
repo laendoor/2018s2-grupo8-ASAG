@@ -14,7 +14,7 @@ import java.util.ArrayList
 @Observable
 class UserModel{
 	
-	User selectedUser
+	UserMod selectedUser
 	
 	List<UserMod> filteredUsers
 	List<UserMod> userDefault

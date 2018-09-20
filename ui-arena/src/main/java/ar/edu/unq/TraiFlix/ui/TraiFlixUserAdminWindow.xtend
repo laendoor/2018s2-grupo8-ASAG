@@ -2,6 +2,7 @@ package ar.edu.unq.TraiFlix.ui
 
 import ar.edu.unq.TraiFlix.models.User
 import ar.edu.unq.TraiFlix.ui.appModels.UserModel
+import ar.edu.unq.TraiFlix.ui.modelsui.UserMod
 import java.util.List
 import org.uqbar.arena.layout.ColumnLayout
 import org.uqbar.arena.layout.HorizontalLayout
@@ -15,10 +16,6 @@ import org.uqbar.arena.windows.Dialog
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
-import java.awt.Color
-import org.joda.time.LocalDate
-import java.time.Period
-import ar.edu.unq.TraiFlix.ui.modelsui.UserMod
 
 class TraiFlixUserAdminWindow extends Dialog<UserModel>{
 	
@@ -45,7 +42,7 @@ class TraiFlixUserAdminWindow extends Dialog<UserModel>{
 				caption = "Ver"
 				alignCenter
 				width = 200
-				onClick [ | this.cancel ]
+				onClick [ | if(modelObject.selectedUser != null)(new TraiFlixViewUserDialog(this, modelObject.selectedUser).open) ]
 			]
 			
 			new Button(buttonPanel) => [ 

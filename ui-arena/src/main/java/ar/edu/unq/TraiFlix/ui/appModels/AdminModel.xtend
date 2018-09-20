@@ -9,6 +9,7 @@ import java.util.List
 import org.uqbar.commons.model.annotations.Observable
 import ar.edu.unq.TraiFlix.ui.SerieManagementWindow
 import ar.edu.unq.TraiFlix.ui.TraiFlixMainWindow
+import org.uqbar.arena.windows.Dialog
 
 @Accessors
 @Observable
@@ -67,6 +68,7 @@ class AdminModel extends AppModel{
 		if(selectedMovie == null)
 		return;
 		model.deleteMovie(selectedMovie.id)
+		selectedMovie = null
 		searchMovie()
 	}
 	
@@ -92,6 +94,7 @@ class AdminModel extends AppModel{
 		if(selectedSerie == null)
 			return;
 		model.deleteSerie(selectedSerie.id)
+		selectedSerie = null
 		searchSerie()
 	}
 

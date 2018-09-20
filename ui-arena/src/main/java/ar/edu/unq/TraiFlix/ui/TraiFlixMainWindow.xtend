@@ -19,6 +19,7 @@ import org.uqbar.arena.windows.Window
 import org.uqbar.arena.windows.WindowOwner
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
+import org.uqbar.arena.windows.Dialog
 
 class TraiFlixMainWindow extends Window<AdminModel> {
 	
@@ -212,6 +213,7 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 			open						
 		]	
 	}
+	
 }
 
 @Accessors
