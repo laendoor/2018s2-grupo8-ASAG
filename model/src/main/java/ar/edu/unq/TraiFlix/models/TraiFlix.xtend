@@ -68,6 +68,13 @@ class TraiFlix {
 		]
 	}
 	
+	def searchMovie(String name) {
+		val res = movies.filter[it.getTitle().toLowerCase.contains(name)].toList
+		if(res.isEmpty)
+			return null
+		return res.iterator.next
+		}
+	
 	def movieRating(MovieId id){
 		this.movie(id).rating
 	}

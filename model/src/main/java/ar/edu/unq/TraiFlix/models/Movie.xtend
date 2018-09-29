@@ -28,6 +28,9 @@ class Movie extends Content implements Ratingable, Relatable {
 		for (Assessment critc : assessments) {
 			sum = sum + critc.getValue()
 		}
+		if(assessments.size == 0){
+			return 0
+		}
 		return sum/assessments.size
 	}
 
