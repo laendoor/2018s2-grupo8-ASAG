@@ -31,7 +31,7 @@ class Serie implements Ratingable, Relatable {
 	
 	
 	override getRating() {
-		var List<Assessment> assessments = newArrayList
+		var List<Assessment> assessments = new ArrayList()
 		var Integer sum = 0
 		for (Episode epi : episodes) {
 			assessments.addAll(epi.assessments)
