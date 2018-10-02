@@ -2,6 +2,8 @@ package ar.edu.unq.TraiFlix.models.id
 
 class EpisodeId extends GenericContentId {
 	
+	public static final String prefix = "EPI"
+	
 	new() {
 		super()
 	}
@@ -10,7 +12,7 @@ class EpisodeId extends GenericContentId {
 		super( number )
 	}	
 	
-	override String prefix() { "EPI" }
+	override String prefix() { EpisodeId.prefix }
 	
 	override isEpisode() { true }
 }

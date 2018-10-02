@@ -3,6 +3,7 @@ package ar.edu.unq.TraiFlix.models.id
 import org.junit.Test
 import static org.junit.Assert.*
 import org.junit.Before
+import java.security.InvalidParameterException
 
 class ContentIdTest {
 	
@@ -84,5 +85,25 @@ class ContentIdTest {
 		assertTrue( id.isEpisode )
 		assertFalse( id.isSerie )
 		assertFalse( id.isMovie )
+	}
+	
+	@Test
+	def movieIdFromFactory() {
+		assertTrue( ContentIdFactory.parse("MOV0000000001").isMovie() )
+	}
+	
+	@Test
+	def serieIdFromFactory() {
+		assertTrue( ContentIdFactory.parse("SER0000000001").isSerie() )
+	}
+	
+	@Test
+	def episodeIdFromFactory() {
+		assertTrue( ContentIdFactory.parse("EPI0000000001").isEpisode() )
+	}
+	
+	@Test( expected = InvalidParameterException )
+	def void unknownTypeIdFromFactory() {
+		ContentIdFactory.parse("KKK0000000001")
 	}
 }

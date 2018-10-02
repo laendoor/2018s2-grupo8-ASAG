@@ -2,6 +2,8 @@ package ar.edu.unq.TraiFlix.models.id
 
 class SerieId extends GenericContentId {
 	
+	public static final String prefix = "SER"
+	
 	new() {
 		super()
 	}
@@ -10,7 +12,7 @@ class SerieId extends GenericContentId {
 		super(number)
 	}
 	
-	override String prefix() { "SER" }
+	override String prefix() { SerieId.prefix }
 	
 	override isSerie() { true }
 }

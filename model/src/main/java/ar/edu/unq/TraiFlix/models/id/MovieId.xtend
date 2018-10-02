@@ -2,6 +2,8 @@ package ar.edu.unq.TraiFlix.models.id
 
 class MovieId extends GenericContentId {
 	
+	public static final String prefix = "MOV"
+	
 	new() {
 		super()
 	}
@@ -10,7 +12,7 @@ class MovieId extends GenericContentId {
 		super( number )
 	}	
 	
-	override String prefix() { "MOV" }
+	override def String prefix() { MovieId.prefix }
 	
 	override isMovie() { true }
 }
