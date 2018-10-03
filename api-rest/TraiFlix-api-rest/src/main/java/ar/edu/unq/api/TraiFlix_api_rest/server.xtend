@@ -15,6 +15,8 @@ import ar.edu.unq.TraiFlix.models.id.ContentIdFactory
 import ar.edu.unq.TraiFlix.models.id.SerieId
 import java.security.InvalidParameterException
 import java.util.stream.Collectors
+import ar.edu.unq.TraiFlix.models.Category
+import ar.edu.unq.api.TraiFlix_api_rest.apiError.ResourceNotFoundError
 
 /**
  * Servidor RESTful implementado con XtRest.
@@ -58,21 +60,12 @@ class RestfulServer {
 	 * 
 	 */
 	@Get("/categories")
-<<<<<<< HEAD
-	def getCategories() {
-		
-		
-		response.contentType = ContentType.APPLICATION_JSON
-
-		return ok(traiFlixsSystem.categories.toJson)
-		
-=======
 	def getCategories() {		
 		return ok( '{ "data": [ ' + 
 					this.traiFlixsSystem.categories.stream.map([elem|'"'+elem.name+'"']).collect(Collectors.joining(",")) + 
 					' ] }'
 		)
->>>>>>> 95c1a45c8471c3ad5acaa20dac3f113d276f6431
+
 	}
 	
 	/**
@@ -87,8 +80,14 @@ class RestfulServer {
 	def getCategoriesContents() {
 		
 		response.contentType = ContentType.APPLICATION_JSON
-		
-		return ok()
+		try{
+			val cat = new Category(category)
+			val content = traiFlixsSystem.moviesAndSeriesCategory(cat)
+			return ok(cat.toJson)	
+		}
+		catch(Exception exception){
+			return new ResourceNotFoundError
+		}
 	}
 	
 	/**

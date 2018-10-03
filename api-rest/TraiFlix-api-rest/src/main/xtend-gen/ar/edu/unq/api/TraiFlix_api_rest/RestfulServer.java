@@ -1,6 +1,5 @@
 package ar.edu.unq.api.TraiFlix_api_rest;
 
-import ar.edu.unq.TraiFlix.models.Category;
 import ar.edu.unq.TraiFlix.models.Movie;
 import ar.edu.unq.TraiFlix.models.Serie;
 import ar.edu.unq.TraiFlix.models.TraiFlix;
@@ -13,10 +12,8 @@ import ar.edu.unq.api.TraiFlix_api_rest.Actor;
 import com.google.common.base.Objects;
 import java.io.IOException;
 import java.security.InvalidParameterException;
-import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -73,23 +70,8 @@ public class RestfulServer extends ResultFactory {
    */
   @Get("/categories")
   public Result getCategories(final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
-<<<<<<< HEAD
     response.setContentType(ContentType.APPLICATION_JSON);
     return ResultFactory.ok(this._jSONUtils.toJson(this.traiFlixsSystem.getCategories()));
-=======
-    final Function<Category, String> _function = new Function<Category, String>() {
-      public String apply(final Category elem) {
-        String _name = elem.getName();
-        String _plus = ("\"" + _name);
-        return (_plus + "\"");
-      }
-    };
-    String _collect = this.traiFlixsSystem.getCategories().stream().<String>map(_function).collect(Collectors.joining(","));
-    String _plus = ("{ \"data\": [ " + _collect);
-    String _plus_1 = (_plus + 
-      " ] }");
-    return ResultFactory.ok(_plus_1);
->>>>>>> 95c1a45c8471c3ad5acaa20dac3f113d276f6431
   }
   
   /**
@@ -330,7 +312,6 @@ public class RestfulServer extends ResultFactory {
       return ResultFactory.ok();
     } catch (final Throwable _t) {
       if (_t instanceof NumberFormatException) {
-        final NumberFormatException exception = (NumberFormatException)_t;
         return ResultFactory.badRequest(this.getErrorJson("El id debe ser un número entero"));
       } else {
         throw Exceptions.sneakyThrow(_t);
