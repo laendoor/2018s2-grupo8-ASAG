@@ -1,10 +1,17 @@
 package ar.edu.unq.api.TraiFlix_api_rest;
 
 import ar.edu.unq.TraiFlix.models.Movie;
+import ar.edu.unq.TraiFlix.models.Serie;
 import ar.edu.unq.TraiFlix.models.TraiFlix;
+import ar.edu.unq.TraiFlix.models.User;
+import ar.edu.unq.TraiFlix.models.id.ContentId;
+import ar.edu.unq.TraiFlix.models.id.ContentIdFactory;
 import ar.edu.unq.TraiFlix.models.id.MovieId;
+import ar.edu.unq.TraiFlix.models.id.SerieId;
 import ar.edu.unq.api.TraiFlix_api_rest.Actor;
+import com.google.common.base.Objects;
 import java.io.IOException;
+import java.security.InvalidParameterException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.ServletException;
@@ -121,7 +128,35 @@ public class RestfulServer extends ResultFactory {
    */
   @Get("/:username/serie/:id")
   public Result getSeriesUserFavs(final String username, final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
-    return ResultFactory.ok();
+    Result _xblockexpression = null;
+    {
+      String errorMessage = null;
+      try {
+        this.checkUser(username);
+        ContentId _parse = ContentIdFactory.parse(id);
+        SerieId serieId = ((SerieId) _parse);
+        Serie serie = this.traiFlixsSystem.serie(serieId);
+        boolean _notEquals = (!Objects.equal(serie, null));
+        if (_notEquals) {
+          return ResultFactory.ok(this._jSONUtils.toJson(serie));
+        } else {
+          String _string = serieId.toString();
+          String _plus = ("No existe la serie con id: " + _string);
+          errorMessage = _plus;
+        }
+      } catch (final Throwable _t) {
+        if (_t instanceof Exception) {
+          final Exception exception = (Exception)_t;
+          String _message = exception.getMessage();
+          String _plus_1 = ("Error buscando la serie. " + _message);
+          errorMessage = _plus_1;
+        } else {
+          throw Exceptions.sneakyThrow(_t);
+        }
+      }
+      _xblockexpression = ResultFactory.badRequest(this.getErrorJson(errorMessage));
+    }
+    return _xblockexpression;
   }
   
   /**
@@ -275,6 +310,7 @@ public class RestfulServer extends ResultFactory {
       return ResultFactory.ok();
     } catch (final Throwable _t) {
       if (_t instanceof NumberFormatException) {
+        final NumberFormatException exception = (NumberFormatException)_t;
         return ResultFactory.badRequest(this.getErrorJson("El id debe ser un número entero"));
       } else {
         throw Exceptions.sneakyThrow(_t);
@@ -283,7 +319,15 @@ public class RestfulServer extends ResultFactory {
   }
   
   private String getErrorJson(final String message) {
-    return (("{ \"error\": \"" + message) + "\" }");
+    return (("{ \"status\": \"error\",\n  \"message\": \"" + message) + "\" }");
+  }
+  
+  private void checkUser(final String userName) {
+    User _findUserByNickName = this.traiFlixsSystem.findUserByNickName(userName);
+    boolean _equals = Objects.equal(_findUserByNickName, null);
+    if (_equals) {
+      throw new InvalidParameterException(("No existe el usuario " + userName));
+    }
   }
   
   public void handle(final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) throws IOException, ServletException {
