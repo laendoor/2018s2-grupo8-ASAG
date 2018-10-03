@@ -63,7 +63,8 @@ public class RestfulServer extends ResultFactory {
    */
   @Get("/categories")
   public Result getCategories(final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
-    return ResultFactory.ok();
+    response.setContentType(ContentType.APPLICATION_JSON);
+    return ResultFactory.ok(this._jSONUtils.toJson(this.traiFlixsSystem.getCategories()));
   }
   
   /**
@@ -75,6 +76,7 @@ public class RestfulServer extends ResultFactory {
    */
   @Get("/content/:category")
   public Result getCategoriesContents(final String category, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    response.setContentType(ContentType.APPLICATION_JSON);
     return ResultFactory.ok();
   }
   

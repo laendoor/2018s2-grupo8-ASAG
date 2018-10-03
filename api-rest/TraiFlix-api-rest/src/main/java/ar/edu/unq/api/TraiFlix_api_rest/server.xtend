@@ -57,8 +57,10 @@ class RestfulServer {
 	def getCategories() {
 		
 		
-		//TODO FIXME modelar!!
-		return ok()
+		response.contentType = ContentType.APPLICATION_JSON
+
+		return ok(traiFlixsSystem.categories.toJson)
+		
 	}
 	
 	/**
@@ -71,7 +73,9 @@ class RestfulServer {
 	 */
 	@Get("/content/:category")
 	def getCategoriesContents() {
-		//TODO FIXME modelar!!
+		
+		response.contentType = ContentType.APPLICATION_JSON
+		
 		return ok()
 	}
 	
