@@ -14,6 +14,7 @@ import org.uqbar.xtrest.api.annotation.Put
 import ar.edu.unq.TraiFlix.models.id.ContentIdFactory
 import ar.edu.unq.TraiFlix.models.id.SerieId
 import java.security.InvalidParameterException
+import java.util.stream.Collectors
 
 /**
  * Servidor RESTful implementado con XtRest.
@@ -57,11 +58,11 @@ class RestfulServer {
 	 * 
 	 */
 	@Get("/categories")
-	def getCategories() {
-		
-		
-		//TODO FIXME modelar!!
-		return ok()
+	def getCategories() {		
+		return ok( '{ "data": [ ' + 
+					this.traiFlixsSystem.categories.stream.map([elem|'"'+elem.name+'"']).collect(Collectors.joining(",")) + 
+					' ] }'
+		)
 	}
 	
 	/**
