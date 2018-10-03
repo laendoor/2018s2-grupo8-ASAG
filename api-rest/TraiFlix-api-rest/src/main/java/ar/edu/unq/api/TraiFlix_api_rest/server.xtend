@@ -11,6 +11,10 @@ import org.uqbar.xtrest.api.annotation.Post
 import org.uqbar.xtrest.http.ContentType
 import org.uqbar.xtrest.json.JSONUtils
 import org.uqbar.xtrest.api.annotation.Put
+import ar.edu.unq.TraiFlix.models.id.ContentIdFactory
+import ar.edu.unq.TraiFlix.models.id.SerieId
+import java.security.InvalidParameterException
+import java.util.stream.Collectors
 
 /**
  * Servidor RESTful implementado con XtRest.
@@ -54,6 +58,7 @@ class RestfulServer {
 	 * 
 	 */
 	@Get("/categories")
+<<<<<<< HEAD
 	def getCategories() {
 		
 		
@@ -61,6 +66,13 @@ class RestfulServer {
 
 		return ok(traiFlixsSystem.categories.toJson)
 		
+=======
+	def getCategories() {		
+		return ok( '{ "data": [ ' + 
+					this.traiFlixsSystem.categories.stream.map([elem|'"'+elem.name+'"']).collect(Collectors.joining(",")) + 
+					' ] }'
+		)
+>>>>>>> 95c1a45c8471c3ad5acaa20dac3f113d276f6431
 	}
 	
 	/**
@@ -127,8 +139,25 @@ class RestfulServer {
 	 */
 	@Get("/:username/serie/:id")
 	def getSeriesUserFavs() {
-		//TODO FIXME modelar!!
-		return ok()
+		var String errorMessage
+				
+		try
+		{
+			checkUser(username)
+			
+			var serieId = ContentIdFactory.parse(id) as SerieId
+			var serie = traiFlixsSystem.serie(serieId)
+			if( serie != null )
+				return ok( serie.toJson )
+			else
+				errorMessage = "No existe la serie con id: " + serieId.toString
+		}
+		catch( Exception exception )
+		{
+			errorMessage = "Error buscando la serie. " + exception.message	
+		}
+		
+		badRequest( getErrorJson(errorMessage) )
 	}
 	
 	/**
@@ -286,7 +315,13 @@ class RestfulServer {
     }
     
 	private def getErrorJson(String message) {
-		'{ "error": "' + message + '" }'
+		'{ "status": "error",\n  "message": "' + message + '" }'
+	}
+	
+	private def checkUser( String userName )
+	{
+		if( traiFlixsSystem.findUserByNickName(userName) ==  null )
+			throw new InvalidParameterException( "No existe el usuario " + userName )
 	}
 
 }

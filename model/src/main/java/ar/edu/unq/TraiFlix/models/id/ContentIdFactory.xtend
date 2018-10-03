@@ -17,6 +17,6 @@ class ContentIdFactory {
 			case EpisodeId.prefix: return new EpisodeId(number)
 		}
 		
-		throw new InvalidParameterException("")
+		throw new InvalidParameterException("Prefijo de ID no valido.")
 	}
 }

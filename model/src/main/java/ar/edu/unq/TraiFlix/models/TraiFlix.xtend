@@ -68,6 +68,12 @@ class TraiFlix {
 		]
 	}
 	
+	def findUserByNickName( String nickName ) {
+		users.findFirst[
+			elem | elem.nick.toUpperCase == nickName.toUpperCase
+		]
+	}
+	
 	def searchMovie(String name) {
 		val res = movies.filter[it.getTitle().toLowerCase.contains(name)].toList
 		if(res.isEmpty)
