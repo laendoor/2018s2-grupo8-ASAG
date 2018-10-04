@@ -348,10 +348,8 @@ class RestfulServer {
 		'{ "status": "error",\n  "message": "' + message + '" }'
 	}
 	
-	private def checkUser( String userName )
-	{
-		if( traiFlixsSystem.findUserByNickName(userName) ==  null )
-			throw new InvalidParameterException( "No existe el usuario " + userName )
+	private def checkUser( String userName ) {
+		traiFlixsSystem.findUserByNickName(userName)
 	}
 
 }

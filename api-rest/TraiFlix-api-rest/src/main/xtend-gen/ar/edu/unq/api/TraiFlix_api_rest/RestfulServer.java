@@ -397,12 +397,8 @@ public class RestfulServer extends ResultFactory {
     return (("{ \"status\": \"error\",\n  \"message\": \"" + message) + "\" }");
   }
   
-  private void checkUser(final String userName) {
-    User _findUserByNickName = this.traiFlixsSystem.findUserByNickName(userName);
-    boolean _equals = Objects.equal(_findUserByNickName, null);
-    if (_equals) {
-      throw new InvalidParameterException(("No existe el usuario " + userName));
-    }
+  private User checkUser(final String userName) {
+    return this.traiFlixsSystem.findUserByNickName(userName);
   }
   
   public void handle(final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) throws IOException, ServletException {
