@@ -1,6 +1,9 @@
 package ar.edu.unq.api.TraiFlix_api_rest;
 
+import ar.edu.unq.TraiFlix.models.Category;
+import ar.edu.unq.TraiFlix.models.Favourable;
 import ar.edu.unq.TraiFlix.models.Movie;
+import ar.edu.unq.TraiFlix.models.Ratingable;
 import ar.edu.unq.TraiFlix.models.Serie;
 import ar.edu.unq.TraiFlix.models.TraiFlix;
 import ar.edu.unq.TraiFlix.models.User;
@@ -9,9 +12,12 @@ import ar.edu.unq.TraiFlix.models.id.ContentIdFactory;
 import ar.edu.unq.TraiFlix.models.id.MovieId;
 import ar.edu.unq.TraiFlix.models.id.SerieId;
 import ar.edu.unq.api.TraiFlix_api_rest.Actor;
+import ar.edu.unq.api.TraiFlix_api_rest.dataResults.DataResult;
 import com.google.common.base.Objects;
 import java.io.IOException;
 import java.security.InvalidParameterException;
+import java.util.List;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.ServletException;
@@ -70,8 +76,14 @@ public class RestfulServer extends ResultFactory {
    */
   @Get("/categories")
   public Result getCategories(final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
-    response.setContentType(ContentType.APPLICATION_JSON);
-    return ResultFactory.ok(this._jSONUtils.toJson(this.traiFlixsSystem.getCategories()));
+    final Function<Category, String> _function = new Function<Category, String>() {
+      public String apply(final Category elem) {
+        return elem.getName();
+      }
+    };
+    Object[] _array = this.traiFlixsSystem.getCategories().stream().<String>map(_function).toArray();
+    DataResult data = new DataResult(_array);
+    return ResultFactory.ok(this._jSONUtils.toJson(data));
   }
   
   /**
@@ -84,7 +96,20 @@ public class RestfulServer extends ResultFactory {
   @Get("/content/:category")
   public Result getCategoriesContents(final String category, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
     response.setContentType(ContentType.APPLICATION_JSON);
-    return ResultFactory.ok();
+    try {
+      final Category cat = new Category(category);
+      final List<Ratingable> content = this.traiFlixsSystem.moviesAndSeriesCategory(cat);
+      return ResultFactory.ok(this._jSONUtils.toJson(cat));
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        final Exception exception = (Exception)_t;
+        String _message = exception.getMessage();
+        String _plus = ("Problemas buscando contenidos en la categoria. " + _message);
+        return ResultFactory.badRequest(this.getErrorJson(_plus));
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
   }
   
   /**
@@ -96,7 +121,20 @@ public class RestfulServer extends ResultFactory {
    */
   @Get("/:username/favs")
   public Result getContentsUserFavs(final String username, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
-    return ResultFactory.ok();
+    try {
+      List<Favourable> _userFavourites = this.traiFlixsSystem.userFavourites(username);
+      DataResult data = new DataResult(_userFavourites);
+      return ResultFactory.ok(this._jSONUtils.toJson(data));
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        final Exception exception = (Exception)_t;
+        String _message = exception.getMessage();
+        String _plus = ("Problemas buscando favoritos. " + _message);
+        return ResultFactory.badRequest(this.getErrorJson(_plus));
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
   }
   
   /**
@@ -312,6 +350,7 @@ public class RestfulServer extends ResultFactory {
       return ResultFactory.ok();
     } catch (final Throwable _t) {
       if (_t instanceof NumberFormatException) {
+        final NumberFormatException exception = (NumberFormatException)_t;
         return ResultFactory.badRequest(this.getErrorJson("El id debe ser un número entero"));
       } else {
         throw Exceptions.sneakyThrow(_t);

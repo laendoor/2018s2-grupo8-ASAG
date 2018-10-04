@@ -9,6 +9,7 @@ import ar.edu.unq.TraiFlix.models.id.SerieId
 import ar.edu.unq.TraiFlix.models.id.MovieId
 import ar.edu.unq.TraiFlix.models.Category
 import org.uqbar.commons.model.annotations.Dependencies
+import java.security.InvalidParameterException
 
 @Accessors
 @Observable
@@ -69,9 +70,15 @@ class TraiFlix {
 	}
 	
 	def findUserByNickName( String nickName ) {
-		users.findFirst[
+		var user = users.findFirst[
 			elem | elem.nick.toUpperCase == nickName.toUpperCase
 		]
+		if( user == null) throw new InvalidParameterException("Usuario '" + nickName + "' inexistente.")
+		return user
+	}
+	
+	def userFavourites( String nickName ) {
+		findUserByNickName(nickName).favourites
 	}
 	
 	def searchMovie(String name) {
@@ -197,4 +204,5 @@ class TraiFlix {
 		series = series.filter( elem | !id.equals(elem.id) ).toList
 	}
 	
+		
 }

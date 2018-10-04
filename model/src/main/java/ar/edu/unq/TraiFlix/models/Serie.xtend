@@ -9,7 +9,7 @@ import java.util.ArrayList
 
 @Accessors
 @Observable
-class Serie implements Ratingable, Relatable {
+class Serie implements Ratingable, Relatable, Favourable {
 	
 	SerieId id
 	String title
@@ -104,4 +104,9 @@ class Serie implements Ratingable, Relatable {
 	override removeRelated(Relatable related) {
 		relateds.remove(related)
 	}
+	
+	override contentId() {
+		this.id
+	}
+	
 }

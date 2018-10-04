@@ -14,7 +14,7 @@ class User {
 	DateTime dateOfBirth;
 	List<User> friends;
 	List<Content> watched;
-	List<Content> favorite;
+	List<Favourable> favourites;
 	List<Ratingable> recommended
 	
 	
@@ -22,7 +22,7 @@ class User {
 	new(){
 		friends = new ArrayList
 		watched = new ArrayList
-		favorite = new ArrayList
+		favourites = new ArrayList
 		recommended = new ArrayList
 	}
 	
@@ -56,7 +56,13 @@ class User {
 		]
 	}
 	
+	def addFavourite(Favourable content) {
+		this.favourites.add(content)
+	}
 	
-
+	def removeFavourite(Favourable content) {
+		this.favourites.remove(content)
+	}
+	
 	
 }

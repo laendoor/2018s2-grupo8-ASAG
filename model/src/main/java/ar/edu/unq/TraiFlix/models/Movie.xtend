@@ -8,7 +8,7 @@ import java.util.ArrayList
 
 @Observable
 @Accessors
-class Movie extends Content implements Ratingable, Relatable {
+class Movie extends Content implements Ratingable, Relatable, Favourable {
 	
 	List<Category> categories
 	Clasification clasification
@@ -56,6 +56,10 @@ class Movie extends Content implements Ratingable, Relatable {
 	
 	override removeRelated(Relatable related) {
 		relateds.remove(related)
+	}
+	
+	override contentId() {
+		this.id
 	}
 		
 }

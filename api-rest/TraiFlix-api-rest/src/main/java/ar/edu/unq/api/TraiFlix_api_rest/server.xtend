@@ -17,6 +17,7 @@ import java.security.InvalidParameterException
 import java.util.stream.Collectors
 import ar.edu.unq.TraiFlix.models.Category
 import ar.edu.unq.api.TraiFlix_api_rest.apiError.ResourceNotFoundError
+import ar.edu.unq.api.TraiFlix_api_rest.dataResults.DataResult
 
 /**
  * Servidor RESTful implementado con XtRest.
@@ -60,12 +61,9 @@ class RestfulServer {
 	 * 
 	 */
 	@Get("/categories")
-	def getCategories() {		
-		return ok( '{ "data": [ ' + 
-					this.traiFlixsSystem.categories.stream.map([elem|'"'+elem.name+'"']).collect(Collectors.joining(",")) + 
-					' ] }'
-		)
-
+	def getCategories() {
+		var data = new DataResult(this.traiFlixsSystem.categories.stream.map([elem|elem.name]).toArray) 
+		return ok( data.toJson )	
 	}
 	
 	/**
@@ -86,7 +84,8 @@ class RestfulServer {
 			return ok(cat.toJson)	
 		}
 		catch(Exception exception){
-			return new ResourceNotFoundError
+			//new ResourceNotFoundError
+			return badRequest( getErrorJson("Problemas buscando contenidos en la categoria. " + exception.message ) ) 
 		}
 	}
 	
@@ -101,8 +100,16 @@ class RestfulServer {
 	 */
 	@Get("/:username/favs")
 	def getContentsUserFavs() {
-		//TODO FIXME modelar!!
-		return ok()
+		
+		try
+		{
+			var data = new DataResult( this.traiFlixsSystem.userFavourites(username) )			
+			return ok( data.toJson )
+		}
+		catch( Exception exception ) {
+			return badRequest( getErrorJson("Problemas buscando favoritos. " + exception.message ) )
+		}
+		
 	}
 	
 	/**
