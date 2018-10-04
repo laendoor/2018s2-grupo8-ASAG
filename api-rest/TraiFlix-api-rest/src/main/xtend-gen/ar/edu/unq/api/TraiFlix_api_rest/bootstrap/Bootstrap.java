@@ -191,18 +191,12 @@ public class Bootstrap {
     return _xblockexpression;
   }
   
-  public boolean load(final TraiFlix model) {
-    boolean _xblockexpression = false;
-    {
-      model.setCategories(this.categories);
-      model.setClassifications(this.clasifications);
-      model.setMovies(this.movies);
-      model.setSeries(this.series);
-      model.setUsers(this.users);
-      model.user(Integer.valueOf(3)).addFavourite(model.getMovies().get(0));
-      _xblockexpression = model.user(Integer.valueOf(3)).addFavourite(model.getSeries().get(0));
-    }
-    return _xblockexpression;
+  public void load(final TraiFlix model) {
+    model.setCategories(this.categories);
+    model.setClassifications(this.clasifications);
+    model.setMovies(this.movies);
+    model.setSeries(this.series);
+    model.setUsers(this.users);
   }
   
   @Pure

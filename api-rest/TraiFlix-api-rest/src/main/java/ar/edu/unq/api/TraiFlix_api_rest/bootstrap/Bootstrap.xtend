@@ -187,9 +187,6 @@ class Bootstrap {
 		model.movies = this.movies
 		model.series = this.series
 		model.users = this.users
-		
-		model.user(3).addFavourite(model.movies.get(0))
-		model.user(3).addFavourite(model.series.get(0))
 	}
 
 }

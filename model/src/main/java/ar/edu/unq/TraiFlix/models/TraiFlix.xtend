@@ -52,15 +52,19 @@ class TraiFlix {
 	}
 	
 	def movie(MovieId id){
-		movies.findFirst[
+		var movie = movies.findFirst[
 			elem | elem.id == id
 		]
+		if( movie == null ) throw new InvalidParameterException( "No existe la pelicula " + id )
+		return movie
 	}
 	
 	def serie(SerieId id){
-		series.findFirst[
+		var serie = series.findFirst[
 			elem | elem.id == id
 		]
+		if( serie == null ) throw new InvalidParameterException( "No existe la serie " + id )
+		return serie
 	}
 	
 	def user(Integer id){

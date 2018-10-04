@@ -18,6 +18,8 @@ import java.util.stream.Collectors
 import ar.edu.unq.TraiFlix.models.Category
 import ar.edu.unq.api.TraiFlix_api_rest.apiError.ResourceNotFoundError
 import ar.edu.unq.api.TraiFlix_api_rest.dataResults.DataResult
+import ar.edu.unq.TraiFlix.models.Favourable
+import ar.edu.unq.TraiFlix.models.id.ContentId
 
 /**
  * Servidor RESTful implementado con XtRest.
@@ -206,7 +208,7 @@ class RestfulServer {
 	
 	
 	/**
-	 * Que establezca si el usuario marcó como visto o no visto determinado contenido.
+	 * Que establezca si el usuario marcó como favorito o no determinado contenido.
 	 * 	
 	 * 		Parámetros
 	 * 			● type​: Tipo del contenido. Debería aceptar sólo alguno de estos valores:
@@ -221,10 +223,32 @@ class RestfulServer {
 	 *			● 400 Bad Request
 	 * 
 	 */
-	@Put("/:username/fav/:type/:id")
+	@Put("/:username/fav/:type/:id/:value")
 	def setWatchedUser(@Body String body) {
-		//TODO FIXME modelar!!
-		return ok()
+		
+		try {			
+			var user = traiFlixsSystem.findUserByNickName(username)
+			var contentId = ContentIdFactory.parse(id)
+			
+			var Favourable content
+			switch( type.toLowerCase ) {
+				case "movie":
+					content = traiFlixsSystem.movie(contentId as MovieId)
+				case "serie":
+					content = traiFlixsSystem.serie(contentId as SerieId)
+				default:
+					throw new InvalidParameterException( "El tipo de contenido " + type + " no es valido." )
+			}			
+			
+			if( Boolean.parseBoolean(value) ) user.addFavourite(content)
+			else user.removeFavourite(content)
+			
+			return ok()	
+		}
+		catch( Exception exception ) {
+			return badRequest( getErrorJson("Problemas administrando favoritos. " + exception.message ) )			
+		}	
+		
 	}
 	
 		/**

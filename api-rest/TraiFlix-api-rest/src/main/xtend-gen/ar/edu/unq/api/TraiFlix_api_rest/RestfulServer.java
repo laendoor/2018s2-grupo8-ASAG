@@ -234,7 +234,7 @@ public class RestfulServer extends ResultFactory {
   }
   
   /**
-   * Que establezca si el usuario marcó como visto o no visto determinado contenido.
+   * Que establezca si el usuario marcó como favorito o no determinado contenido.
    * 
    * 		Parámetros
    * 			● type​: Tipo del contenido. Debería aceptar sólo alguno de estos valores:
@@ -248,9 +248,44 @@ public class RestfulServer extends ResultFactory {
    * 			● 200 OK
    * 			● 400 Bad Request
    */
-  @Put("/:username/fav/:type/:id")
-  public Result setWatchedUser(@Body final String body, final String username, final String type, final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
-    return ResultFactory.ok();
+  @Put("/:username/fav/:type/:id/:value")
+  public Result setWatchedUser(@Body final String body, final String username, final String type, final String id, final String value, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    try {
+      User user = this.traiFlixsSystem.findUserByNickName(username);
+      ContentId contentId = ContentIdFactory.parse(id);
+      Favourable content = null;
+      String _lowerCase = type.toLowerCase();
+      boolean _matched = false;
+      if (Objects.equal(_lowerCase, "movie")) {
+        _matched=true;
+        content = this.traiFlixsSystem.movie(((MovieId) contentId));
+      }
+      if (!_matched) {
+        if (Objects.equal(_lowerCase, "serie")) {
+          _matched=true;
+          content = this.traiFlixsSystem.serie(((SerieId) contentId));
+        }
+      }
+      if (!_matched) {
+        throw new InvalidParameterException((("El tipo de contenido " + type) + " no es valido."));
+      }
+      boolean _parseBoolean = Boolean.parseBoolean(value);
+      if (_parseBoolean) {
+        user.addFavourite(content);
+      } else {
+        user.removeFavourite(content);
+      }
+      return ResultFactory.ok();
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        final Exception exception = (Exception)_t;
+        String _message = exception.getMessage();
+        String _plus = ("Problemas administrando favoritos. " + _message);
+        return ResultFactory.badRequest(this.getErrorJson(_plus));
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
   }
   
   /**
@@ -593,27 +628,6 @@ public class RestfulServer extends ResultFactory {
     }
     {
     	Matcher matcher = 
-    		Pattern.compile("/(\\w+)/fav/(\\w+)/(\\w+)").matcher(target);
-    	if (request.getMethod().equalsIgnoreCase("Put") && matcher.matches()) {
-    		// take parameters from request
-    		String body = readBodyAsString(request);
-    		
-    		// take variables from url
-    		String username = matcher.group(1);
-    		String type = matcher.group(2);
-    		String id = matcher.group(3);
-    		
-    		
-    	    Result result = setWatchedUser(body, username, type, id, target, baseRequest, request, response);
-    	    result.process(response);
-    	    
-    		response.addHeader("Access-Control-Allow-Origin", "*");
-    	    baseRequest.setHandled(true);
-    	    return;
-    	}
-    }
-    {
-    	Matcher matcher = 
     		Pattern.compile("/(\\w+)/rating/(\\w+)/(\\w+)").matcher(target);
     	if (request.getMethod().equalsIgnoreCase("Put") && matcher.matches()) {
     		// take parameters from request
@@ -626,6 +640,28 @@ public class RestfulServer extends ResultFactory {
     		
     		
     	    Result result = setRatingUser(body, username, type, id, target, baseRequest, request, response);
+    	    result.process(response);
+    	    
+    		response.addHeader("Access-Control-Allow-Origin", "*");
+    	    baseRequest.setHandled(true);
+    	    return;
+    	}
+    }
+    {
+    	Matcher matcher = 
+    		Pattern.compile("/(\\w+)/fav/(\\w+)/(\\w+)/(\\w+)").matcher(target);
+    	if (request.getMethod().equalsIgnoreCase("Put") && matcher.matches()) {
+    		// take parameters from request
+    		String body = readBodyAsString(request);
+    		
+    		// take variables from url
+    		String username = matcher.group(1);
+    		String type = matcher.group(2);
+    		String id = matcher.group(3);
+    		String value = matcher.group(4);
+    		
+    		
+    	    Result result = setWatchedUser(body, username, type, id, value, target, baseRequest, request, response);
     	    result.process(response);
     	    
     		response.addHeader("Access-Control-Allow-Origin", "*");
