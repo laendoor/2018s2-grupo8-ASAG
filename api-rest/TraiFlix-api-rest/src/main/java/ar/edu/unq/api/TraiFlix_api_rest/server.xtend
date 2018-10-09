@@ -1,25 +1,22 @@
 package ar.edu.unq.api.TraiFlix_api_rest
 
+import ar.edu.unq.TraiFlix.models.Category
+import ar.edu.unq.TraiFlix.models.Favourable
 import ar.edu.unq.TraiFlix.models.TraiFlix
+import ar.edu.unq.TraiFlix.models.id.ContentIdFactory
 import ar.edu.unq.TraiFlix.models.id.MovieId
+import ar.edu.unq.TraiFlix.models.id.SerieId
+import ar.edu.unq.api.TraiFlix_api_rest.dataResults.DataResult
+import java.security.InvalidParameterException
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.xtrest.api.annotation.Body
 import org.uqbar.xtrest.api.annotation.Controller
 import org.uqbar.xtrest.api.annotation.Delete
 import org.uqbar.xtrest.api.annotation.Get
 import org.uqbar.xtrest.api.annotation.Post
+import org.uqbar.xtrest.api.annotation.Put
 import org.uqbar.xtrest.http.ContentType
 import org.uqbar.xtrest.json.JSONUtils
-import org.uqbar.xtrest.api.annotation.Put
-import ar.edu.unq.TraiFlix.models.id.ContentIdFactory
-import ar.edu.unq.TraiFlix.models.id.SerieId
-import java.security.InvalidParameterException
-import java.util.stream.Collectors
-import ar.edu.unq.TraiFlix.models.Category
-import ar.edu.unq.api.TraiFlix_api_rest.apiError.ResourceNotFoundError
-import ar.edu.unq.api.TraiFlix_api_rest.dataResults.DataResult
-import ar.edu.unq.TraiFlix.models.Favourable
-import ar.edu.unq.TraiFlix.models.id.ContentId
 
 /**
  * Servidor RESTful implementado con XtRest.
@@ -185,8 +182,20 @@ class RestfulServer {
 	 */
 	@Post("/recommend/:type/:id")
 	def recomended(@Body String body) {
-		//TODO FIXME modelar!!
-		return ok()
+	response.contentType = ContentType.APPLICATION_JSON
+		try{
+			val users = body.fromJson(UserToAndFrom);
+			val user1 = this.traiFlixsSystem.searchUser(users.userFrom)
+			val user2 = this.traiFlixsSystem.searchUser(users.userTo)
+			val idContent = ContentIdFactory.parse(id)
+			val content = this.traiFlixsSystem.content(idContent)
+			this.traiFlixsSystem.userBeacomeFriendOf(user1,user2)
+			this.traiFlixsSystem.recomendContentToUser(user1, user2, content)
+			return ok()
+		}
+		catch(Exception exception){
+			return badRequest( getErrorJson("Problemas al recomendar un contenido " + exception.message ) )
+		}
 	}
 	
 	/**
@@ -282,6 +291,18 @@ class RestfulServer {
 	}
 	
 	
+	/**
+	 * Permite obtener el listado total de las series
+	 */
+	@Get("/series")
+	def getSeries() {
+
+		response.contentType = ContentType.APPLICATION_JSON
+
+		return ok(this.traiFlixsSystem.series.toJson)
+	}
+	
+	
 	
 	//MOVIES
 
@@ -371,4 +392,17 @@ class Actor{
 @Accessors
 class Text{
 	String text
+}
+
+@Accessors
+class UserToAndFrom{
+	String userFrom
+	String userTo
+	
+	new(){}
+	
+	new(String user1, String user2){
+		userFrom = user1
+		userTo = user2
+	}
 }

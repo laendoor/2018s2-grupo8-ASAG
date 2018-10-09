@@ -31,16 +31,11 @@ public class Bootstrap {
   private static Bootstrap instance = null;
   
   private Bootstrap() {
-    ArrayList<Category> _createCategories = this.createCategories();
-    this.categories = _createCategories;
-    ArrayList<Clasification> _createClasifications = this.createClasifications();
-    this.clasifications = _createClasifications;
-    ArrayList<Movie> _createMovies = this.createMovies();
-    this.movies = _createMovies;
-    ArrayList<Serie> _createSeries = this.createSeries();
-    this.series = _createSeries;
-    ArrayList<User> _createUsers = this.createUsers();
-    this.users = _createUsers;
+    this.categories = this.createCategories();
+    this.clasifications = this.createClasifications();
+    this.movies = this.createMovies();
+    this.series = this.createSeries();
+    this.users = this.createUsers();
   }
   
   public static Bootstrap getInstance() {
@@ -111,10 +106,7 @@ public class Bootstrap {
       Date _date = new Date();
       movie.setRelease(_date);
       movie.setActors(actors);
-      Duration _standardMinutes = Duration.standardMinutes(12);
-      Duration _standardSeconds = Duration.standardSeconds(50);
-      Duration _plus = _standardMinutes.plus(_standardSeconds);
-      movie.setDuration(_plus);
+      movie.setDuration(Duration.standardMinutes(12).plus(Duration.standardSeconds(50)));
       movie.setDirectors(directors);
       movie.setLink("https://www.youtube.com/watch?v=HoBo9ilFAlI");
       Movie movie1 = new Movie();
@@ -122,16 +114,14 @@ public class Bootstrap {
       Date _date_1 = new Date();
       movie1.setRelease(_date_1);
       movie1.setActors(actors);
-      Duration _standardMinutes_1 = Duration.standardMinutes(2);
-      movie1.setDuration(_standardMinutes_1);
+      movie1.setDuration(Duration.standardMinutes(2));
       movie1.setDirectors(directors);
       movie1.setLink("https://www.youtube.com/watch?v=PfEXKi83glA");
       Movie movie2 = new Movie();
       movie2.setTitle("Cmen");
       Date _date_2 = new Date();
       movie2.setRelease(_date_2);
-      Duration _standardMinutes_2 = Duration.standardMinutes(5);
-      movie2.setDuration(_standardMinutes_2);
+      movie2.setDuration(Duration.standardMinutes(5));
       movie2.setActors(actors);
       movie2.setDirectors(directors);
       movie2.setLink("https://www.youtube.com/watch?v=lpFzTJN2y_o");
@@ -181,20 +171,17 @@ public class Bootstrap {
       serie.setTitle("ALF");
       serie.setCreators("Spilbergo");
       serie.setCategories(this.categories);
-      Clasification _get = this.clasifications.get(1);
-      serie.setClasification(_get);
+      serie.setClasification(this.clasifications.get(1));
       Serie serie1 = new Serie();
       serie1.setTitle("Lost");
       serie1.setCreators("Luke SkyWalker");
       serie1.setCategories(this.categories);
-      Clasification _get_1 = this.clasifications.get(0);
-      serie1.setClasification(_get_1);
+      serie1.setClasification(this.clasifications.get(0));
       Serie serie2 = new Serie();
       serie2.setTitle("Friends");
       serie2.setCreators("Matt Groening");
       serie2.setCategories(this.categories);
-      Clasification _get_2 = this.clasifications.get(1);
-      serie2.setClasification(_get_2);
+      serie2.setClasification(this.clasifications.get(1));
       final ArrayList<Serie> list = new ArrayList<Serie>();
       list.add(serie);
       list.add(serie1);

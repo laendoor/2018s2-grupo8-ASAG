@@ -441,13 +441,13 @@ class TraiFlixTest{
 		triflix.setNewMovie(teletubis)
 		
 
-		triflix.recomendMovieToUser(amigoDePepe, pepe, elPadrino)
+		triflix.recomendContentToUser(amigoDePepe, pepe, elPadrino)
 
 		assertTrue(triflix.recommendedContentOfUser(1).isEmpty)
 		
 		triflix.userBeacomeFriendOf(pepe, amigoDePepe)
 		
-		triflix.recomendMovieToUser(amigoDePepe, pepe, elPadrino)
+		triflix.recomendContentToUser(amigoDePepe, pepe, elPadrino)
 
 		assertTrue(triflix.recommendedContentOfUser(1).size == 1)
 	}
@@ -553,7 +553,7 @@ class TraiFlixTest{
 			traiflix.setNewUser(juan)
 			traiflix.userBeacomeFriendOf(carlos,juan)
 			
-			traiflix.recomendSerieToUser(juan,carlos,serie)			
+			traiflix.recomendContentToUser(juan,carlos,serie)			
 
 			assertTrue( traiflix.recommendedContentOfUser(carlos.id).contains(serie) )
 		}
@@ -568,7 +568,7 @@ class TraiFlixTest{
 			traiflix.setNewUser(carlos)
 			traiflix.setNewUser(juan)			
 			
-			traiflix.recomendSerieToUser(juan,carlos,serie)			
+			traiflix.recomendContentToUser(juan,carlos,serie)			
 
 			assertFalse( traiflix.recommendedContentOfUser(carlos.id).contains(serie) )
 		}

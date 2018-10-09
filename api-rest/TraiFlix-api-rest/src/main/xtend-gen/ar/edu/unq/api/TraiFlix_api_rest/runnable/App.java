@@ -9,8 +9,7 @@ import org.uqbar.xtrest.api.XTRest;
 public class App {
   public static void main(final String[] args) {
     final TraiFlix traiflix = new TraiFlix();
-    Bootstrap _instance = Bootstrap.getInstance();
-    _instance.load(traiflix);
+    Bootstrap.getInstance().load(traiflix);
     RestfulServer _restfulServer = new RestfulServer(traiflix);
     XTRest.startInstance(9003, _restfulServer);
   }

@@ -14,6 +14,7 @@ import ar.edu.unq.TraiFlix.models.id.MovieId;
 import ar.edu.unq.TraiFlix.models.id.SerieId;
 import ar.edu.unq.api.TraiFlix_api_rest.Actor;
 import ar.edu.unq.api.TraiFlix_api_rest.Text;
+import ar.edu.unq.api.TraiFlix_api_rest.UserToAndFrom;
 import ar.edu.unq.api.TraiFlix_api_rest.dataResults.DataResult;
 import com.google.common.base.Objects;
 import java.io.IOException;
@@ -22,7 +23,6 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -79,18 +79,14 @@ public class RestfulServer extends ResultFactory {
    */
   @Get("/categories")
   public Result getCategories(final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
-    List<Category> _categories = this.traiFlixsSystem.getCategories();
-    Stream<Category> _stream = _categories.stream();
     final Function<Category, String> _function = new Function<Category, String>() {
       public String apply(final Category elem) {
         return elem.getName();
       }
     };
-    Stream<String> _map = _stream.<String>map(_function);
-    Object[] _array = _map.toArray();
+    Object[] _array = this.traiFlixsSystem.getCategories().stream().<String>map(_function).toArray();
     DataResult data = new DataResult(_array);
-    String _json = this._jSONUtils.toJson(data);
-    return ResultFactory.ok(_json);
+    return ResultFactory.ok(this._jSONUtils.toJson(data));
   }
   
   /**
@@ -106,15 +102,13 @@ public class RestfulServer extends ResultFactory {
     try {
       final Category cat = new Category(category);
       final List<Ratingable> content = this.traiFlixsSystem.moviesAndSeriesCategory(cat);
-      String _json = this._jSONUtils.toJson(cat);
-      return ResultFactory.ok(_json);
+      return ResultFactory.ok(this._jSONUtils.toJson(cat));
     } catch (final Throwable _t) {
       if (_t instanceof Exception) {
         final Exception exception = (Exception)_t;
         String _message = exception.getMessage();
         String _plus = ("Problemas buscando contenidos en la categoria. " + _message);
-        String _errorJson = this.getErrorJson(_plus);
-        return ResultFactory.badRequest(_errorJson);
+        return ResultFactory.badRequest(this.getErrorJson(_plus));
       } else {
         throw Exceptions.sneakyThrow(_t);
       }
@@ -133,15 +127,13 @@ public class RestfulServer extends ResultFactory {
     try {
       List<Favourable> _userFavourites = this.traiFlixsSystem.userFavourites(username);
       DataResult data = new DataResult(_userFavourites);
-      String _json = this._jSONUtils.toJson(data);
-      return ResultFactory.ok(_json);
+      return ResultFactory.ok(this._jSONUtils.toJson(data));
     } catch (final Throwable _t) {
       if (_t instanceof Exception) {
         final Exception exception = (Exception)_t;
         String _message = exception.getMessage();
         String _plus = ("Problemas buscando favoritos. " + _message);
-        String _errorJson = this.getErrorJson(_plus);
-        return ResultFactory.badRequest(_errorJson);
+        return ResultFactory.badRequest(this.getErrorJson(_plus));
       } else {
         throw Exceptions.sneakyThrow(_t);
       }
@@ -189,8 +181,7 @@ public class RestfulServer extends ResultFactory {
         Serie serie = this.traiFlixsSystem.serie(serieId);
         boolean _notEquals = (!Objects.equal(serie, null));
         if (_notEquals) {
-          String _json = this._jSONUtils.toJson(serie);
-          return ResultFactory.ok(_json);
+          return ResultFactory.ok(this._jSONUtils.toJson(serie));
         } else {
           String _string = serieId.toString();
           String _plus = ("No existe la serie con id: " + _string);
@@ -206,8 +197,7 @@ public class RestfulServer extends ResultFactory {
           throw Exceptions.sneakyThrow(_t);
         }
       }
-      String _errorJson = this.getErrorJson(errorMessage);
-      _xblockexpression = ResultFactory.badRequest(_errorJson);
+      _xblockexpression = ResultFactory.badRequest(this.getErrorJson(errorMessage));
     }
     return _xblockexpression;
   }
@@ -229,7 +219,26 @@ public class RestfulServer extends ResultFactory {
    */
   @Post("/recommend/:type/:id")
   public Result recomended(@Body final String body, final String type, final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
-    return ResultFactory.ok();
+    response.setContentType(ContentType.APPLICATION_JSON);
+    try {
+      final UserToAndFrom users = this._jSONUtils.<UserToAndFrom>fromJson(body, UserToAndFrom.class);
+      final User user1 = this.traiFlixsSystem.searchUser(users.getUserFrom());
+      final User user2 = this.traiFlixsSystem.searchUser(users.getUserTo());
+      final ContentId idContent = ContentIdFactory.parse(id);
+      final Ratingable content = this.traiFlixsSystem.content(idContent);
+      this.traiFlixsSystem.userBeacomeFriendOf(user1, user2);
+      this.traiFlixsSystem.recomendContentToUser(user1, user2, content);
+      return ResultFactory.ok();
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        final Exception exception = (Exception)_t;
+        String _message = exception.getMessage();
+        String _plus = ("Problemas al recomendar un contenido " + _message);
+        return ResultFactory.badRequest(this.getErrorJson(_plus));
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
   }
   
   /**
@@ -246,17 +255,14 @@ public class RestfulServer extends ResultFactory {
     response.setContentType(ContentType.APPLICATION_JSON);
     try {
       final Text textSearch = this._jSONUtils.<Text>fromJson(body, Text.class);
-      String _text = textSearch.getText();
-      final List<Relatable> content = this.traiFlixsSystem.searchRelationalContent(_text);
-      String _json = this._jSONUtils.toJson(content);
-      return ResultFactory.ok(_json);
+      final List<Relatable> content = this.traiFlixsSystem.searchRelationalContent(textSearch.getText());
+      return ResultFactory.ok(this._jSONUtils.toJson(content));
     } catch (final Throwable _t) {
       if (_t instanceof Exception) {
         final Exception exception = (Exception)_t;
         String _message = exception.getMessage();
         String _plus = (_message + " No existe la serie con nombre: ");
-        String _errorJson = this.getErrorJson(_plus);
-        return ResultFactory.badRequest(_errorJson);
+        return ResultFactory.badRequest(this.getErrorJson(_plus));
       } else {
         throw Exceptions.sneakyThrow(_t);
       }
@@ -286,18 +292,14 @@ public class RestfulServer extends ResultFactory {
       Favourable content = null;
       String _lowerCase = type.toLowerCase();
       boolean _matched = false;
-      if (!_matched) {
-        if (Objects.equal(_lowerCase, "movie")) {
-          _matched=true;
-          Movie _movie = this.traiFlixsSystem.movie(((MovieId) contentId));
-          content = _movie;
-        }
+      if (Objects.equal(_lowerCase, "movie")) {
+        _matched=true;
+        content = this.traiFlixsSystem.movie(((MovieId) contentId));
       }
       if (!_matched) {
         if (Objects.equal(_lowerCase, "serie")) {
           _matched=true;
-          Serie _serie = this.traiFlixsSystem.serie(((SerieId) contentId));
-          content = _serie;
+          content = this.traiFlixsSystem.serie(((SerieId) contentId));
         }
       }
       if (!_matched) {
@@ -315,8 +317,7 @@ public class RestfulServer extends ResultFactory {
         final Exception exception = (Exception)_t;
         String _message = exception.getMessage();
         String _plus = ("Problemas administrando favoritos. " + _message);
-        String _errorJson = this.getErrorJson(_plus);
-        return ResultFactory.badRequest(_errorJson);
+        return ResultFactory.badRequest(this.getErrorJson(_plus));
       } else {
         throw Exceptions.sneakyThrow(_t);
       }
@@ -344,14 +345,21 @@ public class RestfulServer extends ResultFactory {
   }
   
   /**
+   * Permite obtener el listado total de las series
+   */
+  @Get("/series")
+  public Result getSeries(final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    response.setContentType(ContentType.APPLICATION_JSON);
+    return ResultFactory.ok(this._jSONUtils.toJson(this.traiFlixsSystem.getSeries()));
+  }
+  
+  /**
    * Permite obtener el listado total de las peliculas
    */
   @Get("/movies")
   public Result getMovies(final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
     response.setContentType(ContentType.APPLICATION_JSON);
-    List<Movie> _movies = this.traiFlixsSystem.getMovies();
-    String _json = this._jSONUtils.toJson(_movies);
-    return ResultFactory.ok(_json);
+    return ResultFactory.ok(this._jSONUtils.toJson(this.traiFlixsSystem.getMovies()));
   }
   
   /**
@@ -373,8 +381,7 @@ public class RestfulServer extends ResultFactory {
         String _message = exception.getMessage();
         String _plus_2 = (_message + " No existe la serie con nombre: ");
         String _plus_3 = (_plus_2 + nameMovie);
-        String _errorJson = this.getErrorJson(_plus_3);
-        return ResultFactory.badRequest(_errorJson);
+        return ResultFactory.badRequest(this.getErrorJson(_plus_3));
       } else {
         throw Exceptions.sneakyThrow(_t);
       }
@@ -403,8 +410,7 @@ public class RestfulServer extends ResultFactory {
         String _message = exception.getMessage();
         String _plus_2 = (_message + " No existe la peli con nombre: ");
         String _plus_3 = (_plus_2 + movieName);
-        String _errorJson = this.getErrorJson(_plus_3);
-        return ResultFactory.badRequest(_errorJson);
+        return ResultFactory.badRequest(this.getErrorJson(_plus_3));
       } else {
         throw Exceptions.sneakyThrow(_t);
       }
@@ -424,9 +430,7 @@ public class RestfulServer extends ResultFactory {
       return ResultFactory.ok();
     } catch (final Throwable _t) {
       if (_t instanceof NumberFormatException) {
-        final NumberFormatException exception = (NumberFormatException)_t;
-        String _errorJson = this.getErrorJson("El id debe ser un número entero");
-        return ResultFactory.badRequest(_errorJson);
+        return ResultFactory.badRequest(this.getErrorJson("El id debe ser un número entero"));
       } else {
         throw Exceptions.sneakyThrow(_t);
       }
@@ -452,6 +456,23 @@ public class RestfulServer extends ResultFactory {
     		
     		
     	    Result result = getCategories(target, baseRequest, request, response);
+    	    result.process(response);
+    	    
+    		response.addHeader("Access-Control-Allow-Origin", "*");
+    	    baseRequest.setHandled(true);
+    	    return;
+    	}
+    }
+    {
+    	Matcher matcher = 
+    		Pattern.compile("/series").matcher(target);
+    	if (request.getMethod().equalsIgnoreCase("Get") && matcher.matches()) {
+    		// take parameters from request
+    		
+    		// take variables from url
+    		
+    		
+    	    Result result = getSeries(target, baseRequest, request, response);
     	    result.process(response);
     	    
     		response.addHeader("Access-Control-Allow-Origin", "*");

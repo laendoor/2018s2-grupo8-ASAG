@@ -10,6 +10,7 @@ import ar.edu.unq.TraiFlix.models.id.MovieId
 import ar.edu.unq.TraiFlix.models.Category
 import org.uqbar.commons.model.annotations.Dependencies
 import java.security.InvalidParameterException
+import ar.edu.unq.TraiFlix.models.id.ContentId
 
 @Accessors
 @Observable
@@ -158,20 +159,7 @@ class TraiFlix {
 		this.user(id).watchedAndFinishedSeries();
 	}
 	
-	def recomendMovieToUser(User recommenderUser, User recommendedUser, Movie content){
-		if(recommenderUser.isFriend(recommendedUser)){
-			recommendedUser.recommended.add(content)	
-		}
-			
-		
-	}
-	
-	def recomendSerieToUser(User recommenderUser, User recommendedUser, Serie content){
-		if(recommenderUser.isFriend(recommendedUser)){
-			recommendedUser.recommended.add(content)	
-		}
-		
-	}
+
 	
 	def recommendedContentOfUser(Integer id){
 		this.user(id).recommended
@@ -215,6 +203,25 @@ class TraiFlix {
 			contentList.addAll(series)
 			contentList.filter( elem | elem.title.indexOf( nameToSearch)!= -1 ).toList
 			
+	}
+	
+	def searchUser(String name1) {
+		this.users.findFirst[ elem | elem.name.equals(name1)]
+	}
+	
+	def content(ContentId id) {
+		if(id.movie){
+			return this.movie(id as MovieId) as Ratingable
+		}
+		else{
+			return this.serie(id as SerieId) as Ratingable
+		}
+	}
+	
+	def recomendContentToUser(User user, User user2, Ratingable content) {
+		if(user.isFriend(user2)){
+			user2.recommended.add(content)
+		}
 	}
 		
 }
