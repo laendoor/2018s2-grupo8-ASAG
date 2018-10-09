@@ -201,8 +201,16 @@ class RestfulServer {
 	 */
 	@Post("/search")
 	def search(@Body String body) {
-		//TODO FIXME modelar!!
-		return ok()
+		
+		response.contentType = ContentType.APPLICATION_JSON
+		try {
+			val textSearch =  body.fromJson(Text)
+			val content = this.traiFlixsSystem.searchRelationalContent(textSearch.text)
+			return ok(content.toJson)
+		} catch (Exception exception) {
+			return badRequest(getErrorJson(exception.message + " No existe la serie con nombre: "  ))
+			}
+		
 	}
 	
 	
@@ -357,4 +365,10 @@ class RestfulServer {
 @Accessors
 class Actor{
 	String name
+}
+
+
+@Accessors
+class Text{
+	String text
 }

@@ -208,5 +208,13 @@ class TraiFlix {
 		series = series.filter( elem | !id.equals(elem.id) ).toList
 	}
 	
+	def searchRelationalContent(String nameToSearch) {
+		
+		var List<Relatable> contentList = new ArrayList
+			contentList.addAll(movies)
+			contentList.addAll(series)
+			contentList.filter( elem | elem.title.indexOf( nameToSearch)!= -1 ).toList
+			
+	}
 		
 }

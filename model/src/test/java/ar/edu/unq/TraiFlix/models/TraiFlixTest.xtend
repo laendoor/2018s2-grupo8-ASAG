@@ -591,4 +591,55 @@ class TraiFlixTest{
 			assertFalse( relatableContent.contains(movietoRelateWith) )			
 		}
 	
+		@Test
+	def void searchRelatableContentWithText() {
+				
+		lostSerie.title = "Lost"
+		foundSerie.title = "Found"		
+		var traiFlix = new TraiFlix
+				
+		lostS1E1.link = "linkLost1E1"
+		lostS1E2.link = "linkLost1E2"
+		lostS1E3.link = "linkLost1E13"
+		
+		foundS1E1.link = "linkfoundS1E1"
+		/*  foundS1E2 lo dejaremos sin  link a  you tube*/
+		traiFlix.newSerie = lostSerie
+		traiFlix.newSerie = foundSerie
+		
+		/*agrego alguna pelicula */
+		val elPadrino = new Movie
+		elPadrino.title = "El Padrino"
+		elPadrino.link = "inkElPadrino"
+		val teletubis = new Movie
+		teletubis.title = "La venganza del teletubi rojo"
+		/* teletubies sin link a youTube */
+		val karateKid = new Movie
+		karateKid.title = "Karate Kid"
+		karateKid.link = "linkKarateKid"
+		
+		traiFlix.newMovie = elPadrino
+		traiFlix.newMovie = teletubis
+		traiFlix.newMovie = karateKid
+				
+		assertTrue( 1 == traiFlix.searchRelationalContent("El").size)
+		
+		val elPadrino2 = new Movie
+		elPadrino2.title = "El Padrino II"
+		elPadrino2.link = "inkElPadrino II"
+		traiFlix.newMovie = elPadrino2
+		
+		assertTrue( 2 == traiFlix.searchRelationalContent("El").size)
+		
+		assertTrue( 1 == traiFlix.searchRelationalContent("Kid").size)
+		val karateKid2 = new Movie
+		karateKid2.title = "Karate Kid 2"
+		/* karate kid 2 sin link a youTube */
+		traiFlix.newMovie = karateKid2
+		
+		assertTrue( 2 == traiFlix.searchRelationalContent("Kid").size)
+		}
+	
+
+	
 }

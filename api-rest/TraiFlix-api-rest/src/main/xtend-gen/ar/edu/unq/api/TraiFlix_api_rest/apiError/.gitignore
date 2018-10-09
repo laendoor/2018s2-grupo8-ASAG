@@ -1,0 +1,9 @@
+/UnauthorizedError.java
+/UnexpectedFailureError.java
+/ApiError.java
+/BadRequestError.java
+/DuplicateEntryError.java
+/InvalidJSONError.java
+/InvalidURLError.java
+/NotContentError.java
+/ResourceNotFoundError.java
