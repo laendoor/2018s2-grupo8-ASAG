@@ -17,6 +17,8 @@ import org.uqbar.xtrest.api.annotation.Post
 import org.uqbar.xtrest.api.annotation.Put
 import org.uqbar.xtrest.http.ContentType
 import org.uqbar.xtrest.json.JSONUtils
+import ar.edu.unq.TraiFlix.models.Assessment
+import ar.edu.unq.TraiFlix.models.Ratingable
 
 /**
  * Servidor RESTful implementado con XtRest.
@@ -83,7 +85,6 @@ class RestfulServer {
 			return ok(cat.toJson)	
 		}
 		catch(Exception exception){
-			//new ResourceNotFoundError
 			return badRequest( getErrorJson("Problemas buscando contenidos en la categoria. " + exception.message ) ) 
 		}
 	}
@@ -111,25 +112,7 @@ class RestfulServer {
 		
 	}
 	
-	/**
-	 * Que retorne la información de la película con id {id} para el usuario {username}. 
-	 * Se debe añadir también cierta información relevante para el usuario: si vió la película 
-	 * y también la lista de amigos que se la recomendaron
-	 * 
-	 * 		Parámetros
-	 *			● id​: el id de la película
-	 *			● username​: nombre del usuario
-	 * 
-	 * 		Responses:
-	 *			● 200 OK
-	 * 			● 404 Not Found
-	 * 
-	 */
-	@Get(":username/movie/:id")
-	def getMoviesUserFavs() {
-		//TODO FIXME modelar!!
-		return ok()
-	}
+
 	
 	/**
 	 * Que retorne la información para {username} de la serie con id = {id}.
@@ -165,7 +148,47 @@ class RestfulServer {
 		badRequest( getErrorJson(errorMessage) )
 	}
 	
-	/**
+
+	 
+	 /**
+	 * Que retorne la información de la película con id {id} para el usuario {username}. 
+	 * Se debe añadir también cierta información relevante para el usuario: si vió la película 
+	 * y también la lista de amigos que se la recomendaron
+	 * 
+	 * 		Parámetros
+	 *			● id​: el id de la película
+	 *			● username​: nombre del usuario
+	 * 
+	 * 		Responses:
+	 *			● 200 OK
+	 * 			● 404 Not Found
+	 * 
+	 */
+	@Get(":username/movie/:id")
+	def getMoviesUserFavs() {
+		var String errorMessage
+				
+		try
+		{
+			checkUser(username)
+			
+			var movieId = ContentIdFactory.parse(id) as MovieId
+			var movie = traiFlixsSystem.movie(movieId)
+			if( movie != null )
+				return ok( movie.toJson )
+			else
+				errorMessage = "No existe la pelicula con id: " + movieId.toString
+		}
+		catch( Exception exception )
+		{
+			errorMessage = "Error buscando la pelicula. " + exception.message	
+		}
+		
+		badRequest( getErrorJson(errorMessage) )
+	}
+	
+	
+		/**
 	 *  Genera una recomendación de una serie o película de un usuario a otro.
 	 * 
 	 * 		Parametros
@@ -180,6 +203,9 @@ class RestfulServer {
 	 *			● 200 OK
 	 *			● 400 Bad Request
 	 */
+	 
+	 
+	 
 	@Post("/recommend/:type/:id")
 	def recomended(@Body String body) {
 	response.contentType = ContentType.APPLICATION_JSON
@@ -188,7 +214,7 @@ class RestfulServer {
 			val user1 = this.traiFlixsSystem.searchUser(users.userFrom)
 			val user2 = this.traiFlixsSystem.searchUser(users.userTo)
 			val idContent = ContentIdFactory.parse(id)
-			val content = this.traiFlixsSystem.content(idContent)
+			val content = this.traiFlixsSystem.contentRatingable(idContent)
 			this.traiFlixsSystem.userBeacomeFriendOf(user1,user2)
 			this.traiFlixsSystem.recomendContentToUser(user1, user2, content)
 			return ok()
@@ -286,8 +312,25 @@ class RestfulServer {
 	 */
 	@Put("/:username/rating/:type/:id")
 	def setRatingUser(@Body String body) {
-		//TODO FIXME modelar!!
-		return ok()
+		// TODO: testear con episodios.
+		response.contentType = ContentType.APPLICATION_JSON
+		
+		try{
+			val user = this.checkUser(username)
+			var idContent = ContentIdFactory.parse(id)
+			val stars = body.fromJson(Star)
+			val assement = new Assessment(user,stars.value, stars.critic)
+			val content = this.traiFlixsSystem.content(idContent)
+			
+			content.addAssessment(assement)
+			
+			return ok()	
+		}
+		catch( Exception exception ) {
+			return badRequest( getErrorJson("Problemas agregando valoracion. " + exception.message ) )			
+		}
+		
+		
 	}
 	
 	
@@ -302,6 +345,19 @@ class RestfulServer {
 		return ok(this.traiFlixsSystem.series.toJson)
 	}
 	
+	
+	@Get("/user/:username")
+	def getUser(){
+		response.contentType = ContentType.APPLICATION_JSON
+		
+		return ok(this.checkUser(username).toJson)
+	}
+	
+	@Get("/users")
+	def getUsers(){
+		response.contentType = ContentType.APPLICATION_JSON
+		return ok(this.traiFlixsSystem.users.toJson)
+	}	
 	
 	
 	//MOVIES
@@ -406,3 +462,11 @@ class UserToAndFrom{
 		userTo = user2
 	}
 }
+
+
+@Accessors
+class Star{
+	Integer value
+	String critic
+}
+

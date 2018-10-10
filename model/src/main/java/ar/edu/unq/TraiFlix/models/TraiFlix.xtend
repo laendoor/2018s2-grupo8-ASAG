@@ -209,7 +209,7 @@ class TraiFlix {
 		this.users.findFirst[ elem | elem.name.equals(name1)]
 	}
 	
-	def content(ContentId id) {
+	def contentRatingable(ContentId id) {
 		if(id.movie){
 			return this.movie(id as MovieId) as Ratingable
 		}
@@ -217,6 +217,18 @@ class TraiFlix {
 			return this.serie(id as SerieId) as Ratingable
 		}
 	}
+	
+	def content(ContentId id1) {
+		if(id1.movie){
+			return this.movie(id1 as MovieId)
+		}
+		else{
+			return this.series
+			.findFirst[ elem | elem.hasEpisodeWithId(id1 as EpisodeId)]
+			.episode(id1 as EpisodeId) 
+		}
+	}
+	
 	
 	def recomendContentToUser(User user, User user2, Ratingable content) {
 		if(user.isFriend(user2)){

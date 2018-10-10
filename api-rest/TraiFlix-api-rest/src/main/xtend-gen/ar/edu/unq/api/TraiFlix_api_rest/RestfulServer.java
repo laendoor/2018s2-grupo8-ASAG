@@ -1,6 +1,8 @@
 package ar.edu.unq.api.TraiFlix_api_rest;
 
+import ar.edu.unq.TraiFlix.models.Assessment;
 import ar.edu.unq.TraiFlix.models.Category;
+import ar.edu.unq.TraiFlix.models.Content;
 import ar.edu.unq.TraiFlix.models.Favourable;
 import ar.edu.unq.TraiFlix.models.Movie;
 import ar.edu.unq.TraiFlix.models.Ratingable;
@@ -13,6 +15,7 @@ import ar.edu.unq.TraiFlix.models.id.ContentIdFactory;
 import ar.edu.unq.TraiFlix.models.id.MovieId;
 import ar.edu.unq.TraiFlix.models.id.SerieId;
 import ar.edu.unq.api.TraiFlix_api_rest.Actor;
+import ar.edu.unq.api.TraiFlix_api_rest.Star;
 import ar.edu.unq.api.TraiFlix_api_rest.Text;
 import ar.edu.unq.api.TraiFlix_api_rest.UserToAndFrom;
 import ar.edu.unq.api.TraiFlix_api_rest.dataResults.DataResult;
@@ -141,24 +144,6 @@ public class RestfulServer extends ResultFactory {
   }
   
   /**
-   * Que retorne la información de la película con id {id} para el usuario {username}.
-   * Se debe añadir también cierta información relevante para el usuario: si vió la película
-   * y también la lista de amigos que se la recomendaron
-   * 
-   * 		Parámetros
-   * 			● id​: el id de la película
-   * 			● username​: nombre del usuario
-   * 
-   * 		Responses:
-   * 			● 200 OK
-   * 			● 404 Not Found
-   */
-  @Get(":username/movie/:id")
-  public Result getMoviesUserFavs(final String username, final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
-    return ResultFactory.ok();
-  }
-  
-  /**
    * Que retorne la información para {username} de la serie con id = {id}.
    * 
    * 		Parámetros
@@ -203,20 +188,51 @@ public class RestfulServer extends ResultFactory {
   }
   
   /**
-   * Genera una recomendación de una serie o película de un usuario a otro.
+   * Que retorne la información de la película con id {id} para el usuario {username}.
+   * Se debe añadir también cierta información relevante para el usuario: si vió la película
+   * y también la lista de amigos que se la recomendaron
    * 
-   * 		Parametros
-   * 			● type​: Tipo del contenido. Debería aceptar sólo alguno de estos valores:
-   * 				[movie, serie]
-   * 			● id​: Id del contenido
-   * 			● user-from​: nombre de usuario que recomienda un contenido
-   * 			● user-to​: nombre de usuario al que le recomiendan un contenido
+   * 		Parámetros
+   * 			● id​: el id de la película
+   * 			● username​: nombre del usuario
    * 
    * 		Responses:
-   * 			● 202 Accepted
    * 			● 200 OK
-   * 			● 400 Bad Request
+   * 			● 404 Not Found
    */
+  @Get(":username/movie/:id")
+  public Result getMoviesUserFavs(final String username, final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    Result _xblockexpression = null;
+    {
+      String errorMessage = null;
+      try {
+        this.checkUser(username);
+        ContentId _parse = ContentIdFactory.parse(id);
+        MovieId movieId = ((MovieId) _parse);
+        Movie movie = this.traiFlixsSystem.movie(movieId);
+        boolean _notEquals = (!Objects.equal(movie, null));
+        if (_notEquals) {
+          return ResultFactory.ok(this._jSONUtils.toJson(movie));
+        } else {
+          String _string = movieId.toString();
+          String _plus = ("No existe la pelicula con id: " + _string);
+          errorMessage = _plus;
+        }
+      } catch (final Throwable _t) {
+        if (_t instanceof Exception) {
+          final Exception exception = (Exception)_t;
+          String _message = exception.getMessage();
+          String _plus_1 = ("Error buscando la pelicula. " + _message);
+          errorMessage = _plus_1;
+        } else {
+          throw Exceptions.sneakyThrow(_t);
+        }
+      }
+      _xblockexpression = ResultFactory.badRequest(this.getErrorJson(errorMessage));
+    }
+    return _xblockexpression;
+  }
+  
   @Post("/recommend/:type/:id")
   public Result recomended(@Body final String body, final String type, final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
     response.setContentType(ContentType.APPLICATION_JSON);
@@ -225,7 +241,7 @@ public class RestfulServer extends ResultFactory {
       final User user1 = this.traiFlixsSystem.searchUser(users.getUserFrom());
       final User user2 = this.traiFlixsSystem.searchUser(users.getUserTo());
       final ContentId idContent = ContentIdFactory.parse(id);
-      final Ratingable content = this.traiFlixsSystem.content(idContent);
+      final Ratingable content = this.traiFlixsSystem.contentRatingable(idContent);
       this.traiFlixsSystem.userBeacomeFriendOf(user1, user2);
       this.traiFlixsSystem.recomendContentToUser(user1, user2, content);
       return ResultFactory.ok();
@@ -341,7 +357,27 @@ public class RestfulServer extends ResultFactory {
    */
   @Put("/:username/rating/:type/:id")
   public Result setRatingUser(@Body final String body, final String username, final String type, final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
-    return ResultFactory.ok();
+    response.setContentType(ContentType.APPLICATION_JSON);
+    try {
+      final User user = this.checkUser(username);
+      ContentId idContent = ContentIdFactory.parse(id);
+      final Star stars = this._jSONUtils.<Star>fromJson(body, Star.class);
+      Integer _value = stars.getValue();
+      String _critic = stars.getCritic();
+      final Assessment assement = new Assessment(user, _value, _critic);
+      final Content content = this.traiFlixsSystem.content(idContent);
+      content.addAssessment(assement);
+      return ResultFactory.ok();
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        final Exception exception = (Exception)_t;
+        String _message = exception.getMessage();
+        String _plus = ("Problemas agregando valoracion. " + _message);
+        return ResultFactory.badRequest(this.getErrorJson(_plus));
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
   }
   
   /**
@@ -351,6 +387,18 @@ public class RestfulServer extends ResultFactory {
   public Result getSeries(final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
     response.setContentType(ContentType.APPLICATION_JSON);
     return ResultFactory.ok(this._jSONUtils.toJson(this.traiFlixsSystem.getSeries()));
+  }
+  
+  @Get("/user/:username")
+  public Result getUser(final String username, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    response.setContentType(ContentType.APPLICATION_JSON);
+    return ResultFactory.ok(this._jSONUtils.toJson(this.checkUser(username)));
+  }
+  
+  @Get("/users")
+  public Result getUsers(final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    response.setContentType(ContentType.APPLICATION_JSON);
+    return ResultFactory.ok(this._jSONUtils.toJson(this.traiFlixsSystem.getUsers()));
   }
   
   /**
@@ -482,6 +530,23 @@ public class RestfulServer extends ResultFactory {
     }
     {
     	Matcher matcher = 
+    		Pattern.compile("/users").matcher(target);
+    	if (request.getMethod().equalsIgnoreCase("Get") && matcher.matches()) {
+    		// take parameters from request
+    		
+    		// take variables from url
+    		
+    		
+    	    Result result = getUsers(target, baseRequest, request, response);
+    	    result.process(response);
+    	    
+    		response.addHeader("Access-Control-Allow-Origin", "*");
+    	    baseRequest.setHandled(true);
+    	    return;
+    	}
+    }
+    {
+    	Matcher matcher = 
     		Pattern.compile("/movies").matcher(target);
     	if (request.getMethod().equalsIgnoreCase("Get") && matcher.matches()) {
     		// take parameters from request
@@ -589,6 +654,24 @@ public class RestfulServer extends ResultFactory {
     }
     {
     	Matcher matcher = 
+    		Pattern.compile("/user/(\\w+)").matcher(target);
+    	if (request.getMethod().equalsIgnoreCase("Get") && matcher.matches()) {
+    		// take parameters from request
+    		
+    		// take variables from url
+    		String username = matcher.group(1);
+    		
+    		
+    	    Result result = getUser(username, target, baseRequest, request, response);
+    	    result.process(response);
+    	    
+    		response.addHeader("Access-Control-Allow-Origin", "*");
+    	    baseRequest.setHandled(true);
+    	    return;
+    	}
+    }
+    {
+    	Matcher matcher = 
     		Pattern.compile("/movies/(\\w+)").matcher(target);
     	if (request.getMethod().equalsIgnoreCase("Post") && matcher.matches()) {
     		// take parameters from request
@@ -608,25 +691,6 @@ public class RestfulServer extends ResultFactory {
     }
     {
     	Matcher matcher = 
-    		Pattern.compile("(\\w+)/movie/(\\w+)").matcher(target);
-    	if (request.getMethod().equalsIgnoreCase("Get") && matcher.matches()) {
-    		// take parameters from request
-    		
-    		// take variables from url
-    		String username = matcher.group(1);
-    		String id = matcher.group(2);
-    		
-    		
-    	    Result result = getMoviesUserFavs(username, id, target, baseRequest, request, response);
-    	    result.process(response);
-    	    
-    		response.addHeader("Access-Control-Allow-Origin", "*");
-    	    baseRequest.setHandled(true);
-    	    return;
-    	}
-    }
-    {
-    	Matcher matcher = 
     		Pattern.compile("/(\\w+)/serie/(\\w+)").matcher(target);
     	if (request.getMethod().equalsIgnoreCase("Get") && matcher.matches()) {
     		// take parameters from request
@@ -637,6 +701,25 @@ public class RestfulServer extends ResultFactory {
     		
     		
     	    Result result = getSeriesUserFavs(username, id, target, baseRequest, request, response);
+    	    result.process(response);
+    	    
+    		response.addHeader("Access-Control-Allow-Origin", "*");
+    	    baseRequest.setHandled(true);
+    	    return;
+    	}
+    }
+    {
+    	Matcher matcher = 
+    		Pattern.compile("(\\w+)/movie/(\\w+)").matcher(target);
+    	if (request.getMethod().equalsIgnoreCase("Get") && matcher.matches()) {
+    		// take parameters from request
+    		
+    		// take variables from url
+    		String username = matcher.group(1);
+    		String id = matcher.group(2);
+    		
+    		
+    	    Result result = getMoviesUserFavs(username, id, target, baseRequest, request, response);
     	    result.process(response);
     	    
     		response.addHeader("Access-Control-Allow-Origin", "*");

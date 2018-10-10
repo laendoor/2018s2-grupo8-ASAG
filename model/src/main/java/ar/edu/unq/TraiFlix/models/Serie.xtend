@@ -109,4 +109,12 @@ class Serie implements Ratingable, Relatable, Favourable {
 		this.id
 	}
 	
+	def hasEpisodeWithId(EpisodeId id1){
+		this.episodes.exists[elem | elem.id.equals(id1)]
+	}
+	
+	def episode(EpisodeId id1){
+		this.episodes.findFirst[elem | elem.id.equals(id1)]
+	}
+	
 }
