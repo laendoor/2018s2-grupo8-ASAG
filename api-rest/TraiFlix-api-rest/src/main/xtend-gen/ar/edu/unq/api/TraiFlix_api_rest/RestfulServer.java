@@ -404,6 +404,13 @@ public class RestfulServer extends ResultFactory {
     return ResultFactory.ok(this._jSONUtils.toJson(this.traiFlixsSystem.getSeries()));
   }
   
+  @Get("/episodes/:id")
+  public Result getEpisodes(final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    response.setContentType(ContentType.APPLICATION_JSON);
+    ContentId idContent = ContentIdFactory.parse(id);
+    return ResultFactory.ok(this._jSONUtils.toJson(this.traiFlixsSystem.serie(((SerieId) idContent)).getEpisodes()));
+  }
+  
   @Get("/user/:username")
   public Result getUser(final String username, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
     response.setContentType(ContentType.APPLICATION_JSON);
@@ -660,6 +667,24 @@ public class RestfulServer extends ResultFactory {
     		
     		
     	    Result result = getContentsUserFavs(username, target, baseRequest, request, response);
+    	    result.process(response);
+    	    
+    		response.addHeader("Access-Control-Allow-Origin", "*");
+    	    baseRequest.setHandled(true);
+    	    return;
+    	}
+    }
+    {
+    	Matcher matcher = 
+    		Pattern.compile("/episodes/(\\w+)").matcher(target);
+    	if (request.getMethod().equalsIgnoreCase("Get") && matcher.matches()) {
+    		// take parameters from request
+    		
+    		// take variables from url
+    		String id = matcher.group(1);
+    		
+    		
+    	    Result result = getEpisodes(id, target, baseRequest, request, response);
     	    result.process(response);
     	    
     		response.addHeader("Access-Control-Allow-Origin", "*");

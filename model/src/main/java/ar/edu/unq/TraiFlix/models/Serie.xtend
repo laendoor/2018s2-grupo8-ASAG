@@ -6,6 +6,7 @@ import ar.edu.unq.TraiFlix.models.id.SerieId
 import ar.edu.unq.TraiFlix.models.id.EpisodeId
 import org.uqbar.commons.model.annotations.Observable
 import java.util.ArrayList
+import com.fasterxml.jackson.annotation.JsonIgnore
 
 @Accessors
 @Observable
@@ -17,6 +18,7 @@ class Serie implements Ratingable, Relatable, Favourable {
 	Clasification clasification
 	String creators
 	List<Relatable> relateds
+	@JsonIgnore
 	List<Episode> episodes;
 	
 	

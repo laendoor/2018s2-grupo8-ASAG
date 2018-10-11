@@ -36,7 +36,10 @@ class Episode extends Content implements Ratingable{
 		for (Assessment critc : assessments) {
 			sum = sum + critc.getValue()
 		}
-		return sum/assessments.size
+		if(sum != 0){
+			return sum/assessments.size 
+		}
+		return 0
 	}
 	
 }

@@ -312,7 +312,6 @@ class RestfulServer {
 	 */
 	@Put("/:username/rating/:type/:id")
 	def setRatingUser(@Body String body) {
-		// TODO: testear con episodios.
 		response.contentType = ContentType.APPLICATION_JSON
 		
 		try{
@@ -341,8 +340,19 @@ class RestfulServer {
 	def getSeries() {
 
 		response.contentType = ContentType.APPLICATION_JSON
-
+		
+		
 		return ok(this.traiFlixsSystem.series.toJson)
+	}
+	
+	@Get("/episodes/:id")
+	def getEpisodes() {
+
+		response.contentType = ContentType.APPLICATION_JSON
+		
+		var idContent = ContentIdFactory.parse(id)
+
+		return ok(this.traiFlixsSystem.serie(idContent as SerieId).episodes.toJson)
 	}
 	
 	
