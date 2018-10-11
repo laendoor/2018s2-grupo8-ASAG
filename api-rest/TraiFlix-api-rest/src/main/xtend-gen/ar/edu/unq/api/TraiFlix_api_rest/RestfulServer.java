@@ -17,6 +17,7 @@ import ar.edu.unq.TraiFlix.models.id.SerieId;
 import ar.edu.unq.api.TraiFlix_api_rest.Actor;
 import ar.edu.unq.api.TraiFlix_api_rest.Star;
 import ar.edu.unq.api.TraiFlix_api_rest.Text;
+import ar.edu.unq.api.TraiFlix_api_rest.UserRest;
 import ar.edu.unq.api.TraiFlix_api_rest.UserToAndFrom;
 import ar.edu.unq.api.TraiFlix_api_rest.dataResults.DataResult;
 import com.google.common.base.Objects;
@@ -71,7 +72,18 @@ public class RestfulServer extends ResultFactory {
    */
   @Post("/auth")
   public Result autentification(@Body final String body, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
-    return ResultFactory.ok();
+    response.setContentType(ContentType.APPLICATION_JSON);
+    try {
+      final UserRest user = this._jSONUtils.<UserRest>fromJson(body, UserRest.class);
+      this.checkUser(user.getUsername());
+      return ResultFactory.ok();
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        return ResultFactory.badRequest("{\"status\": \"Error\",\"message\":\"Usuario Invalido\", \"codeError\":401}");
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
   }
   
   /**

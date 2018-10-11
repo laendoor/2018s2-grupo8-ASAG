@@ -50,9 +50,18 @@ class RestfulServer {
 	 */
 	@Post("/auth")
 	def autentification(@Body String body) {
-		//TODO FIXME modelar!!
-		return ok()
+		response.contentType = ContentType.APPLICATION_JSON
+		try{
+			
+			val user = body.fromJson(UserRest)
+			checkUser(user.username)
+				return ok()
+	
+		}catch(Exception e)
+			return badRequest('{"status": "Error","message":"Usuario Invalido", "codeError":401}')
 	}
+	
+
 	
 	/**
 	 * Retorna el listado de las categorías de la plataforma
@@ -443,7 +452,7 @@ class RestfulServer {
 		'{ "status": "error",\n  "message": "' + message + '" }'
 	}
 	
-	private def checkUser( String userName ) {
+	private def checkUser(String userName ) {
 		traiFlixsSystem.findUserByNickName(userName)
 	}
 
@@ -474,8 +483,10 @@ class UserToAndFrom{
 }
 
 
-
-
+@Accessors
+class UserRest{
+	String username
+}
 
 @Accessors
 class Star{
