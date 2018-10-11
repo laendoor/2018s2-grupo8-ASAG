@@ -14,6 +14,7 @@ import ar.edu.unq.TraiFlix.models.TraiFlix
 import org.joda.time.Duration
 import org.joda.time.LocalTime
 import org.joda.time.DateTime
+import ar.edu.unq.TraiFlix.models.Episode
 
 @Accessors
 class Bootstrap {
@@ -181,11 +182,41 @@ class Bootstrap {
 		list
 	}
 	
+	def createEpisodes(){
+		val episode1 = new Episode();
+		episode1.title = "epi1"
+		episode1.season = 1
+		episode1.episodeNumber = 1
+		
+		val episode2 = new Episode();
+		episode2.title = "epi2"
+		episode2.season = 2
+		episode2.episodeNumber = 2
+		
+		val episode3 = new Episode();
+		episode3.title = "epi3"
+		episode3.season = 3
+		episode3.episodeNumber = 3
+		
+		
+		return new ArrayList(newArrayList(episode1,episode2,episode3))
+		
+		 
+	}
+	
+	
+	def loadEpisodesInSerie(Serie serie1, List<Episode> episodes){
+		episodes.forEach[elem | elem.setSerie(serie1)]
+		episodes.forEach[elem | serie1.addEpisode(elem)]
+	}
+	
 	def load(TraiFlix model){
 		model.categories = this.categories
 		model.classifications = this.clasifications
 		model.movies = this.movies
-		model.series = this.series
+		val series2 = this.series
+		this.loadEpisodesInSerie(series.get(0), this.createEpisodes) 
+		model.series = series2
 		model.users = this.users
 	}
 

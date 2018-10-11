@@ -2,6 +2,7 @@ package ar.edu.unq.api.TraiFlix_api_rest.bootstrap;
 
 import ar.edu.unq.TraiFlix.models.Category;
 import ar.edu.unq.TraiFlix.models.Clasification;
+import ar.edu.unq.TraiFlix.models.Episode;
 import ar.edu.unq.TraiFlix.models.Movie;
 import ar.edu.unq.TraiFlix.models.Serie;
 import ar.edu.unq.TraiFlix.models.TraiFlix;
@@ -10,7 +11,9 @@ import com.google.common.base.Objects;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Consumer;
 import org.eclipse.xtend.lib.annotations.Accessors;
+import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Pure;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -191,11 +194,45 @@ public class Bootstrap {
     return _xblockexpression;
   }
   
+  public ArrayList<Episode> createEpisodes() {
+    final Episode episode1 = new Episode();
+    episode1.setTitle("epi1");
+    episode1.setSeason(Integer.valueOf(1));
+    episode1.setEpisodeNumber(Integer.valueOf(1));
+    final Episode episode2 = new Episode();
+    episode2.setTitle("epi2");
+    episode2.setSeason(Integer.valueOf(2));
+    episode2.setEpisodeNumber(Integer.valueOf(2));
+    final Episode episode3 = new Episode();
+    episode3.setTitle("epi3");
+    episode3.setSeason(Integer.valueOf(3));
+    episode3.setEpisodeNumber(Integer.valueOf(3));
+    ArrayList<Episode> _newArrayList = CollectionLiterals.<Episode>newArrayList(episode1, episode2, episode3);
+    return new ArrayList<Episode>(_newArrayList);
+  }
+  
+  public void loadEpisodesInSerie(final Serie serie1, final List<Episode> episodes) {
+    final Consumer<Episode> _function = new Consumer<Episode>() {
+      public void accept(final Episode elem) {
+        elem.setSerie(serie1);
+      }
+    };
+    episodes.forEach(_function);
+    final Consumer<Episode> _function_1 = new Consumer<Episode>() {
+      public void accept(final Episode elem) {
+        serie1.addEpisode(elem);
+      }
+    };
+    episodes.forEach(_function_1);
+  }
+  
   public void load(final TraiFlix model) {
     model.setCategories(this.categories);
     model.setClassifications(this.clasifications);
     model.setMovies(this.movies);
-    model.setSeries(this.series);
+    final List<Serie> series2 = this.series;
+    this.loadEpisodesInSerie(this.series.get(0), this.createEpisodes());
+    model.setSeries(series2);
     model.setUsers(this.users);
   }
   

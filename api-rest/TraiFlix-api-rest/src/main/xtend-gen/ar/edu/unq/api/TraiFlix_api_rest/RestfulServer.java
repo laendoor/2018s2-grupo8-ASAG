@@ -200,7 +200,7 @@ public class RestfulServer extends ResultFactory {
    * 			● 200 OK
    * 			● 404 Not Found
    */
-  @Get(":username/movie/:id")
+  @Get("/:username/movie/:id")
   public Result getMoviesUserFavs(final String username, final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
     Result _xblockexpression = null;
     {
@@ -233,6 +233,21 @@ public class RestfulServer extends ResultFactory {
     return _xblockexpression;
   }
   
+  /**
+   * Genera una recomendación de una serie o película de un usuario a otro.
+   * 
+   * 		Parametros
+   * 			● type​: Tipo del contenido. Debería aceptar sólo alguno de estos valores:
+   * 				[movie, serie]
+   * 			● id​: Id del contenido
+   * 			● user-from​: nombre de usuario que recomienda un contenido
+   * 			● user-to​: nombre de usuario al que le recomiendan un contenido
+   * 
+   * 		Responses:
+   * 			● 202 Accepted
+   * 			● 200 OK
+   * 			● 400 Bad Request
+   */
   @Post("/recommend/:type/:id")
   public Result recomended(@Body final String body, final String type, final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
     response.setContentType(ContentType.APPLICATION_JSON);
@@ -710,7 +725,7 @@ public class RestfulServer extends ResultFactory {
     }
     {
     	Matcher matcher = 
-    		Pattern.compile("(\\w+)/movie/(\\w+)").matcher(target);
+    		Pattern.compile("/(\\w+)/movie/(\\w+)").matcher(target);
     	if (request.getMethod().equalsIgnoreCase("Get") && matcher.matches()) {
     		// take parameters from request
     		

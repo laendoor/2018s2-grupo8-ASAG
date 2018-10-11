@@ -164,7 +164,7 @@ class RestfulServer {
 	 * 			● 404 Not Found
 	 * 
 	 */
-	@Get(":username/movie/:id")
+	@Get("/:username/movie/:id")
 	def getMoviesUserFavs() {
 		var String errorMessage
 				
@@ -462,6 +462,9 @@ class UserToAndFrom{
 		userTo = user2
 	}
 }
+
+
+
 
 
 @Accessors
