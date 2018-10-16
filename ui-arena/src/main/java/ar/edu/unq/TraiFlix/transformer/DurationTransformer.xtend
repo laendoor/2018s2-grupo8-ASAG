@@ -1,7 +1,6 @@
 package ar.edu.unq.TraiFlix.transformer
 
 import org.uqbar.arena.bindings.ValueTransformer
-import org.joda.time.format.PeriodFormatterBuilder
 import org.joda.time.Duration
 
 

@@ -7,7 +7,6 @@ import ar.edu.unq.TraiFlix.models.Movie;
 import ar.edu.unq.TraiFlix.models.Serie;
 import ar.edu.unq.TraiFlix.models.TraiFlix;
 import ar.edu.unq.TraiFlix.models.User;
-import com.google.common.base.Objects;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -44,8 +43,7 @@ public class Bootstrap {
   public static Bootstrap getInstance() {
     Bootstrap _xblockexpression = null;
     {
-      boolean _equals = Objects.equal(Bootstrap.instance, null);
-      if (_equals) {
+      if ((Bootstrap.instance == null)) {
         Bootstrap _bootstrap = new Bootstrap();
         Bootstrap.instance = _bootstrap;
       }
@@ -212,16 +210,12 @@ public class Bootstrap {
   }
   
   public void loadEpisodesInSerie(final Serie serie1, final List<Episode> episodes) {
-    final Consumer<Episode> _function = new Consumer<Episode>() {
-      public void accept(final Episode elem) {
-        elem.setSerie(serie1);
-      }
+    final Consumer<Episode> _function = (Episode elem) -> {
+      elem.setSerie(serie1);
     };
     episodes.forEach(_function);
-    final Consumer<Episode> _function_1 = new Consumer<Episode>() {
-      public void accept(final Episode elem) {
-        serie1.addEpisode(elem);
-      }
+    final Consumer<Episode> _function_1 = (Episode elem) -> {
+      serie1.addEpisode(elem);
     };
     episodes.forEach(_function_1);
   }

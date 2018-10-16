@@ -20,7 +20,6 @@ import ar.edu.unq.api.TraiFlix_api_rest.Text;
 import ar.edu.unq.api.TraiFlix_api_rest.UserRest;
 import ar.edu.unq.api.TraiFlix_api_rest.UserToAndFrom;
 import ar.edu.unq.api.TraiFlix_api_rest.dataResults.DataResult;
-import com.google.common.base.Objects;
 import java.io.IOException;
 import java.security.InvalidParameterException;
 import java.util.List;
@@ -79,6 +78,7 @@ public class RestfulServer extends ResultFactory {
       return ResultFactory.ok();
     } catch (final Throwable _t) {
       if (_t instanceof Exception) {
+        final Exception e = (Exception)_t;
         return ResultFactory.badRequest("{\"status\": \"Error\",\"message\":\"Usuario Invalido\", \"codeError\":401}");
       } else {
         throw Exceptions.sneakyThrow(_t);
@@ -94,10 +94,8 @@ public class RestfulServer extends ResultFactory {
    */
   @Get("/categories")
   public Result getCategories(final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
-    final Function<Category, String> _function = new Function<Category, String>() {
-      public String apply(final Category elem) {
-        return elem.getName();
-      }
+    final Function<Category, String> _function = (Category elem) -> {
+      return elem.getName();
     };
     Object[] _array = this.traiFlixsSystem.getCategories().stream().<String>map(_function).toArray();
     DataResult data = new DataResult(_array);
@@ -117,7 +115,7 @@ public class RestfulServer extends ResultFactory {
     try {
       final Category cat = new Category(category);
       final List<Ratingable> content = this.traiFlixsSystem.moviesAndSeriesCategory(cat);
-      return ResultFactory.ok(this._jSONUtils.toJson(cat));
+      return ResultFactory.ok(this._jSONUtils.toJson(content));
     } catch (final Throwable _t) {
       if (_t instanceof Exception) {
         final Exception exception = (Exception)_t;
@@ -176,8 +174,7 @@ public class RestfulServer extends ResultFactory {
         ContentId _parse = ContentIdFactory.parse(id);
         SerieId serieId = ((SerieId) _parse);
         Serie serie = this.traiFlixsSystem.serie(serieId);
-        boolean _notEquals = (!Objects.equal(serie, null));
-        if (_notEquals) {
+        if ((serie != null)) {
           return ResultFactory.ok(this._jSONUtils.toJson(serie));
         } else {
           String _string = serieId.toString();
@@ -222,8 +219,7 @@ public class RestfulServer extends ResultFactory {
         ContentId _parse = ContentIdFactory.parse(id);
         MovieId movieId = ((MovieId) _parse);
         Movie movie = this.traiFlixsSystem.movie(movieId);
-        boolean _notEquals = (!Objects.equal(movie, null));
-        if (_notEquals) {
+        if ((movie != null)) {
           return ResultFactory.ok(this._jSONUtils.toJson(movie));
         } else {
           String _string = movieId.toString();
@@ -334,18 +330,18 @@ public class RestfulServer extends ResultFactory {
       ContentId contentId = ContentIdFactory.parse(id);
       Favourable content = null;
       String _lowerCase = type.toLowerCase();
-      boolean _matched = false;
-      if (Objects.equal(_lowerCase, "movie")) {
-        _matched=true;
-        content = this.traiFlixsSystem.movie(((MovieId) contentId));
-      }
-      if (!_matched) {
-        if (Objects.equal(_lowerCase, "serie")) {
-          _matched=true;
-          content = this.traiFlixsSystem.serie(((SerieId) contentId));
+      if (_lowerCase != null) {
+        switch (_lowerCase) {
+          case "movie":
+            content = this.traiFlixsSystem.movie(((MovieId) contentId));
+            break;
+          case "serie":
+            content = this.traiFlixsSystem.serie(((SerieId) contentId));
+            break;
+          default:
+            throw new InvalidParameterException((("El tipo de contenido " + type) + " no es valido."));
         }
-      }
-      if (!_matched) {
+      } else {
         throw new InvalidParameterException((("El tipo de contenido " + type) + " no es valido."));
       }
       boolean _parseBoolean = Boolean.parseBoolean(value);
@@ -512,6 +508,7 @@ public class RestfulServer extends ResultFactory {
       return ResultFactory.ok();
     } catch (final Throwable _t) {
       if (_t instanceof NumberFormatException) {
+        final NumberFormatException exception = (NumberFormatException)_t;
         return ResultFactory.badRequest(this.getErrorJson("El id debe ser un número entero"));
       } else {
         throw Exceptions.sneakyThrow(_t);

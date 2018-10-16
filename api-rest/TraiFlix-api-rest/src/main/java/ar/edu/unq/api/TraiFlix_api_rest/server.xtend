@@ -18,7 +18,6 @@ import org.uqbar.xtrest.api.annotation.Put
 import org.uqbar.xtrest.http.ContentType
 import org.uqbar.xtrest.json.JSONUtils
 import ar.edu.unq.TraiFlix.models.Assessment
-import ar.edu.unq.TraiFlix.models.Ratingable
 
 /**
  * Servidor RESTful implementado con XtRest.
@@ -91,7 +90,7 @@ class RestfulServer {
 		try{
 			val cat = new Category(category)
 			val content = traiFlixsSystem.moviesAndSeriesCategory(cat)
-			return ok(cat.toJson)	
+			return ok(content.toJson)	
 		}
 		catch(Exception exception){
 			return badRequest( getErrorJson("Problemas buscando contenidos en la categoria. " + exception.message ) ) 
@@ -144,7 +143,7 @@ class RestfulServer {
 			
 			var serieId = ContentIdFactory.parse(id) as SerieId
 			var serie = traiFlixsSystem.serie(serieId)
-			if( serie != null )
+			if( serie !== null )
 				return ok( serie.toJson )
 			else
 				errorMessage = "No existe la serie con id: " + serieId.toString
@@ -183,7 +182,7 @@ class RestfulServer {
 			
 			var movieId = ContentIdFactory.parse(id) as MovieId
 			var movie = traiFlixsSystem.movie(movieId)
-			if( movie != null )
+			if( movie !== null )
 				return ok( movie.toJson )
 			else
 				errorMessage = "No existe la pelicula con id: " + movieId.toString

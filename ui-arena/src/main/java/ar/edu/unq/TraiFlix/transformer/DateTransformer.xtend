@@ -2,7 +2,6 @@ package ar.edu.unq.TraiFlix.transformer
 
 import org.uqbar.arena.bindings.ValueTransformer
 import java.util.Date
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 
 class DateTransformer implements ValueTransformer<Date, String>{

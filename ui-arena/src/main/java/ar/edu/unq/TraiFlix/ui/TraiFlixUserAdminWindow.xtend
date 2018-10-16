@@ -42,7 +42,7 @@ class TraiFlixUserAdminWindow extends Dialog<UserModel>{
 				caption = "Ver"
 				alignCenter
 				width = 200
-				onClick [ | if(modelObject.selectedUser != null)(new TraiFlixViewUserDialog(this, modelObject.selectedUser).open) ]
+				onClick [ | if(modelObject.selectedUser !== null)(new TraiFlixViewUserDialog(this, modelObject.selectedUser).open) ]
 			]
 			
 			new Button(buttonPanel) => [ 
