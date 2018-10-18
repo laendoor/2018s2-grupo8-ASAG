@@ -2,12 +2,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'open-iconic/font/css/open-iconic-bootstrap.min.css';
 import '../dist/css/App.css';
+import { Switch, Route } from 'react-router';
 
 import React from 'react';
 
 import { BrowserRouter } from 'react-router-dom';
 
-import Root from './Root.jsx';
+import SingIn from './Login/SingIn';
 
 export default class App extends React.Component {
   constructor() {
@@ -18,9 +19,10 @@ export default class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
-        <Root>
-          <h1>Hola {this.state.name}</h1>
-        </Root>
+        <Switch>
+          <Route path="/app" component={App} />
+          <Route path="/singin" component={SingIn} />
+        </Switch>
       </BrowserRouter>
     );
   }
