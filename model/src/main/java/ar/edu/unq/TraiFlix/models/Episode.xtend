@@ -3,11 +3,13 @@ package ar.edu.unq.TraiFlix.models
 import org.eclipse.xtend.lib.annotations.Accessors
 import ar.edu.unq.TraiFlix.models.id.EpisodeId
 import org.uqbar.commons.model.annotations.Observable
+import com.fasterxml.jackson.annotation.JsonIgnore
 
 @Accessors
 @Observable
 class Episode extends Content implements Ratingable{
 	
+	@JsonIgnore
 	Serie serie;
 	Integer season;
 	Integer episodeNumber;

@@ -16,7 +16,6 @@ import org.uqbar.arena.widgets.TextBox
 
 import static extension org.uqbar.arena.xtend.ArenaXtendExtensions.*
 import org.uqbar.arena.layout.ColumnLayout
-import org.uqbar.arena.windows.Window
 import org.uqbar.arena.windows.Dialog
 import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.widgets.tables.Column
@@ -25,13 +24,13 @@ import ar.edu.unq.TraiFlix.ui.appModels.RelatableContentAppModel
 import ar.edu.unq.TraiFlix.filters.DateTextFilter
 import ar.edu.unq.TraiFlix.transformer.DurationTransformer
 import org.uqbar.arena.windows.MessageBox
-import ar.edu.unq.TraiFlix.filters.LinkTextFilter
 import ar.edu.unq.TraiFlix.transformer.DateTransformer
 import ar.edu.unq.TraiFlix.filters.DurationFilter
+import org.uqbar.arena.windows.WindowOwner
 
 class TraiFlixAdministratorMovieWindow extends Dialog<MovieManagementAppModel>{
 	
-	new(Window owner, MovieManagementAppModel model) {
+	new(WindowOwner owner, MovieManagementAppModel model) {
 		super(owner,model)
 	}
 	

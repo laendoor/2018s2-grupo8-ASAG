@@ -18,7 +18,6 @@ class Serie implements Ratingable, Relatable, Favourable {
 	Clasification clasification
 	String creators
 	List<Relatable> relateds
-	@JsonIgnore
 	List<Episode> episodes;
 	
 	

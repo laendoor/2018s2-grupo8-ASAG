@@ -187,7 +187,7 @@ class TraiFlixMainWindow extends Window<AdminModel> {
 			new Button(buttonPanel) => [ 
 			caption = "Modificar"
 			alignCenter
-				onClick [  if(modelObject.selectedMovie!= null)
+				onClick [  if(modelObject.selectedMovie !== null)
 					new TraiFlixAdministratorMovieWindow(this,
 					new MovieManagementAppModel(this.modelObject.model, modelObject.selectedMovie))=>[
 					

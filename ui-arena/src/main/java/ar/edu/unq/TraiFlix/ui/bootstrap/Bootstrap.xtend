@@ -9,10 +9,8 @@ import java.util.Date
 import ar.edu.unq.TraiFlix.models.Category
 import ar.edu.unq.TraiFlix.models.Clasification
 import org.eclipse.xtend.lib.annotations.Accessors
-import org.joda.time.Period
 import ar.edu.unq.TraiFlix.models.TraiFlix
 import org.joda.time.Duration
-import org.joda.time.LocalTime
 import org.joda.time.DateTime
 
 @Accessors
@@ -37,7 +35,7 @@ class Bootstrap {
 	}
 
 	static def getInstance() {
-		if (instance == null) {
+		if (instance === null) {
 			instance = new Bootstrap
 		}
 		instance

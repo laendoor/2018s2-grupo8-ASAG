@@ -49,7 +49,7 @@ abstract class GenericContentId implements ContentId, Comparable<ContentId> {
 	override def boolean isEpisode(){ false }
 	
 	@JsonValue
-    private def toJson() {
+    protected def toJson() {
         this.value
     }	
 	

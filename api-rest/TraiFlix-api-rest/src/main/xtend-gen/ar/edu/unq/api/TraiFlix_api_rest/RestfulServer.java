@@ -117,7 +117,7 @@ public class RestfulServer extends ResultFactory {
     try {
       final Category cat = new Category(category);
       final List<Ratingable> content = this.traiFlixsSystem.moviesAndSeriesCategory(cat);
-      return ResultFactory.ok(this._jSONUtils.toJson(cat));
+      return ResultFactory.ok(this._jSONUtils.toJson(content));
     } catch (final Throwable _t) {
       if (_t instanceof Exception) {
         final Exception exception = (Exception)_t;
@@ -176,8 +176,7 @@ public class RestfulServer extends ResultFactory {
         ContentId _parse = ContentIdFactory.parse(id);
         SerieId serieId = ((SerieId) _parse);
         Serie serie = this.traiFlixsSystem.serie(serieId);
-        boolean _notEquals = (!Objects.equal(serie, null));
-        if (_notEquals) {
+        if ((serie != null)) {
           return ResultFactory.ok(this._jSONUtils.toJson(serie));
         } else {
           String _string = serieId.toString();
@@ -222,8 +221,7 @@ public class RestfulServer extends ResultFactory {
         ContentId _parse = ContentIdFactory.parse(id);
         MovieId movieId = ((MovieId) _parse);
         Movie movie = this.traiFlixsSystem.movie(movieId);
-        boolean _notEquals = (!Objects.equal(movie, null));
-        if (_notEquals) {
+        if ((movie != null)) {
           return ResultFactory.ok(this._jSONUtils.toJson(movie));
         } else {
           String _string = movieId.toString();

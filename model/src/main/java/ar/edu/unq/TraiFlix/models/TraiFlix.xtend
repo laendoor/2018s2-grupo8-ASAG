@@ -56,7 +56,7 @@ class TraiFlix {
 		var movie = movies.findFirst[
 			elem | elem.id == id
 		]
-		if( movie == null ) throw new InvalidParameterException( "No existe la pelicula " + id )
+		if( movie === null ) throw new InvalidParameterException( "No existe la pelicula " + id )
 		return movie
 	}
 	
@@ -64,7 +64,7 @@ class TraiFlix {
 		var serie = series.findFirst[
 			elem | elem.id == id
 		]
-		if( serie == null ) throw new InvalidParameterException( "No existe la serie " + id )
+		if( serie === null ) throw new InvalidParameterException( "No existe la serie " + id )
 		return serie
 	}
 	
@@ -78,7 +78,7 @@ class TraiFlix {
 		var user = users.findFirst[
 			elem | elem.nick.toUpperCase == nickName.toUpperCase
 		]
-		if( user == null) throw new InvalidParameterException("Usuario '" + nickName + "' inexistente.")
+		if( user === null) throw new InvalidParameterException("Usuario '" + nickName + "' inexistente.")
 		return user
 	}
 	

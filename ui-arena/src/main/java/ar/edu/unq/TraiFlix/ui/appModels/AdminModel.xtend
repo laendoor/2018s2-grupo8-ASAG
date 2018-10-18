@@ -3,13 +3,11 @@ package ar.edu.unq.TraiFlix.ui.appModels
 import ar.edu.unq.TraiFlix.models.Movie
 import ar.edu.unq.TraiFlix.models.TraiFlix
 import org.eclipse.xtend.lib.annotations.Accessors
-
 import ar.edu.unq.TraiFlix.models.Serie
 import java.util.List
 import org.uqbar.commons.model.annotations.Observable
 import ar.edu.unq.TraiFlix.ui.SerieManagementWindow
 import ar.edu.unq.TraiFlix.ui.TraiFlixMainWindow
-import org.uqbar.arena.windows.Dialog
 
 @Accessors
 @Observable
@@ -65,7 +63,7 @@ class AdminModel extends AppModel{
 	}
 	
 	def deleteMovieSelected() {
-		if(selectedMovie == null)
+		if(selectedMovie === null)
 		return;
 		model.deleteMovie(selectedMovie.id)
 		selectedMovie = null
@@ -77,7 +75,7 @@ class AdminModel extends AppModel{
 	//----------------------//
 	//--- BOTONES SERIES ---//
 	def updateSerie() {
-		if(selectedSerie == null){
+		if(selectedSerie === null){
 			//TODO FIXME crear error
 			return
 		}
@@ -85,7 +83,7 @@ class AdminModel extends AppModel{
 		}
 	
 	def viewSerie() {
-		if(selectedSerie == null){
+		if(selectedSerie === null){
 			//TODO FIXME crear error
 			return
 		}
@@ -95,7 +93,7 @@ class AdminModel extends AppModel{
 	}
 
 	def deleteSerieSelected() {
-		if(selectedSerie == null)
+		if(selectedSerie === null)
 			return;
 		model.deleteSerie(selectedSerie.id)
 		selectedSerie = null

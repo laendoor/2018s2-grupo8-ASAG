@@ -7,7 +7,6 @@ import ar.edu.unq.TraiFlix.models.Movie;
 import ar.edu.unq.TraiFlix.models.Serie;
 import ar.edu.unq.TraiFlix.models.TraiFlix;
 import ar.edu.unq.TraiFlix.models.User;
-import com.google.common.base.Objects;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -44,8 +43,7 @@ public class Bootstrap {
   public static Bootstrap getInstance() {
     Bootstrap _xblockexpression = null;
     {
-      boolean _equals = Objects.equal(Bootstrap.instance, null);
-      if (_equals) {
+      if ((Bootstrap.instance == null)) {
         Bootstrap _bootstrap = new Bootstrap();
         Bootstrap.instance = _bootstrap;
       }

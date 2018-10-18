@@ -5,15 +5,23 @@ import '../dist/css/App.css';
 
 import React from 'react';
 
+import { BrowserRouter } from 'react-router-dom';
+
+import Root from './Root.jsx';
+
 export default class App extends React.Component {
   constructor() {
     super();
-    this.state = { name: 'mundo!' };
+    this.state = { name: 'mundo' };
   }
 
   render() {
     return (
-      <h1>Hola {this.state.name}</h1>
+      <BrowserRouter>
+        <Root>
+          <h1>Hola {this.state.name}</h1>
+        </Root>
+      </BrowserRouter>
     );
   }
 }
