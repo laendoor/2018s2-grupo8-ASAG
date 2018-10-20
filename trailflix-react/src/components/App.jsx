@@ -1,13 +1,11 @@
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'open-iconic/font/css/open-iconic-bootstrap.min.css';
 import '../dist/css/App.css';
 import { Switch, Route } from 'react-router';
-
-import React from 'react';
-
 import { BrowserRouter } from 'react-router-dom';
-
+import Home from './Home';
 import SingIn from './Login/SingIn';
 
 export default class App extends React.Component {
@@ -20,8 +18,8 @@ export default class App extends React.Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route path="/app" component={App} />
-          <Route path="/singin" component={SingIn} />
+          <Route path="/home" component={Home} />
+          <Route path="/" component={SingIn} />
         </Switch>
       </BrowserRouter>
     );

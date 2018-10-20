@@ -1,20 +1,23 @@
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'open-iconic/font/css/open-iconic-bootstrap.min.css';
 import '../../dist/css/singIn.css';
+import API from '../../service/Api';
 
-import React from 'react';
 
 class SingIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: '',
+      username: '',
     };
   }
 
   SingUp() {
-    console.log('this.state', this.state.user);
+    API.post('/auth', { ...this.state })
+      .then(() => this.props.history.push('/home'))
+      .catch(console.log);
   }
 
   render() {
@@ -33,7 +36,7 @@ class SingIn extends React.Component {
                 className="form-input"
                 type="text"
                 placeholder="Ingrese su usuario"
-                onChange={event => this.setState({ user: event.target.value })}
+                onChange={event => this.setState({ username: event.target.value })}
               />
               <button
                 className="btn btn-primary"
