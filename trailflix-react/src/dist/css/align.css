@@ -1,0 +1,7 @@
+
+
+.containerRight {
+    display: flex;
+    align-items: Right;
+    justify-content: Right;
+}
