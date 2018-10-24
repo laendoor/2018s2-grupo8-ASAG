@@ -50,6 +50,7 @@ class RestfulServer {
 	@Post("/auth")
 	def autentification(@Body String body) {
 		response.contentType = ContentType.APPLICATION_JSON
+		
 		try{
 			
 			val user = body.fromJson(UserRest)
@@ -71,6 +72,8 @@ class RestfulServer {
 	 */
 	@Get("/categories")
 	def getCategories() {
+		response.contentType = ContentType.APPLICATION_JSON
+		
 		var data = new DataResult(this.traiFlixsSystem.categories.stream.map([elem|elem.name]).toArray) 
 		return ok( data.toJson )	
 	}
@@ -84,9 +87,9 @@ class RestfulServer {
 	 * 
 	 */
 	@Get("/content/:category")
-	def getCategoriesContents() {
-		
+	def getCategoriesContents() {		
 		response.contentType = ContentType.APPLICATION_JSON
+		
 		try{
 			val cat = new Category(category)
 			val content = traiFlixsSystem.moviesAndSeriesCategory(cat)
@@ -108,6 +111,7 @@ class RestfulServer {
 	 */
 	@Get("/:username/favs")
 	def getContentsUserFavs() {
+		response.contentType = ContentType.APPLICATION_JSON
 		
 		try
 		{
@@ -134,9 +138,10 @@ class RestfulServer {
 	 * 			● 404 Not Found
 	 */
 	@Get("/:username/serie/:id")
-	def getSeriesUserFavs() {
-		var String errorMessage
-				
+	def getSeriesUserFavs() {		
+		response.contentType = ContentType.APPLICATION_JSON
+		
+		var String errorMessage		
 		try
 		{
 			checkUser(username)
@@ -174,6 +179,8 @@ class RestfulServer {
 	 */
 	@Get("/:username/movie/:id")
 	def getMoviesUserFavs() {
+		response.contentType = ContentType.APPLICATION_JSON
+		
 		var String errorMessage
 				
 		try
@@ -216,7 +223,8 @@ class RestfulServer {
 	 
 	@Post("/recommend/:type/:id")
 	def recomended(@Body String body) {
-	response.contentType = ContentType.APPLICATION_JSON
+		response.contentType = ContentType.APPLICATION_JSON
+		
 		try{
 			val users = body.fromJson(UserToAndFrom);
 			val user1 = this.traiFlixsSystem.searchUser(users.userFrom)
@@ -243,9 +251,9 @@ class RestfulServer {
 	 * 
 	 */
 	@Post("/search")
-	def search(@Body String body) {
-		
+	def search(@Body String body) {		
 		response.contentType = ContentType.APPLICATION_JSON
+		
 		try {
 			val textSearch =  body.fromJson(Text)
 			val content = this.traiFlixsSystem.searchRelationalContent(textSearch.text)
@@ -276,6 +284,7 @@ class RestfulServer {
 	 */
 	@Put("/:username/fav/:type/:id/:value")
 	def setWatchedUser(@Body String body) {
+		response.contentType = ContentType.APPLICATION_JSON
 		
 		try {			
 			var user = traiFlixsSystem.findUserByNickName(username)
@@ -437,6 +446,8 @@ class RestfulServer {
      */
     @Delete('/movies')
     def deleteSerieById(@Body String body) {
+    	response.contentType = ContentType.APPLICATION_JSON
+    	
         try {
         	val id = body.fromJson(MovieId)
             this.traiFlixsSystem.deleteMovie(id)

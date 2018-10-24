@@ -210,16 +210,12 @@ public class Bootstrap {
   }
   
   public void loadEpisodesInSerie(final Serie serie1, final List<Episode> episodes) {
-    final Consumer<Episode> _function = new Consumer<Episode>() {
-      public void accept(final Episode elem) {
-        elem.setSerie(serie1);
-      }
+    final Consumer<Episode> _function = (Episode elem) -> {
+      elem.setSerie(serie1);
     };
     episodes.forEach(_function);
-    final Consumer<Episode> _function_1 = new Consumer<Episode>() {
-      public void accept(final Episode elem) {
-        serie1.addEpisode(elem);
-      }
+    final Consumer<Episode> _function_1 = (Episode elem) -> {
+      serie1.addEpisode(elem);
     };
     episodes.forEach(_function_1);
   }

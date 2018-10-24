@@ -20,7 +20,6 @@ import ar.edu.unq.api.TraiFlix_api_rest.Text;
 import ar.edu.unq.api.TraiFlix_api_rest.UserRest;
 import ar.edu.unq.api.TraiFlix_api_rest.UserToAndFrom;
 import ar.edu.unq.api.TraiFlix_api_rest.dataResults.DataResult;
-import com.google.common.base.Objects;
 import java.io.IOException;
 import java.security.InvalidParameterException;
 import java.util.List;
@@ -79,6 +78,7 @@ public class RestfulServer extends ResultFactory {
       return ResultFactory.ok();
     } catch (final Throwable _t) {
       if (_t instanceof Exception) {
+        final Exception e = (Exception)_t;
         return ResultFactory.badRequest("{\"status\": \"Error\",\"message\":\"Usuario Invalido\", \"codeError\":401}");
       } else {
         throw Exceptions.sneakyThrow(_t);
@@ -94,10 +94,9 @@ public class RestfulServer extends ResultFactory {
    */
   @Get("/categories")
   public Result getCategories(final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
-    final Function<Category, String> _function = new Function<Category, String>() {
-      public String apply(final Category elem) {
-        return elem.getName();
-      }
+    response.setContentType(ContentType.APPLICATION_JSON);
+    final Function<Category, String> _function = (Category elem) -> {
+      return elem.getName();
     };
     Object[] _array = this.traiFlixsSystem.getCategories().stream().<String>map(_function).toArray();
     DataResult data = new DataResult(_array);
@@ -139,6 +138,7 @@ public class RestfulServer extends ResultFactory {
    */
   @Get("/:username/favs")
   public Result getContentsUserFavs(final String username, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    response.setContentType(ContentType.APPLICATION_JSON);
     try {
       List<Favourable> _userFavourites = this.traiFlixsSystem.userFavourites(username);
       DataResult data = new DataResult(_userFavourites);
@@ -170,6 +170,7 @@ public class RestfulServer extends ResultFactory {
   public Result getSeriesUserFavs(final String username, final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
     Result _xblockexpression = null;
     {
+      response.setContentType(ContentType.APPLICATION_JSON);
       String errorMessage = null;
       try {
         this.checkUser(username);
@@ -215,6 +216,7 @@ public class RestfulServer extends ResultFactory {
   public Result getMoviesUserFavs(final String username, final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
     Result _xblockexpression = null;
     {
+      response.setContentType(ContentType.APPLICATION_JSON);
       String errorMessage = null;
       try {
         this.checkUser(username);
@@ -327,23 +329,24 @@ public class RestfulServer extends ResultFactory {
    */
   @Put("/:username/fav/:type/:id/:value")
   public Result setWatchedUser(@Body final String body, final String username, final String type, final String id, final String value, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    response.setContentType(ContentType.APPLICATION_JSON);
     try {
       User user = this.traiFlixsSystem.findUserByNickName(username);
       ContentId contentId = ContentIdFactory.parse(id);
       Favourable content = null;
       String _lowerCase = type.toLowerCase();
-      boolean _matched = false;
-      if (Objects.equal(_lowerCase, "movie")) {
-        _matched=true;
-        content = this.traiFlixsSystem.movie(((MovieId) contentId));
-      }
-      if (!_matched) {
-        if (Objects.equal(_lowerCase, "serie")) {
-          _matched=true;
-          content = this.traiFlixsSystem.serie(((SerieId) contentId));
+      if (_lowerCase != null) {
+        switch (_lowerCase) {
+          case "movie":
+            content = this.traiFlixsSystem.movie(((MovieId) contentId));
+            break;
+          case "serie":
+            content = this.traiFlixsSystem.serie(((SerieId) contentId));
+            break;
+          default:
+            throw new InvalidParameterException((("El tipo de contenido " + type) + " no es valido."));
         }
-      }
-      if (!_matched) {
+      } else {
         throw new InvalidParameterException((("El tipo de contenido " + type) + " no es valido."));
       }
       boolean _parseBoolean = Boolean.parseBoolean(value);
@@ -504,12 +507,14 @@ public class RestfulServer extends ResultFactory {
    */
   @Delete("/movies")
   public Result deleteSerieById(@Body final String body, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    response.setContentType(ContentType.APPLICATION_JSON);
     try {
       final MovieId id = this._jSONUtils.<MovieId>fromJson(body, MovieId.class);
       this.traiFlixsSystem.deleteMovie(id);
       return ResultFactory.ok();
     } catch (final Throwable _t) {
       if (_t instanceof NumberFormatException) {
+        final NumberFormatException exception = (NumberFormatException)_t;
         return ResultFactory.badRequest(this.getErrorJson("El id debe ser un número entero"));
       } else {
         throw Exceptions.sneakyThrow(_t);
