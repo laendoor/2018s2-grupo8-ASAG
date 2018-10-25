@@ -24,24 +24,15 @@ export default class Serie extends React.Component {
         clasification: {
           name: '',
         },
-        creators: '',
-        relateds: [],
         rating: 0,
         episodes: [{
-          id: '',
           title: '',
           release: '',
-          assessments: [],
-          duration: 0,
-          directors: '',
-          actors: '',
           link: '',
           season: 0,
           episodeNumber: 0,
-          rating: 0,
         }],
       },
-      defaultImage: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg',
     };
   }
 
@@ -72,12 +63,8 @@ export default class Serie extends React.Component {
       .catch(console.log);
   }
 
-  goBack() {
-    this.props.history.goBack();
-  }
-
   loggedInUser() {
-    return localStorage.getItem('loggedInUser');
+    return this.props.match.params.user;
   }
 
   change(property, event) {
@@ -129,7 +116,6 @@ export default class Serie extends React.Component {
             <button type="button" className="btn btn-success btn-lg btn-block" onClick={() => this.removeFromFavourites()}>Quitar de Favoritos</button>
             <button type="button" className="btn btn-success btn-lg btn-block" onClick={() => this.removeFromWatched()}>Marcar como No Vista</button>
             <button type="button" className="btn btn-warning btn-lg btn-block" onClick={() => this.recommend()}>Recomendar</button>
-            <button type="button" className="btn btn-secondary btn-lg btn-block" onClick={() => this.goBack()}>Atras</button>
           </div>
         </div>
       </div>

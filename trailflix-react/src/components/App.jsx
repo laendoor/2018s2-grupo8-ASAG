@@ -20,7 +20,7 @@ export default class App extends React.Component {
       <BrowserRouter>
         <Switch>
           <Route path="/home" component={Home} />
-          <Route path="/serie/:id" component={Serie} />
+          <Route path="/serie/:user/:id" component={Serie} />
           <Route path="/" component={SingIn} />
         </Switch>
       </BrowserRouter>
