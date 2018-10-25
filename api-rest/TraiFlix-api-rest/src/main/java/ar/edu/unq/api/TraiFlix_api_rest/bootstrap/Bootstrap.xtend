@@ -92,7 +92,7 @@ class Bootstrap {
 		movie.release = new Date()
 		movie.actors = actors
 		movie.duration = Duration.standardMinutes(12).plus(Duration.standardSeconds(50))
-
+		movie.clasification = new Clasification("+18")
 		movie.directors = directors
 		movie.link = "https://www.youtube.com/watch?v=HoBo9ilFAlI"
 
@@ -103,6 +103,7 @@ class Bootstrap {
 		movie1.duration = Duration.standardMinutes(2)
 		movie1.directors = directors
 		movie1.link = "https://www.youtube.com/watch?v=PfEXKi83glA"
+		movie1.clasification = new Clasification("ATP")
 
 		var movie2 = new Movie()
 		movie2.title = "Cmen"
@@ -111,6 +112,10 @@ class Bootstrap {
 		movie2.actors = actors
 		movie2.directors = directors
 		movie2.link = "https://www.youtube.com/watch?v=lpFzTJN2y_o"
+		movie2.clasification = new Clasification("ATP")
+		
+		movie.addRelated(movie1)
+		movie.addRelated(movie2)
 		
 		val list = new ArrayList()
 		

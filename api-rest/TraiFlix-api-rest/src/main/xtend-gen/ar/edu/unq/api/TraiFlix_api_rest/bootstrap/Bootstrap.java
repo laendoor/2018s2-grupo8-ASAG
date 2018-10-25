@@ -108,6 +108,8 @@ public class Bootstrap {
       movie.setRelease(_date);
       movie.setActors(actors);
       movie.setDuration(Duration.standardMinutes(12).plus(Duration.standardSeconds(50)));
+      Clasification _clasification = new Clasification("+18");
+      movie.setClasification(_clasification);
       movie.setDirectors(directors);
       movie.setLink("https://www.youtube.com/watch?v=HoBo9ilFAlI");
       Movie movie1 = new Movie();
@@ -118,6 +120,8 @@ public class Bootstrap {
       movie1.setDuration(Duration.standardMinutes(2));
       movie1.setDirectors(directors);
       movie1.setLink("https://www.youtube.com/watch?v=PfEXKi83glA");
+      Clasification _clasification_1 = new Clasification("ATP");
+      movie1.setClasification(_clasification_1);
       Movie movie2 = new Movie();
       movie2.setTitle("Cmen");
       Date _date_2 = new Date();
@@ -126,6 +130,10 @@ public class Bootstrap {
       movie2.setActors(actors);
       movie2.setDirectors(directors);
       movie2.setLink("https://www.youtube.com/watch?v=lpFzTJN2y_o");
+      Clasification _clasification_2 = new Clasification("ATP");
+      movie2.setClasification(_clasification_2);
+      movie.addRelated(movie1);
+      movie.addRelated(movie2);
       final ArrayList<Movie> list = new ArrayList<Movie>();
       list.add(movie);
       list.add(movie1);

@@ -606,6 +606,8 @@ public class RestfulServer extends ResultFactory {
     		
     		// take variables from url
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = getCategories(target, baseRequest, request, response);
     	    result.process(response);
@@ -623,6 +625,8 @@ public class RestfulServer extends ResultFactory {
     		
     		// take variables from url
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = getSeries(target, baseRequest, request, response);
     	    result.process(response);
@@ -640,6 +644,8 @@ public class RestfulServer extends ResultFactory {
     		
     		// take variables from url
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = getUsers(target, baseRequest, request, response);
     	    result.process(response);
@@ -657,6 +663,8 @@ public class RestfulServer extends ResultFactory {
     		
     		// take variables from url
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = getMovies(target, baseRequest, request, response);
     	    result.process(response);
@@ -675,6 +683,8 @@ public class RestfulServer extends ResultFactory {
     		
     		// take variables from url
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = autentification(body, target, baseRequest, request, response);
     	    result.process(response);
@@ -693,6 +703,8 @@ public class RestfulServer extends ResultFactory {
     		
     		// take variables from url
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = search(body, target, baseRequest, request, response);
     	    result.process(response);
@@ -711,6 +723,8 @@ public class RestfulServer extends ResultFactory {
     		
     		// take variables from url
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = deleteSerieById(body, target, baseRequest, request, response);
     	    result.process(response);
@@ -729,6 +743,8 @@ public class RestfulServer extends ResultFactory {
     		// take variables from url
     		String category = matcher.group(1);
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = getCategoriesContents(category, target, baseRequest, request, response);
     	    result.process(response);
@@ -747,6 +763,8 @@ public class RestfulServer extends ResultFactory {
     		// take variables from url
     		String username = matcher.group(1);
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = getContentsUserFavs(username, target, baseRequest, request, response);
     	    result.process(response);
@@ -765,6 +783,8 @@ public class RestfulServer extends ResultFactory {
     		// take variables from url
     		String id = matcher.group(1);
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = getEpisodes(id, target, baseRequest, request, response);
     	    result.process(response);
@@ -783,6 +803,8 @@ public class RestfulServer extends ResultFactory {
     		// take variables from url
     		String username = matcher.group(1);
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = getUser(username, target, baseRequest, request, response);
     	    result.process(response);
@@ -802,6 +824,8 @@ public class RestfulServer extends ResultFactory {
     		// take variables from url
     		String movieName = matcher.group(1);
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = addActorToMovie(body, movieName, target, baseRequest, request, response);
     	    result.process(response);
@@ -821,6 +845,8 @@ public class RestfulServer extends ResultFactory {
     		String username = matcher.group(1);
     		String id = matcher.group(2);
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = getSeriesUserFavs(username, id, target, baseRequest, request, response);
     	    result.process(response);
@@ -840,6 +866,8 @@ public class RestfulServer extends ResultFactory {
     		String username = matcher.group(1);
     		String id = matcher.group(2);
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = getMoviesUserFavs(username, id, target, baseRequest, request, response);
     	    result.process(response);
@@ -860,6 +888,8 @@ public class RestfulServer extends ResultFactory {
     		String type = matcher.group(1);
     		String id = matcher.group(2);
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = recomended(body, type, id, target, baseRequest, request, response);
     	    result.process(response);
@@ -879,6 +909,8 @@ public class RestfulServer extends ResultFactory {
     		String nameMovie = matcher.group(1);
     		String nameActor = matcher.group(2);
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = addNameActorToMovie(nameMovie, nameActor, target, baseRequest, request, response);
     	    result.process(response);
@@ -900,6 +932,8 @@ public class RestfulServer extends ResultFactory {
     		String type = matcher.group(2);
     		String id = matcher.group(3);
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = setRatingUser(body, username, type, id, target, baseRequest, request, response);
     	    result.process(response);
@@ -922,6 +956,8 @@ public class RestfulServer extends ResultFactory {
     		String id = matcher.group(3);
     		String value = matcher.group(4);
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = setUserFavContent(body, username, type, id, value, target, baseRequest, request, response);
     	    result.process(response);
@@ -944,6 +980,8 @@ public class RestfulServer extends ResultFactory {
     		String id = matcher.group(3);
     		String value = matcher.group(4);
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = setUserWatchedContent(body, username, type, id, value, target, baseRequest, request, response);
     	    result.process(response);
