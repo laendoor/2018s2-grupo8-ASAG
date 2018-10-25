@@ -283,7 +283,7 @@ class RestfulServer {
 	 * 
 	 */
 	@Put("/:username/fav/:type/:id/:value")
-	def setWatchedUser(@Body String body) {
+	def setUserFavContent(@Body String body) {
 		response.contentType = ContentType.APPLICATION_JSON
 		
 		try {			
@@ -311,7 +311,61 @@ class RestfulServer {
 		
 	}
 	
-		/**
+	/**
+	 * Que establezca si el usuario marcó como visto o no determinado contenido.
+	 * 	
+	 * 		Parámetros
+	 * 			● type​: Tipo del contenido. Debería aceptar sólo alguno de estos valores:
+	 *				[movie, serie]
+	 *			● id​: Id del contenido
+	 *			● value​: Valor booleano que indique si se marca como visto o se quita de los
+	 *				vistos. Debería aceptar sólo alguno de estos valores: [true, false]
+	 *			● username​: Nombre de usuario que está generando la acción
+	 * 		Responses
+	 *			● 202 Accepted
+	 * 			● 200 OK
+	 *			● 400 Bad Request
+	 * 
+	 */
+	@Put("/:username/watched/:type/:id/:value")
+	def setUserWatchedContent(@Body String body) {
+		response.contentType = ContentType.APPLICATION_JSON
+		
+		try {			
+			var user = traiFlixsSystem.findUserByNickName(username)
+			var contentId = ContentIdFactory.parse(id)
+			var add =  Boolean.parseBoolean(value)
+			
+			switch( type.toLowerCase ) {
+				case "movie": {
+						var movie = traiFlixsSystem.movie(contentId as MovieId)
+						if(add) user.addWatchedContent(movie)
+						else user.removeWatchedContent(movie)					
+					}
+				case "serie": {
+						var serie = traiFlixsSystem.serie(contentId as SerieId)
+						if(add) {
+							if(serie.episodes !== null)
+								user.addWatchedContent(serie.episodes.get(0))
+							else
+								throw new InvalidParameterException( "No se puede marcar como vista una serie sin capitulos." )
+						}
+						else user.removeWatchedSerie(serie)					
+					}
+				default:
+					throw new InvalidParameterException( "El tipo de contenido " + type + " no es valido." )
+			}
+			
+			return ok()	
+		}
+		catch( Exception exception ) {
+			return badRequest( getErrorJson("Problemas administrando contenido visto. " + exception.message ) )			
+		}	
+		
+	}
+	
+	
+	/**
 	 * Establece el rating estipulado por el usuario.
 	 * 	
 	 * 		Parámetros
@@ -464,7 +518,7 @@ class RestfulServer {
 	
 	private def checkUser(String userName ) {
 		traiFlixsSystem.findUserByNickName(userName)
-	}
+	}	
 
 }
 

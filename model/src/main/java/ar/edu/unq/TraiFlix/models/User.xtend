@@ -26,8 +26,12 @@ class User {
 		recommended = new ArrayList
 	}
 	
-	def seeContent(Content content) {
+	def addWatchedContent(Content content) {
 		watched.add(content)
+	}
+	
+	def removeWatchedContent(Content content) {
+		watched.remove(content)
 	}
 	
 	def watchedMovies() {
@@ -44,6 +48,11 @@ class User {
 	
 	def watchedAndFinishedSeries() {
 		watchedSeries().filter[ elem | watched.containsAll(elem.episodes) ].toList
+	}
+	
+	def removeWatchedSerie(Serie serie) {
+		watched.filter[ elem | elem.id.isEpisode && (elem as Episode).serie.id == serie.id ]
+			.forEach[ episode | this.removeWatchedContent(episode) ]
 	}
 	
 	def addFriend(User user) {

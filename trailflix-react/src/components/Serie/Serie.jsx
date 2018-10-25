@@ -56,8 +56,10 @@ export default class Serie extends React.Component {
     }
   }
 
-  setAsNotWatched() {
-    // TO DO - Implementar
+  removeFromWatched() {
+    API.put(`/${this.loggedInUser()}/watched/serie/${this.props.match.params.id}/false`)
+      .then(response => this.setState({ serie: response }))
+      .catch(console.log);
   }
 
   recommend() {
@@ -97,7 +99,7 @@ export default class Serie extends React.Component {
 
   renderEpisodes() {
     return this.state.serie.episodes.map(episode => (
-      <li className="list-group-item">
+      <li className="list-group-item" key={episode.id}>
         <h4 className="mb-1">S{zeroLeftPad(episode.season, 2)}E{zeroLeftPad(episode.episodeNumber, 2)}</h4>
         <p className="mb-1">{episode.title}</p>
       </li>
@@ -116,7 +118,7 @@ export default class Serie extends React.Component {
               className="react-player"
               width="100%"
               height="80%"
-              controls="true"
+              controls
             />
           </div>
           <div className="col-4">
@@ -125,7 +127,7 @@ export default class Serie extends React.Component {
               {this.renderEpisodes()}
             </ul>
             <button type="button" className="btn btn-success btn-lg btn-block" onClick={() => this.removeFromFavourites()}>Quitar de Favoritos</button>
-            <button type="button" className="btn btn-success btn-lg btn-block" onClick={() => this.setAsNotWatched()}>Marcar como No Vista</button>
+            <button type="button" className="btn btn-success btn-lg btn-block" onClick={() => this.removeFromWatched()}>Marcar como No Vista</button>
             <button type="button" className="btn btn-warning btn-lg btn-block" onClick={() => this.recommend()}>Recomendar</button>
             <button type="button" className="btn btn-secondary btn-lg btn-block" onClick={() => this.goBack()}>Atras</button>
           </div>
