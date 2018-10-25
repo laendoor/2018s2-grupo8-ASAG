@@ -194,17 +194,20 @@ public class Bootstrap {
   
   public ArrayList<Episode> createEpisodes() {
     final Episode episode1 = new Episode();
-    episode1.setTitle("epi1");
+    episode1.setTitle("Larry el Psicologo");
     episode1.setSeason(Integer.valueOf(1));
     episode1.setEpisodeNumber(Integer.valueOf(1));
+    episode1.setLink("https://www.youtube.com/watch?v=5MbSixjIzOw");
     final Episode episode2 = new Episode();
-    episode2.setTitle("epi2");
+    episode2.setTitle("Ajedrez");
     episode2.setSeason(Integer.valueOf(2));
     episode2.setEpisodeNumber(Integer.valueOf(2));
+    episode2.setLink("https://www.youtube.com/watch?v=ctoKrCpFxjA");
     final Episode episode3 = new Episode();
-    episode3.setTitle("epi3");
+    episode3.setTitle("Luna de Miel");
     episode3.setSeason(Integer.valueOf(3));
     episode3.setEpisodeNumber(Integer.valueOf(3));
+    episode3.setLink("https://www.youtube.com/watch?v=o-8fGNqbzj8");
     ArrayList<Episode> _newArrayList = CollectionLiterals.<Episode>newArrayList(episode1, episode2, episode3);
     return new ArrayList<Episode>(_newArrayList);
   }

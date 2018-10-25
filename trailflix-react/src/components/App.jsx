@@ -7,6 +7,7 @@ import { Switch, Route } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import Home from './Home';
 import SingIn from './Login/SingIn';
+import Serie from './Serie/Serie';
 
 export default class App extends React.Component {
   constructor() {
@@ -19,6 +20,7 @@ export default class App extends React.Component {
       <BrowserRouter>
         <Switch>
           <Route path="/home" component={Home} />
+          <Route path="/serie/:id" component={Serie} />
           <Route path="/" component={SingIn} />
         </Switch>
       </BrowserRouter>

@@ -182,19 +182,22 @@ class Bootstrap {
 	
 	def createEpisodes(){
 		val episode1 = new Episode();
-		episode1.title = "epi1"
+		episode1.title = "Larry el Psicologo"
 		episode1.season = 1
 		episode1.episodeNumber = 1
+		episode1.link = "https://www.youtube.com/watch?v=5MbSixjIzOw"
 		
 		val episode2 = new Episode();
-		episode2.title = "epi2"
+		episode2.title = "Ajedrez"
 		episode2.season = 2
 		episode2.episodeNumber = 2
+		episode2.link = "https://www.youtube.com/watch?v=ctoKrCpFxjA"		
 		
 		val episode3 = new Episode();
-		episode3.title = "epi3"
+		episode3.title = "Luna de Miel"
 		episode3.season = 3
 		episode3.episodeNumber = 3
+		episode3.link = "https://www.youtube.com/watch?v=o-8fGNqbzj8"
 		
 		
 		return new ArrayList(newArrayList(episode1,episode2,episode3))
