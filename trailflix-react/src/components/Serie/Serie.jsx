@@ -85,8 +85,8 @@ export default class Serie extends React.Component {
   }
 
   renderEpisodes() {
-    return this.state.serie.episodes.map(episode => (
-      <li className="list-group-item" key={episode.id}>
+    return this.state.serie.episodes.map((episode, i) => (
+      <li className="list-group-item" key={i}>
         <h4 className="mb-1">S{zeroLeftPad(episode.season, 2)}E{zeroLeftPad(episode.episodeNumber, 2)}</h4>
         <p className="mb-1">{episode.title}</p>
       </li>
