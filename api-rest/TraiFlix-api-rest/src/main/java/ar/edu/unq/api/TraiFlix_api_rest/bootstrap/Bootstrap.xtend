@@ -94,7 +94,7 @@ class Bootstrap {
 		movie.duration = Duration.standardMinutes(12).plus(Duration.standardSeconds(50))
 		movie.clasification = new Clasification("+18")
 		movie.directors = directors
-		movie.link = "https://www.youtube.com/watch?v=HoBo9ilFAlI"
+		movie.link = "http://www.youtube.com/watch?v=HoBo9ilFAlI"
 
 		var movie1 = new Movie()
 		movie1.title = "I'm Batman"
@@ -102,7 +102,7 @@ class Bootstrap {
 		movie1.actors = actors
 		movie1.duration = Duration.standardMinutes(2)
 		movie1.directors = directors
-		movie1.link = "https://www.youtube.com/watch?v=PfEXKi83glA"
+		movie1.link = "http://www.youtube.com/watch?v=PfEXKi83glA"
 		movie1.clasification = new Clasification("ATP")
 
 		var movie2 = new Movie()
@@ -111,7 +111,7 @@ class Bootstrap {
 		movie2.duration = Duration.standardMinutes(5)
 		movie2.actors = actors
 		movie2.directors = directors
-		movie2.link = "https://www.youtube.com/watch?v=lpFzTJN2y_o"
+		movie2.link = "http://www.youtube.com/watch?v=lpFzTJN2y_o"
 		movie2.clasification = new Clasification("ATP")
 		
 		movie.addRelated(movie1)
@@ -190,19 +190,19 @@ class Bootstrap {
 		episode1.title = "Larry el Psicologo"
 		episode1.season = 1
 		episode1.episodeNumber = 1
-		episode1.link = "https://www.youtube.com/watch?v=5MbSixjIzOw"
+		episode1.link = "http://www.youtube.com/watch?v=5MbSixjIzOw"
 		
 		val episode2 = new Episode();
 		episode2.title = "Ajedrez"
 		episode2.season = 2
 		episode2.episodeNumber = 2
-		episode2.link = "https://www.youtube.com/watch?v=ctoKrCpFxjA"		
+		episode2.link = "http://www.youtube.com/watch?v=ctoKrCpFxjA"		
 		
 		val episode3 = new Episode();
 		episode3.title = "Luna de Miel"
 		episode3.season = 3
 		episode3.episodeNumber = 3
-		episode3.link = "https://www.youtube.com/watch?v=o-8fGNqbzj8"
+		episode3.link = "http://www.youtube.com/watch?v=o-8fGNqbzj8"
 		
 		
 		return new ArrayList(newArrayList(episode1,episode2,episode3))

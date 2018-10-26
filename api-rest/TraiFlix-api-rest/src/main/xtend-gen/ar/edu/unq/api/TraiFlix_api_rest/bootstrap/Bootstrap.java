@@ -111,7 +111,7 @@ public class Bootstrap {
       Clasification _clasification = new Clasification("+18");
       movie.setClasification(_clasification);
       movie.setDirectors(directors);
-      movie.setLink("https://www.youtube.com/watch?v=HoBo9ilFAlI");
+      movie.setLink("http://www.youtube.com/watch?v=HoBo9ilFAlI");
       Movie movie1 = new Movie();
       movie1.setTitle("I\'m Batman");
       Date _date_1 = new Date();
@@ -119,7 +119,7 @@ public class Bootstrap {
       movie1.setActors(actors);
       movie1.setDuration(Duration.standardMinutes(2));
       movie1.setDirectors(directors);
-      movie1.setLink("https://www.youtube.com/watch?v=PfEXKi83glA");
+      movie1.setLink("http://www.youtube.com/watch?v=PfEXKi83glA");
       Clasification _clasification_1 = new Clasification("ATP");
       movie1.setClasification(_clasification_1);
       Movie movie2 = new Movie();
@@ -129,7 +129,7 @@ public class Bootstrap {
       movie2.setDuration(Duration.standardMinutes(5));
       movie2.setActors(actors);
       movie2.setDirectors(directors);
-      movie2.setLink("https://www.youtube.com/watch?v=lpFzTJN2y_o");
+      movie2.setLink("http://www.youtube.com/watch?v=lpFzTJN2y_o");
       Clasification _clasification_2 = new Clasification("ATP");
       movie2.setClasification(_clasification_2);
       movie.addRelated(movie1);
@@ -205,17 +205,17 @@ public class Bootstrap {
     episode1.setTitle("Larry el Psicologo");
     episode1.setSeason(Integer.valueOf(1));
     episode1.setEpisodeNumber(Integer.valueOf(1));
-    episode1.setLink("https://www.youtube.com/watch?v=5MbSixjIzOw");
+    episode1.setLink("http://www.youtube.com/watch?v=5MbSixjIzOw");
     final Episode episode2 = new Episode();
     episode2.setTitle("Ajedrez");
     episode2.setSeason(Integer.valueOf(2));
     episode2.setEpisodeNumber(Integer.valueOf(2));
-    episode2.setLink("https://www.youtube.com/watch?v=ctoKrCpFxjA");
+    episode2.setLink("http://www.youtube.com/watch?v=ctoKrCpFxjA");
     final Episode episode3 = new Episode();
     episode3.setTitle("Luna de Miel");
     episode3.setSeason(Integer.valueOf(3));
     episode3.setEpisodeNumber(Integer.valueOf(3));
-    episode3.setLink("https://www.youtube.com/watch?v=o-8fGNqbzj8");
+    episode3.setLink("http://www.youtube.com/watch?v=o-8fGNqbzj8");
     ArrayList<Episode> _newArrayList = CollectionLiterals.<Episode>newArrayList(episode1, episode2, episode3);
     return new ArrayList<Episode>(_newArrayList);
   }

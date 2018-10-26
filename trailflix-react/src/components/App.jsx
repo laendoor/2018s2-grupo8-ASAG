@@ -7,12 +7,13 @@ import { Switch, Route } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import Home from './Home';
 import SingIn from './Login/SingIn';
-import Serie from './Serie/Serie';
+import SerieView from './ContentView/SerieView';
+import MovieView from './ContentView/MovieView';
 
 export default class App extends React.Component {
   constructor() {
     super();
-    this.state = { name: 'mundo' };
+    this.state = { name: 'Traiflix' };
   }
 
   render() {
@@ -20,7 +21,8 @@ export default class App extends React.Component {
       <BrowserRouter>
         <Switch>
           <Route path="/home" component={Home} />
-          <Route path="/serie/:user/:id" component={Serie} />
+          <Route path="/serie/:id" component={SerieView} />
+          <Route path="/movie/:id" component={MovieView} />
           <Route path="/" component={SingIn} />
         </Switch>
       </BrowserRouter>
