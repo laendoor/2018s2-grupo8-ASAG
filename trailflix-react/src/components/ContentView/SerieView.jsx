@@ -26,7 +26,7 @@ export default class SerieView extends ContentView {
   }
 
   getReleaseYear() {
-    return this.state.content.episodes[0].release === null ? '[Fecha lanzamiento]' : this.state.content.episodes[0].release;
+    return this.state.content.episodes === null || this.state.content.episodes[0].release === null ? '[Fecha lanzamiento]' : this.state.content.episodes[0].release;
   }
 
   renderItemList() {

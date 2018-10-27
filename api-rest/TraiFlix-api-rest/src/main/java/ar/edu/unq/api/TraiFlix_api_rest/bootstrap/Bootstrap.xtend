@@ -191,18 +191,21 @@ class Bootstrap {
 		episode1.season = 1
 		episode1.episodeNumber = 1
 		episode1.link = "http://www.youtube.com/watch?v=5MbSixjIzOw"
+		episode1.release = new Date(84, 7, 16)
 		
 		val episode2 = new Episode();
 		episode2.title = "Ajedrez"
 		episode2.season = 2
 		episode2.episodeNumber = 2
-		episode2.link = "http://www.youtube.com/watch?v=ctoKrCpFxjA"		
+		episode2.link = "http://www.youtube.com/watch?v=ctoKrCpFxjA"
+		episode2.release = new Date(85, 8, 16);
 		
 		val episode3 = new Episode();
 		episode3.title = "Luna de Miel"
 		episode3.season = 3
 		episode3.episodeNumber = 3
 		episode3.link = "http://www.youtube.com/watch?v=o-8fGNqbzj8"
+		episode3.release = new Date(85, 9, 16);
 		
 		
 		return new ArrayList(newArrayList(episode1,episode2,episode3))

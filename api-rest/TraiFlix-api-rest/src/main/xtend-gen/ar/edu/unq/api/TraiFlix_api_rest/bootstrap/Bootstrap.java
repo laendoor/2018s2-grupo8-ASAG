@@ -206,16 +206,22 @@ public class Bootstrap {
     episode1.setSeason(Integer.valueOf(1));
     episode1.setEpisodeNumber(Integer.valueOf(1));
     episode1.setLink("http://www.youtube.com/watch?v=5MbSixjIzOw");
+    Date _date = new Date(84, 7, 16);
+    episode1.setRelease(_date);
     final Episode episode2 = new Episode();
     episode2.setTitle("Ajedrez");
     episode2.setSeason(Integer.valueOf(2));
     episode2.setEpisodeNumber(Integer.valueOf(2));
     episode2.setLink("http://www.youtube.com/watch?v=ctoKrCpFxjA");
+    Date _date_1 = new Date(85, 8, 16);
+    episode2.setRelease(_date_1);
     final Episode episode3 = new Episode();
     episode3.setTitle("Luna de Miel");
     episode3.setSeason(Integer.valueOf(3));
     episode3.setEpisodeNumber(Integer.valueOf(3));
     episode3.setLink("http://www.youtube.com/watch?v=o-8fGNqbzj8");
+    Date _date_2 = new Date(85, 9, 16);
+    episode3.setRelease(_date_2);
     ArrayList<Episode> _newArrayList = CollectionLiterals.<Episode>newArrayList(episode1, episode2, episode3);
     return new ArrayList<Episode>(_newArrayList);
   }
