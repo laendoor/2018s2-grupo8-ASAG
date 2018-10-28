@@ -1,0 +1,21 @@
+.cardT {
+    background-color: black;
+    width: 205px;
+    height: 375px;
+
+}
+
+.textT {
+    color: rgb(245, 2, 2);
+    align-self: auto;
+}
+
+.paddingT {
+    padding: 1%;
+}
+
+.imgT {
+    width: 200px; 
+    height: 240px;
+    align-self: center; 
+}

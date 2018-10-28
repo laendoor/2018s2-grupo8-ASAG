@@ -13,6 +13,8 @@ import ar.edu.unq.TraiFlix.models.TraiFlix
 import org.joda.time.Duration
 import org.joda.time.DateTime
 import ar.edu.unq.TraiFlix.models.Episode
+import ar.edu.unq.TraiFlix.models.Ratingable
+import ar.edu.unq.TraiFlix.models.Favourable
 
 @Accessors
 class Bootstrap {
@@ -50,6 +52,25 @@ class Bootstrap {
 		user1.name = "Pablo"
 		user1.dateOfBirth = new DateTime(1986, 7, 16, 0, 0, 0, 0);
 		user1.created = new DateTime(2015, 3, 14, 0, 0, 0, 0);
+		val fav = movies.get(0) as Favourable
+		val fav2 = series.get(0) as Favourable
+		val fav3 = movies.get(1) as Favourable
+		val fav4 = movies.get(2) as Favourable
+		user1.favourites.add(fav)
+		user1.favourites.add(fav2)
+		user1.favourites.add(fav2)
+		user1.favourites.add(fav2)
+		user1.favourites.add(fav2)
+		user1.favourites.add(fav2)
+		user1.favourites.add(fav2)
+		user1.favourites.add(fav2)
+		user1.favourites.add(fav2)
+		user1.favourites.add(fav2)
+		user1.favourites.add(fav2)
+		user1.favourites.add(fav2)
+		user1.favourites.add(fav2)
+		user1.favourites.add(fav3)
+		user1.favourites.add(fav4)
 
 		var user2 = new User()
 		user2.id = 2
@@ -160,6 +181,7 @@ class Bootstrap {
 		serie.clasification = this.clasifications.get(1)
 		
 		
+		
 		var serie1 = new Serie()
 		serie1.title = "Lost"
 		serie1.creators = "Luke SkyWalker"
@@ -185,6 +207,7 @@ class Bootstrap {
 		episode1.title = "epi1"
 		episode1.season = 1
 		episode1.episodeNumber = 1
+		episode1.link =  "https://www.youtube.com/watch?v=pAdTUYoKIQM"
 		
 		val episode2 = new Episode();
 		episode2.title = "epi2"

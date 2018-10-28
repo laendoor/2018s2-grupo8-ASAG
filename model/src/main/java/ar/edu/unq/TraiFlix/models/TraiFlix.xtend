@@ -235,5 +235,9 @@ class TraiFlix {
 			user2.recommended.add(content)
 		}
 	}
+	
+	def recomendedContentOfUser(String userName) {
+		return this.findUserByNickName(userName).recommended
+	}
 		
 }

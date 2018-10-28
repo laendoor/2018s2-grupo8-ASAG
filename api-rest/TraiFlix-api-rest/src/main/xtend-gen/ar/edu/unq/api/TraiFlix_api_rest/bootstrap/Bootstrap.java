@@ -3,6 +3,7 @@ package ar.edu.unq.api.TraiFlix_api_rest.bootstrap;
 import ar.edu.unq.TraiFlix.models.Category;
 import ar.edu.unq.TraiFlix.models.Clasification;
 import ar.edu.unq.TraiFlix.models.Episode;
+import ar.edu.unq.TraiFlix.models.Favourable;
 import ar.edu.unq.TraiFlix.models.Movie;
 import ar.edu.unq.TraiFlix.models.Serie;
 import ar.edu.unq.TraiFlix.models.TraiFlix;
@@ -63,6 +64,29 @@ public class Bootstrap {
       user1.setDateOfBirth(_dateTime);
       DateTime _dateTime_1 = new DateTime(2015, 3, 14, 0, 0, 0, 0);
       user1.setCreated(_dateTime_1);
+      Movie _get = this.movies.get(0);
+      final Favourable fav = ((Favourable) _get);
+      Serie _get_1 = this.series.get(0);
+      final Favourable fav2 = ((Favourable) _get_1);
+      Movie _get_2 = this.movies.get(1);
+      final Favourable fav3 = ((Favourable) _get_2);
+      Movie _get_3 = this.movies.get(2);
+      final Favourable fav4 = ((Favourable) _get_3);
+      user1.getFavourites().add(fav);
+      user1.getFavourites().add(fav2);
+      user1.getFavourites().add(fav2);
+      user1.getFavourites().add(fav2);
+      user1.getFavourites().add(fav2);
+      user1.getFavourites().add(fav2);
+      user1.getFavourites().add(fav2);
+      user1.getFavourites().add(fav2);
+      user1.getFavourites().add(fav2);
+      user1.getFavourites().add(fav2);
+      user1.getFavourites().add(fav2);
+      user1.getFavourites().add(fav2);
+      user1.getFavourites().add(fav2);
+      user1.getFavourites().add(fav3);
+      user1.getFavourites().add(fav4);
       User user2 = new User();
       user2.setId(Integer.valueOf(2));
       user2.setNick("Lukitas");
@@ -197,6 +221,7 @@ public class Bootstrap {
     episode1.setTitle("epi1");
     episode1.setSeason(Integer.valueOf(1));
     episode1.setEpisodeNumber(Integer.valueOf(1));
+    episode1.setLink("https://www.youtube.com/watch?v=pAdTUYoKIQM");
     final Episode episode2 = new Episode();
     episode2.setTitle("epi2");
     episode2.setSeason(Integer.valueOf(2));
@@ -210,16 +235,12 @@ public class Bootstrap {
   }
   
   public void loadEpisodesInSerie(final Serie serie1, final List<Episode> episodes) {
-    final Consumer<Episode> _function = new Consumer<Episode>() {
-      public void accept(final Episode elem) {
-        elem.setSerie(serie1);
-      }
+    final Consumer<Episode> _function = (Episode elem) -> {
+      elem.setSerie(serie1);
     };
     episodes.forEach(_function);
-    final Consumer<Episode> _function_1 = new Consumer<Episode>() {
-      public void accept(final Episode elem) {
-        serie1.addEpisode(elem);
-      }
+    final Consumer<Episode> _function_1 = (Episode elem) -> {
+      serie1.addEpisode(elem);
     };
     episodes.forEach(_function_1);
   }

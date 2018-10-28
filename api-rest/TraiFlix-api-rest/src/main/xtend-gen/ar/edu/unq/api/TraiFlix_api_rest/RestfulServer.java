@@ -15,14 +15,15 @@ import ar.edu.unq.TraiFlix.models.id.ContentIdFactory;
 import ar.edu.unq.TraiFlix.models.id.MovieId;
 import ar.edu.unq.TraiFlix.models.id.SerieId;
 import ar.edu.unq.api.TraiFlix_api_rest.Actor;
+import ar.edu.unq.api.TraiFlix_api_rest.ContentToShow;
 import ar.edu.unq.api.TraiFlix_api_rest.Star;
 import ar.edu.unq.api.TraiFlix_api_rest.Text;
 import ar.edu.unq.api.TraiFlix_api_rest.UserRest;
 import ar.edu.unq.api.TraiFlix_api_rest.UserToAndFrom;
 import ar.edu.unq.api.TraiFlix_api_rest.dataResults.DataResult;
-import com.google.common.base.Objects;
 import java.io.IOException;
 import java.security.InvalidParameterException;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -33,6 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Extension;
+import org.joda.time.DateTime;
 import org.uqbar.xtrest.api.Result;
 import org.uqbar.xtrest.api.annotation.Body;
 import org.uqbar.xtrest.api.annotation.Controller;
@@ -94,10 +96,8 @@ public class RestfulServer extends ResultFactory {
    */
   @Get("/categories")
   public Result getCategories(final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
-    final Function<Category, String> _function = new Function<Category, String>() {
-      public String apply(final Category elem) {
-        return elem.getName();
-      }
+    final Function<Category, String> _function = (Category elem) -> {
+      return elem.getName();
     };
     Object[] _array = this.traiFlixsSystem.getCategories().stream().<String>map(_function).toArray();
     DataResult data = new DataResult(_array);
@@ -140,14 +140,31 @@ public class RestfulServer extends ResultFactory {
   @Get("/:username/favs")
   public Result getContentsUserFavs(final String username, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
     try {
-      List<Favourable> _userFavourites = this.traiFlixsSystem.userFavourites(username);
-      DataResult data = new DataResult(_userFavourites);
-      return ResultFactory.ok(this._jSONUtils.toJson(data));
+      User user = this.traiFlixsSystem.findUserByNickName(username);
+      return ResultFactory.ok(this._jSONUtils.toJson(this.convertListOfContentInContentToShow(user.getFavourites())));
     } catch (final Throwable _t) {
       if (_t instanceof Exception) {
         final Exception exception = (Exception)_t;
         String _message = exception.getMessage();
         String _plus = ("Problemas buscando favoritos. " + _message);
+        return ResultFactory.badRequest(this.getErrorJson(_plus));
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
+  }
+  
+  @Get("/:username/recomended")
+  public Result getContentsRecomendedToUser(final String username, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    try {
+      List<Ratingable> _recomendedContentOfUser = this.traiFlixsSystem.recomendedContentOfUser(username);
+      DataResult data = new DataResult(_recomendedContentOfUser);
+      return ResultFactory.ok(this._jSONUtils.toJson(data));
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        final Exception exception = (Exception)_t;
+        String _message = exception.getMessage();
+        String _plus = ("Problemas buscando recomendados. " + _message);
         return ResultFactory.badRequest(this.getErrorJson(_plus));
       } else {
         throw Exceptions.sneakyThrow(_t);
@@ -332,18 +349,18 @@ public class RestfulServer extends ResultFactory {
       ContentId contentId = ContentIdFactory.parse(id);
       Favourable content = null;
       String _lowerCase = type.toLowerCase();
-      boolean _matched = false;
-      if (Objects.equal(_lowerCase, "movie")) {
-        _matched=true;
-        content = this.traiFlixsSystem.movie(((MovieId) contentId));
-      }
-      if (!_matched) {
-        if (Objects.equal(_lowerCase, "serie")) {
-          _matched=true;
-          content = this.traiFlixsSystem.serie(((SerieId) contentId));
+      if (_lowerCase != null) {
+        switch (_lowerCase) {
+          case "movie":
+            content = this.traiFlixsSystem.movie(((MovieId) contentId));
+            break;
+          case "serie":
+            content = this.traiFlixsSystem.serie(((SerieId) contentId));
+            break;
+          default:
+            throw new InvalidParameterException((("El tipo de contenido " + type) + " no es valido."));
         }
-      }
-      if (!_matched) {
+      } else {
         throw new InvalidParameterException((("El tipo de contenido " + type) + " no es valido."));
       }
       boolean _parseBoolean = Boolean.parseBoolean(value);
@@ -525,6 +542,35 @@ public class RestfulServer extends ResultFactory {
     return this.traiFlixsSystem.findUserByNickName(userName);
   }
   
+  private Object[] convertListOfContentInContentToShow(final List<Favourable> favs) {
+    final Function<Favourable, ContentToShow> _function = (Favourable elem) -> {
+      return this.convertToJsonToFrontFavourable(elem);
+    };
+    return favs.stream().<ContentToShow>map(_function).toArray();
+  }
+  
+  private ContentToShow convertToJsonToFrontFavourable(final Favourable content) {
+    final ContentToShow cont = new ContentToShow();
+    boolean _isSerie = content.contentId().isSerie();
+    if (_isSerie) {
+      final Serie ser = ((Serie) content);
+      cont.setTitle(ser.getTitle());
+      Date _release = ser.getEpisodes().get(0).getRelease();
+      String date = new DateTime(_release).toString("dd/MM/yyyy");
+      cont.setRealese(date);
+      cont.setLink(ser.getEpisodes().get(0).getLink());
+      return cont;
+    } else {
+      final Movie mov = ((Movie) content);
+      cont.setTitle(mov.title());
+      Date _release_1 = mov.getRelease();
+      String date_1 = new DateTime(_release_1).toString("dd/MM/yyyy");
+      cont.setRealese(date_1);
+      cont.setLink(mov.getLink());
+      return cont;
+    }
+  }
+  
   public void handle(final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) throws IOException, ServletException {
     {
     	Matcher matcher = 
@@ -677,6 +723,24 @@ public class RestfulServer extends ResultFactory {
     		
     		
     	    Result result = getContentsUserFavs(username, target, baseRequest, request, response);
+    	    result.process(response);
+    	    
+    		response.addHeader("Access-Control-Allow-Origin", "*");
+    	    baseRequest.setHandled(true);
+    	    return;
+    	}
+    }
+    {
+    	Matcher matcher = 
+    		Pattern.compile("/(\\w+)/recomended").matcher(target);
+    	if (request.getMethod().equalsIgnoreCase("Get") && matcher.matches()) {
+    		// take parameters from request
+    		
+    		// take variables from url
+    		String username = matcher.group(1);
+    		
+    		
+    	    Result result = getContentsRecomendedToUser(username, target, baseRequest, request, response);
     	    result.process(response);
     	    
     		response.addHeader("Access-Control-Allow-Origin", "*");

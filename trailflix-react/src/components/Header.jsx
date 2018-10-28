@@ -1,7 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import Ionicon from 'react-ionicons';
-import '../dist/css/header.css';
 import '../dist/css/align.css';
 // import API from 'TraiFlix_api_rest\server.xtend'
 

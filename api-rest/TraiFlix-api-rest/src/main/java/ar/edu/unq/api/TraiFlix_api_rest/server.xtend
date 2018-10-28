@@ -18,6 +18,12 @@ import org.uqbar.xtrest.api.annotation.Put
 import org.uqbar.xtrest.http.ContentType
 import org.uqbar.xtrest.json.JSONUtils
 import ar.edu.unq.TraiFlix.models.Assessment
+import ar.edu.unq.TraiFlix.models.Movie
+import java.text.SimpleDateFormat
+import ar.edu.unq.TraiFlix.models.Serie
+import java.util.List
+import ar.edu.unq.TraiFlix.models.Content
+import org.joda.time.DateTime
 
 /**
  * Servidor RESTful implementado con XtRest.
@@ -111,11 +117,25 @@ class RestfulServer {
 		
 		try
 		{
-			var data = new DataResult( this.traiFlixsSystem.userFavourites(username) )			
-			return ok( data.toJson )
+			var user = this.traiFlixsSystem.findUserByNickName(username);			
+			return ok( this.convertListOfContentInContentToShow(user.favourites).toJson )
 		}
 		catch( Exception exception ) {
 			return badRequest( getErrorJson("Problemas buscando favoritos. " + exception.message ) )
+		}
+		
+	}
+	
+	@Get("/:username/recomended")
+	def getContentsRecomendedToUser() {
+		
+		try
+		{
+			var data = new DataResult( this.traiFlixsSystem.recomendedContentOfUser(username) )			
+			return ok( data.toJson )
+		}
+		catch( Exception exception ) {
+			return badRequest( getErrorJson("Problemas buscando recomendados. " + exception.message ) )
 		}
 		
 	}
@@ -454,7 +474,44 @@ class RestfulServer {
 	private def checkUser(String userName ) {
 		traiFlixsSystem.findUserByNickName(userName)
 	}
+	
+	private def convertListOfContentInContentToShow(List<Favourable> favs){
+		return favs.stream.map[elem | this.convertToJsonToFrontFavourable(elem)].toArray
+	}
+	
 
+	
+	
+	private def convertToJsonToFrontFavourable(Favourable content){
+		val cont = new ContentToShow;
+		if(content.contentId.serie){
+			val ser = content as Serie 
+			cont.title = ser.getTitle();
+			var date = new DateTime( ser.episodes.get(0).release ).toString("dd/MM/yyyy")
+			cont.realese = date;
+			cont.link = ser.episodes.get(0).link
+			return cont
+		}
+		else{
+			val mov = content as Movie
+			cont.title = mov.title();
+			var date = new DateTime( mov.release ).toString("dd/MM/yyyy")
+			cont.realese = date;
+			cont.link = mov.link
+			return cont
+		}
+		
+	}
+	
+
+
+}
+
+@Accessors
+class ContentToShow{	
+	String title
+	String realese
+	String link
 }
 
 @Accessors
