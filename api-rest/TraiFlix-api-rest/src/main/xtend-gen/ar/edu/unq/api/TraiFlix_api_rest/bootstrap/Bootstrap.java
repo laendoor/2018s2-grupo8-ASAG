@@ -1,5 +1,6 @@
 package ar.edu.unq.api.TraiFlix_api_rest.bootstrap;
 
+import ar.edu.unq.TraiFlix.models.Assessment;
 import ar.edu.unq.TraiFlix.models.Category;
 import ar.edu.unq.TraiFlix.models.Clasification;
 import ar.edu.unq.TraiFlix.models.Episode;
@@ -33,11 +34,11 @@ public class Bootstrap {
   private static Bootstrap instance = null;
   
   private Bootstrap() {
+    this.users = this.createUsers();
     this.categories = this.createCategories();
     this.clasifications = this.createClasifications();
     this.movies = this.createMovies();
     this.series = this.createSeries();
-    this.users = this.createUsers();
   }
   
   public static Bootstrap getInstance() {
@@ -112,6 +113,9 @@ public class Bootstrap {
       movie.setClasification(_clasification);
       movie.setDirectors(directors);
       movie.setLink("http://www.youtube.com/watch?v=HoBo9ilFAlI");
+      User _get = this.users.get(0);
+      Assessment _assessment = new Assessment(_get, Integer.valueOf(2), "Bien piola");
+      movie.addAssessment(_assessment);
       Movie movie1 = new Movie();
       movie1.setTitle("I\'m Batman");
       Date _date_1 = new Date();
@@ -208,6 +212,9 @@ public class Bootstrap {
     episode1.setLink("http://www.youtube.com/watch?v=5MbSixjIzOw");
     Date _date = new Date(84, 7, 16);
     episode1.setRelease(_date);
+    User _get = this.users.get(0);
+    Assessment _assessment = new Assessment(_get, Integer.valueOf(3), "Bien piola");
+    episode1.addAssessment(_assessment);
     final Episode episode2 = new Episode();
     episode2.setTitle("Ajedrez");
     episode2.setSeason(Integer.valueOf(2));

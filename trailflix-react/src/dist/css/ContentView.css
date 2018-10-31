@@ -1,6 +1,6 @@
 .form-headin { color:black; font-size:23px;}
 .form-headin h1{ color:black; font-size:50px; margin:0 0 8px 0;}
-.form-headin h5{ background-color:rgb(204, 203, 197); }
+.form-headin h5{ background-color:rgb(204, 203, 197); display: flex; justify-content: space-between; }
 
 .list-group{
     max-height: 300px;

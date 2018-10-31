@@ -84,7 +84,7 @@ export default class ContentView extends React.Component {
         <div className="row">
           <div className="col-6">
             <h1>{this.getContentTitle()}</h1>
-            <h5 className="card-title">{this.getDetails()} <Rating stars="5" value={this.getContentRating()} /></h5>
+            <h5 className="card-title">{this.getDetails()}<Rating stars="5" value={this.getContentRating()} /></h5>
             <ReactPlayer
               url={this.getTrailerLink()}
               className="react-player"

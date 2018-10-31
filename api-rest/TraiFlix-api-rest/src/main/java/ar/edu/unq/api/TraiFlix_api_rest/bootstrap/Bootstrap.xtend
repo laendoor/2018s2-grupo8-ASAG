@@ -13,6 +13,7 @@ import ar.edu.unq.TraiFlix.models.TraiFlix
 import org.joda.time.Duration
 import org.joda.time.DateTime
 import ar.edu.unq.TraiFlix.models.Episode
+import ar.edu.unq.TraiFlix.models.Assessment
 
 @Accessors
 class Bootstrap {
@@ -26,13 +27,11 @@ class Bootstrap {
 	private static Bootstrap instance = null
 
 	private new() {
+		users = this.createUsers
 		categories = this.createCategories
 		clasifications = this.createClasifications
 		movies = this.createMovies
 		series = this.createSeries
-		users = this.createUsers
-
-
 	}
 
 	static def getInstance() {
@@ -95,6 +94,7 @@ class Bootstrap {
 		movie.clasification = new Clasification("+18")
 		movie.directors = directors
 		movie.link = "http://www.youtube.com/watch?v=HoBo9ilFAlI"
+		movie.addAssessment(new Assessment(this.users.get(0),2,"Bien piola"))
 
 		var movie1 = new Movie()
 		movie1.title = "I'm Batman"
@@ -192,6 +192,7 @@ class Bootstrap {
 		episode1.episodeNumber = 1
 		episode1.link = "http://www.youtube.com/watch?v=5MbSixjIzOw"
 		episode1.release = new Date(84, 7, 16)
+		episode1.addAssessment(new Assessment(this.users.get(0),3,"Bien piola"))
 		
 		val episode2 = new Episode();
 		episode2.title = "Ajedrez"
