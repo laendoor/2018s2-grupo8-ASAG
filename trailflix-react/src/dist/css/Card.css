@@ -1,13 +1,21 @@
 .cardT {
-    background-color: black;
+    background-color: white;
     width: 205px;
     height: 375px;
 
 }
 
+.bodyT{
+    background-color: rgb(32, 32, 32);
+}
+
 .textT {
-    color: rgb(245, 2, 2);
+    color: blue;
     align-self: auto;
+}
+
+.textBlue{
+    color: blue;
 }
 
 .paddingT {

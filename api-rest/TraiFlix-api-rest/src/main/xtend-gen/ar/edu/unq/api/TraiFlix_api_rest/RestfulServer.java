@@ -3,6 +3,7 @@ package ar.edu.unq.api.TraiFlix_api_rest;
 import ar.edu.unq.TraiFlix.models.Assessment;
 import ar.edu.unq.TraiFlix.models.Category;
 import ar.edu.unq.TraiFlix.models.Content;
+import ar.edu.unq.TraiFlix.models.Episode;
 import ar.edu.unq.TraiFlix.models.Favourable;
 import ar.edu.unq.TraiFlix.models.Movie;
 import ar.edu.unq.TraiFlix.models.Ratingable;
@@ -15,7 +16,7 @@ import ar.edu.unq.TraiFlix.models.id.ContentIdFactory;
 import ar.edu.unq.TraiFlix.models.id.MovieId;
 import ar.edu.unq.TraiFlix.models.id.SerieId;
 import ar.edu.unq.api.TraiFlix_api_rest.Actor;
-import ar.edu.unq.api.TraiFlix_api_rest.ContentToShow;
+import ar.edu.unq.api.TraiFlix_api_rest.CategoryToShow;
 import ar.edu.unq.api.TraiFlix_api_rest.Star;
 import ar.edu.unq.api.TraiFlix_api_rest.Text;
 import ar.edu.unq.api.TraiFlix_api_rest.UserRest;
@@ -23,7 +24,7 @@ import ar.edu.unq.api.TraiFlix_api_rest.UserToAndFrom;
 import ar.edu.unq.api.TraiFlix_api_rest.dataResults.DataResult;
 import java.io.IOException;
 import java.security.InvalidParameterException;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -34,7 +35,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Extension;
-import org.joda.time.DateTime;
 import org.uqbar.xtrest.api.Result;
 import org.uqbar.xtrest.api.annotation.Body;
 import org.uqbar.xtrest.api.annotation.Controller;
@@ -96,6 +96,7 @@ public class RestfulServer extends ResultFactory {
    */
   @Get("/categories")
   public Result getCategories(final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    response.setContentType(ContentType.APPLICATION_JSON);
     final Function<Category, String> _function = (Category elem) -> {
       return elem.getName();
     };
@@ -116,8 +117,11 @@ public class RestfulServer extends ResultFactory {
     response.setContentType(ContentType.APPLICATION_JSON);
     try {
       final Category cat = new Category(category);
-      final List<Ratingable> content = this.traiFlixsSystem.moviesAndSeriesCategory(cat);
-      return ResultFactory.ok(this._jSONUtils.toJson(content));
+      final ArrayList<Ratingable> content = this.traiFlixsSystem.moviesAndSeriesCategory(cat);
+      final CategoryToShow contentToShow = new CategoryToShow();
+      contentToShow.setCategory(category);
+      contentToShow.setData(content);
+      return ResultFactory.ok(this._jSONUtils.toJson(contentToShow));
     } catch (final Throwable _t) {
       if (_t instanceof Exception) {
         final Exception exception = (Exception)_t;
@@ -139,9 +143,11 @@ public class RestfulServer extends ResultFactory {
    */
   @Get("/:username/favs")
   public Result getContentsUserFavs(final String username, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    response.setContentType(ContentType.APPLICATION_JSON);
     try {
-      User user = this.traiFlixsSystem.findUserByNickName(username);
-      return ResultFactory.ok(this._jSONUtils.toJson(this.convertListOfContentInContentToShow(user.getFavourites())));
+      List<Favourable> _favourites = this.traiFlixsSystem.findUserByNickName(username).getFavourites();
+      DataResult data = new DataResult(_favourites);
+      return ResultFactory.ok(this._jSONUtils.toJson(data));
     } catch (final Throwable _t) {
       if (_t instanceof Exception) {
         final Exception exception = (Exception)_t;
@@ -187,6 +193,7 @@ public class RestfulServer extends ResultFactory {
   public Result getSeriesUserFavs(final String username, final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
     Result _xblockexpression = null;
     {
+      response.setContentType(ContentType.APPLICATION_JSON);
       String errorMessage = null;
       try {
         this.checkUser(username);
@@ -232,6 +239,7 @@ public class RestfulServer extends ResultFactory {
   public Result getMoviesUserFavs(final String username, final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
     Result _xblockexpression = null;
     {
+      response.setContentType(ContentType.APPLICATION_JSON);
       String errorMessage = null;
       try {
         this.checkUser(username);
@@ -343,7 +351,8 @@ public class RestfulServer extends ResultFactory {
    * 			● 400 Bad Request
    */
   @Put("/:username/fav/:type/:id/:value")
-  public Result setWatchedUser(@Body final String body, final String username, final String type, final String id, final String value, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+  public Result setUserFavContent(@Body final String body, final String username, final String type, final String id, final String value, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    response.setContentType(ContentType.APPLICATION_JSON);
     try {
       User user = this.traiFlixsSystem.findUserByNickName(username);
       ContentId contentId = ContentIdFactory.parse(id);
@@ -375,6 +384,72 @@ public class RestfulServer extends ResultFactory {
         final Exception exception = (Exception)_t;
         String _message = exception.getMessage();
         String _plus = ("Problemas administrando favoritos. " + _message);
+        return ResultFactory.badRequest(this.getErrorJson(_plus));
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
+  }
+  
+  /**
+   * Que establezca si el usuario marcó como visto o no determinado contenido.
+   * 
+   * 		Parámetros
+   * 			● type​: Tipo del contenido. Debería aceptar sólo alguno de estos valores:
+   * 				[movie, serie]
+   * 			● id​: Id del contenido
+   * 			● value​: Valor booleano que indique si se marca como visto o se quita de los
+   * 				vistos. Debería aceptar sólo alguno de estos valores: [true, false]
+   * 			● username​: Nombre de usuario que está generando la acción
+   * 		Responses
+   * 			● 202 Accepted
+   * 			● 200 OK
+   * 			● 400 Bad Request
+   */
+  @Put("/:username/watched/:type/:id/:value")
+  public Result setUserWatchedContent(@Body final String body, final String username, final String type, final String id, final String value, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    response.setContentType(ContentType.APPLICATION_JSON);
+    try {
+      User user = this.traiFlixsSystem.findUserByNickName(username);
+      ContentId contentId = ContentIdFactory.parse(id);
+      boolean add = Boolean.parseBoolean(value);
+      String _lowerCase = type.toLowerCase();
+      if (_lowerCase != null) {
+        switch (_lowerCase) {
+          case "movie":
+            Movie movie = this.traiFlixsSystem.movie(((MovieId) contentId));
+            if (add) {
+              user.addWatchedContent(movie);
+            } else {
+              user.removeWatchedContent(movie);
+            }
+            break;
+          case "serie":
+            Serie serie = this.traiFlixsSystem.serie(((SerieId) contentId));
+            if (add) {
+              List<Episode> _episodes = serie.getEpisodes();
+              boolean _tripleNotEquals = (_episodes != null);
+              if (_tripleNotEquals) {
+                user.addWatchedContent(serie.getEpisodes().get(0));
+              } else {
+                throw new InvalidParameterException("No se puede marcar como vista una serie sin capitulos.");
+              }
+            } else {
+              user.removeWatchedSerie(serie);
+            }
+            break;
+          default:
+            throw new InvalidParameterException((("El tipo de contenido " + type) + " no es valido."));
+        }
+      } else {
+        throw new InvalidParameterException((("El tipo de contenido " + type) + " no es valido."));
+      }
+      return ResultFactory.ok();
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        final Exception exception = (Exception)_t;
+        String _message = exception.getMessage();
+        String _plus = ("Problemas administrando contenido visto. " + _message);
         return ResultFactory.badRequest(this.getErrorJson(_plus));
       } else {
         throw Exceptions.sneakyThrow(_t);
@@ -521,6 +596,7 @@ public class RestfulServer extends ResultFactory {
    */
   @Delete("/movies")
   public Result deleteSerieById(@Body final String body, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    response.setContentType(ContentType.APPLICATION_JSON);
     try {
       final MovieId id = this._jSONUtils.<MovieId>fromJson(body, MovieId.class);
       this.traiFlixsSystem.deleteMovie(id);
@@ -542,35 +618,6 @@ public class RestfulServer extends ResultFactory {
     return this.traiFlixsSystem.findUserByNickName(userName);
   }
   
-  private Object[] convertListOfContentInContentToShow(final List<Favourable> favs) {
-    final Function<Favourable, ContentToShow> _function = (Favourable elem) -> {
-      return this.convertToJsonToFrontFavourable(elem);
-    };
-    return favs.stream().<ContentToShow>map(_function).toArray();
-  }
-  
-  private ContentToShow convertToJsonToFrontFavourable(final Favourable content) {
-    final ContentToShow cont = new ContentToShow();
-    boolean _isSerie = content.contentId().isSerie();
-    if (_isSerie) {
-      final Serie ser = ((Serie) content);
-      cont.setTitle(ser.getTitle());
-      Date _release = ser.getEpisodes().get(0).getRelease();
-      String date = new DateTime(_release).toString("dd/MM/yyyy");
-      cont.setRealese(date);
-      cont.setLink(ser.getEpisodes().get(0).getLink());
-      return cont;
-    } else {
-      final Movie mov = ((Movie) content);
-      cont.setTitle(mov.title());
-      Date _release_1 = mov.getRelease();
-      String date_1 = new DateTime(_release_1).toString("dd/MM/yyyy");
-      cont.setRealese(date_1);
-      cont.setLink(mov.getLink());
-      return cont;
-    }
-  }
-  
   public void handle(final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) throws IOException, ServletException {
     {
     	Matcher matcher = 
@@ -580,6 +627,8 @@ public class RestfulServer extends ResultFactory {
     		
     		// take variables from url
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = getCategories(target, baseRequest, request, response);
     	    result.process(response);
@@ -597,6 +646,8 @@ public class RestfulServer extends ResultFactory {
     		
     		// take variables from url
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = getSeries(target, baseRequest, request, response);
     	    result.process(response);
@@ -614,6 +665,8 @@ public class RestfulServer extends ResultFactory {
     		
     		// take variables from url
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = getUsers(target, baseRequest, request, response);
     	    result.process(response);
@@ -631,6 +684,8 @@ public class RestfulServer extends ResultFactory {
     		
     		// take variables from url
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = getMovies(target, baseRequest, request, response);
     	    result.process(response);
@@ -649,6 +704,8 @@ public class RestfulServer extends ResultFactory {
     		
     		// take variables from url
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = autentification(body, target, baseRequest, request, response);
     	    result.process(response);
@@ -667,6 +724,8 @@ public class RestfulServer extends ResultFactory {
     		
     		// take variables from url
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = search(body, target, baseRequest, request, response);
     	    result.process(response);
@@ -685,6 +744,8 @@ public class RestfulServer extends ResultFactory {
     		
     		// take variables from url
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = deleteSerieById(body, target, baseRequest, request, response);
     	    result.process(response);
@@ -703,6 +764,8 @@ public class RestfulServer extends ResultFactory {
     		// take variables from url
     		String category = matcher.group(1);
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = getCategoriesContents(category, target, baseRequest, request, response);
     	    result.process(response);
@@ -721,6 +784,8 @@ public class RestfulServer extends ResultFactory {
     		// take variables from url
     		String username = matcher.group(1);
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = getContentsUserFavs(username, target, baseRequest, request, response);
     	    result.process(response);
@@ -739,6 +804,8 @@ public class RestfulServer extends ResultFactory {
     		// take variables from url
     		String username = matcher.group(1);
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = getContentsRecomendedToUser(username, target, baseRequest, request, response);
     	    result.process(response);
@@ -757,6 +824,8 @@ public class RestfulServer extends ResultFactory {
     		// take variables from url
     		String id = matcher.group(1);
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = getEpisodes(id, target, baseRequest, request, response);
     	    result.process(response);
@@ -775,6 +844,8 @@ public class RestfulServer extends ResultFactory {
     		// take variables from url
     		String username = matcher.group(1);
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = getUser(username, target, baseRequest, request, response);
     	    result.process(response);
@@ -794,6 +865,8 @@ public class RestfulServer extends ResultFactory {
     		// take variables from url
     		String movieName = matcher.group(1);
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = addActorToMovie(body, movieName, target, baseRequest, request, response);
     	    result.process(response);
@@ -813,6 +886,8 @@ public class RestfulServer extends ResultFactory {
     		String username = matcher.group(1);
     		String id = matcher.group(2);
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = getSeriesUserFavs(username, id, target, baseRequest, request, response);
     	    result.process(response);
@@ -832,6 +907,8 @@ public class RestfulServer extends ResultFactory {
     		String username = matcher.group(1);
     		String id = matcher.group(2);
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = getMoviesUserFavs(username, id, target, baseRequest, request, response);
     	    result.process(response);
@@ -852,6 +929,8 @@ public class RestfulServer extends ResultFactory {
     		String type = matcher.group(1);
     		String id = matcher.group(2);
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = recomended(body, type, id, target, baseRequest, request, response);
     	    result.process(response);
@@ -871,6 +950,8 @@ public class RestfulServer extends ResultFactory {
     		String nameMovie = matcher.group(1);
     		String nameActor = matcher.group(2);
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = addNameActorToMovie(nameMovie, nameActor, target, baseRequest, request, response);
     	    result.process(response);
@@ -892,6 +973,8 @@ public class RestfulServer extends ResultFactory {
     		String type = matcher.group(2);
     		String id = matcher.group(3);
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
     	    Result result = setRatingUser(body, username, type, id, target, baseRequest, request, response);
     	    result.process(response);
@@ -914,8 +997,34 @@ public class RestfulServer extends ResultFactory {
     		String id = matcher.group(3);
     		String value = matcher.group(4);
     		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
     		
-    	    Result result = setWatchedUser(body, username, type, id, value, target, baseRequest, request, response);
+    	    Result result = setUserFavContent(body, username, type, id, value, target, baseRequest, request, response);
+    	    result.process(response);
+    	    
+    		response.addHeader("Access-Control-Allow-Origin", "*");
+    	    baseRequest.setHandled(true);
+    	    return;
+    	}
+    }
+    {
+    	Matcher matcher = 
+    		Pattern.compile("/(\\w+)/watched/(\\w+)/(\\w+)/(\\w+)").matcher(target);
+    	if (request.getMethod().equalsIgnoreCase("Put") && matcher.matches()) {
+    		// take parameters from request
+    		String body = readBodyAsString(request);
+    		
+    		// take variables from url
+    		String username = matcher.group(1);
+    		String type = matcher.group(2);
+    		String id = matcher.group(3);
+    		String value = matcher.group(4);
+    		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
+    		
+    	    Result result = setUserWatchedContent(body, username, type, id, value, target, baseRequest, request, response);
     	    result.process(response);
     	    
     		response.addHeader("Access-Control-Allow-Origin", "*");

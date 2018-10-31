@@ -8,6 +8,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import org.joda.time.format.PeriodFormatterBuilder
 import org.uqbar.commons.model.annotations.Observable
 import org.joda.time.Duration
+import com.fasterxml.jackson.annotation.JsonFormat
 
 @Accessors
 @Observable
@@ -15,6 +16,7 @@ abstract class Content {
 	
 	 ContentId id
 	 String title
+	 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	 Date release
 	 List<Assessment> assessments
 	 Duration duration
@@ -65,6 +67,6 @@ abstract class Content {
 		else{
 			str
 		}
-}
+	}
 	 
 }

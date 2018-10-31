@@ -3,7 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'open-iconic/font/css/open-iconic-bootstrap.min.css';
 import API from '../service/Api';
-import Container from './Container.jsx';
 import '../dist/css/home.css';
 import '../dist/css/singIn.css';
 import '../dist/css/Card.css';
@@ -11,10 +10,9 @@ import Gallery from './Carousel';
 
 
 class Home extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
-      user: 'Saba',
       recomended: [],
       fauvorites: [],
       categories: [],
@@ -22,30 +20,26 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    API.get(`/${this.state.user}/favs`)
-      .then(response => this.setState({ fauvorites: response }))
+    API.get(`/${this.props.match.params.username}/favs`)
+      .then(response => this.setState({ fauvorites: response.data }))
+      .catch(console.log);
+
+    API.get('/categories')
+      .then(response => this.setState({ categories: response.data }))
+      .catch(console.log);
+
+    API.get(`/${this.props.match.params.username}/recomended`)
+      .then(response => this.setState({ recomended: response.data }))
       .catch(console.log);
   }
 
-  splitContentOn(content, number) {
-    const numberOfRows = Math.ceil((content ? content.length : 0) / number);
-    const splitedContent = [];
-    for (let i = 0; i < numberOfRows; i += 1) {
-      splitedContent.push(content.slice(i * number, number * (i + 1)));
+  imgFromLink(content) {
+    if (content.id.charAt(0) === 'M') {
+      const id = content.link.substring(32, content.link.size);
+      const img = 'https://img.youtube.com/vi/'.concat(id).concat('/0.jpg');
+      return img;
     }
-    return splitedContent;
-  }
-
-  createFauvoriteContentRow() {
-    return this.splitContentOn(this.state.fauvorites, 5).map((list, i) => (
-      <div className="card-deck paddingT" key={`card_${i}`}>
-        {list.map(elem => this.createCardContent(elem))}
-      </div>
-    ));
-  }
-
-  imgFromLink(link) {
-    const id = link.substring(32, link.size);
+    const id = content.episodes[0].link.substring(32, content.episodes[0].link.size);
     const img = 'https://img.youtube.com/vi/'.concat(id).concat('/0.jpg');
     return img;
   }
@@ -58,15 +52,22 @@ class Home extends React.Component {
     );
   }
 
+  realeseContent(content) {
+    if (content.id.charAt(0) === 'M') {
+      return content.release;
+    }
+    return content.episodes[0].release;
+  }
+
   createCardContent(content) {
     return (
       <div>
         <div className="card mb-3 cardT">
-          <img className="card imgT" src={this.imgFromLink(content.link)} alt="imagen de la primer escena" />
+          <img className="card imgT" src={this.imgFromLink(content)} alt="imagen de la primer escena" />
           <div className="card-body" align="center">
             <h5 className="card-title textT">{this.textRender(content.title)}</h5>
             <div className="card-text">
-              <span className="badge badge-pill badge-success badgeMargin">{content.realese}</span>
+              <span className="badge badge-pill badge-success badgeMargin">{this.realeseContent(content)}</span>
             </div>
           </div>
         </div>
@@ -74,32 +75,35 @@ class Home extends React.Component {
     );
   }
 
-
-  createCardExample() {
-    return (
-      <div className="card">
-        <img className="card-img-top" src="https://vignette.wikia.nocookie.net/allficcion/images/5/5c/Chuck_Norris.jpg/revision/latest/scale-to-width-down/282?cb=20151118214226&path-prefix=es" alt="Card cap" />
-        <div className="card-body">
-          <h5 className="card-title">Card title</h5>
-          <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-      </div>
-    );
+  createRowContent(elem) {
+    return <Gallery listOfCards={elem.map(content => this.createCardContent(content))} />;
   }
+
+  createRowContentCategories() {
+    return this.state.categories.map(elem => (
+      <div>
+        <h1 className="text textBlue">{elem}</h1>
+        {this.createRowContent([this.state[`${elem}`]])}
+      </div>
+    ));
+  }
+
 
   render() {
     return (
       <main>
-        <h1 className="text-muted">Favoritos</h1>
-        <Gallery listOfCards={this.state.fauvorites.map(elem => this.createCardContent(elem))} />
-        {/* <div>
-          <h1>Recomendados</h1>
-          {this.createRecomendedContentRow()}
+        <div>
+          <h1 className="text textBlue">Favoritos</h1>
+          {this.createRowContent(this.state.fauvorites)}
         </div>
         <div>
-          {this.createContentRowBaseInCategories()}
+          <h1 className="text textBlue">Recomendados</h1>
+          {this.createRowContent(this.state.recomended)}
         </div>
-        */}
+        <div>
+          <h1 className="text textBlue">Action</h1>
+          {}
+        </div>
       </main>
     );
   }

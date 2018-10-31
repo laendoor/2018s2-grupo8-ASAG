@@ -24,6 +24,7 @@ import ar.edu.unq.TraiFlix.models.Serie
 import java.util.List
 import ar.edu.unq.TraiFlix.models.Content
 import org.joda.time.DateTime
+import ar.edu.unq.TraiFlix.models.Ratingable
 
 /**
  * Servidor RESTful implementado con XtRest.
@@ -56,6 +57,7 @@ class RestfulServer {
 	@Post("/auth")
 	def autentification(@Body String body) {
 		response.contentType = ContentType.APPLICATION_JSON
+		
 		try{
 			
 			val user = body.fromJson(UserRest)
@@ -77,6 +79,8 @@ class RestfulServer {
 	 */
 	@Get("/categories")
 	def getCategories() {
+		response.contentType = ContentType.APPLICATION_JSON
+		
 		var data = new DataResult(this.traiFlixsSystem.categories.stream.map([elem|elem.name]).toArray) 
 		return ok( data.toJson )	
 	}
@@ -90,13 +94,16 @@ class RestfulServer {
 	 * 
 	 */
 	@Get("/content/:category")
-	def getCategoriesContents() {
-		
+	def getCategoriesContents() {		
 		response.contentType = ContentType.APPLICATION_JSON
+		
 		try{
 			val cat = new Category(category)
 			val content = traiFlixsSystem.moviesAndSeriesCategory(cat)
-			return ok(content.toJson)	
+			val contentToShow = new CategoryToShow
+			contentToShow.category = category
+			contentToShow.data = content
+			return ok(contentToShow.toJson)	
 		}
 		catch(Exception exception){
 			return badRequest( getErrorJson("Problemas buscando contenidos en la categoria. " + exception.message ) ) 
@@ -114,11 +121,12 @@ class RestfulServer {
 	 */
 	@Get("/:username/favs")
 	def getContentsUserFavs() {
+		response.contentType = ContentType.APPLICATION_JSON
 		
 		try
 		{
-			var user = this.traiFlixsSystem.findUserByNickName(username);			
-			return ok( this.convertListOfContentInContentToShow(user.favourites).toJson )
+			var data = new DataResult( this.traiFlixsSystem.findUserByNickName(username).favourites )			
+			return ok( data.toJson )
 		}
 		catch( Exception exception ) {
 			return badRequest( getErrorJson("Problemas buscando favoritos. " + exception.message ) )
@@ -154,9 +162,10 @@ class RestfulServer {
 	 * 			● 404 Not Found
 	 */
 	@Get("/:username/serie/:id")
-	def getSeriesUserFavs() {
-		var String errorMessage
-				
+	def getSeriesUserFavs() {		
+		response.contentType = ContentType.APPLICATION_JSON
+		
+		var String errorMessage		
 		try
 		{
 			checkUser(username)
@@ -194,6 +203,8 @@ class RestfulServer {
 	 */
 	@Get("/:username/movie/:id")
 	def getMoviesUserFavs() {
+		response.contentType = ContentType.APPLICATION_JSON
+		
 		var String errorMessage
 				
 		try
@@ -236,7 +247,8 @@ class RestfulServer {
 	 
 	@Post("/recommend/:type/:id")
 	def recomended(@Body String body) {
-	response.contentType = ContentType.APPLICATION_JSON
+		response.contentType = ContentType.APPLICATION_JSON
+		
 		try{
 			val users = body.fromJson(UserToAndFrom);
 			val user1 = this.traiFlixsSystem.searchUser(users.userFrom)
@@ -263,9 +275,9 @@ class RestfulServer {
 	 * 
 	 */
 	@Post("/search")
-	def search(@Body String body) {
-		
+	def search(@Body String body) {		
 		response.contentType = ContentType.APPLICATION_JSON
+		
 		try {
 			val textSearch =  body.fromJson(Text)
 			val content = this.traiFlixsSystem.searchRelationalContent(textSearch.text)
@@ -295,7 +307,8 @@ class RestfulServer {
 	 * 
 	 */
 	@Put("/:username/fav/:type/:id/:value")
-	def setWatchedUser(@Body String body) {
+	def setUserFavContent(@Body String body) {
+		response.contentType = ContentType.APPLICATION_JSON
 		
 		try {			
 			var user = traiFlixsSystem.findUserByNickName(username)
@@ -322,7 +335,61 @@ class RestfulServer {
 		
 	}
 	
-		/**
+	/**
+	 * Que establezca si el usuario marcó como visto o no determinado contenido.
+	 * 	
+	 * 		Parámetros
+	 * 			● type​: Tipo del contenido. Debería aceptar sólo alguno de estos valores:
+	 *				[movie, serie]
+	 *			● id​: Id del contenido
+	 *			● value​: Valor booleano que indique si se marca como visto o se quita de los
+	 *				vistos. Debería aceptar sólo alguno de estos valores: [true, false]
+	 *			● username​: Nombre de usuario que está generando la acción
+	 * 		Responses
+	 *			● 202 Accepted
+	 * 			● 200 OK
+	 *			● 400 Bad Request
+	 * 
+	 */
+	@Put("/:username/watched/:type/:id/:value")
+	def setUserWatchedContent(@Body String body) {
+		response.contentType = ContentType.APPLICATION_JSON
+		
+		try {			
+			var user = traiFlixsSystem.findUserByNickName(username)
+			var contentId = ContentIdFactory.parse(id)
+			var add =  Boolean.parseBoolean(value)
+			
+			switch( type.toLowerCase ) {
+				case "movie": {
+						var movie = traiFlixsSystem.movie(contentId as MovieId)
+						if(add) user.addWatchedContent(movie)
+						else user.removeWatchedContent(movie)					
+					}
+				case "serie": {
+						var serie = traiFlixsSystem.serie(contentId as SerieId)
+						if(add) {
+							if(serie.episodes !== null)
+								user.addWatchedContent(serie.episodes.get(0))
+							else
+								throw new InvalidParameterException( "No se puede marcar como vista una serie sin capitulos." )
+						}
+						else user.removeWatchedSerie(serie)					
+					}
+				default:
+					throw new InvalidParameterException( "El tipo de contenido " + type + " no es valido." )
+			}
+			
+			return ok()	
+		}
+		catch( Exception exception ) {
+			return badRequest( getErrorJson("Problemas administrando contenido visto. " + exception.message ) )			
+		}	
+		
+	}
+	
+	
+	/**
 	 * Establece el rating estipulado por el usuario.
 	 * 	
 	 * 		Parámetros
@@ -457,6 +524,8 @@ class RestfulServer {
      */
     @Delete('/movies')
     def deleteSerieById(@Body String body) {
+    	response.contentType = ContentType.APPLICATION_JSON
+    	
         try {
         	val id = body.fromJson(MovieId)
             this.traiFlixsSystem.deleteMovie(id)
@@ -475,44 +544,9 @@ class RestfulServer {
 		traiFlixsSystem.findUserByNickName(userName)
 	}
 	
-	private def convertListOfContentInContentToShow(List<Favourable> favs){
-		return favs.stream.map[elem | this.convertToJsonToFrontFavourable(elem)].toArray
-	}
-	
-
-	
-	
-	private def convertToJsonToFrontFavourable(Favourable content){
-		val cont = new ContentToShow;
-		if(content.contentId.serie){
-			val ser = content as Serie 
-			cont.title = ser.getTitle();
-			var date = new DateTime( ser.episodes.get(0).release ).toString("dd/MM/yyyy")
-			cont.realese = date;
-			cont.link = ser.episodes.get(0).link
-			return cont
-		}
-		else{
-			val mov = content as Movie
-			cont.title = mov.title();
-			var date = new DateTime( mov.release ).toString("dd/MM/yyyy")
-			cont.realese = date;
-			cont.link = mov.link
-			return cont
-		}
-		
-	}
-	
-
 
 }
 
-@Accessors
-class ContentToShow{	
-	String title
-	String realese
-	String link
-}
 
 @Accessors
 class Actor{
@@ -536,6 +570,12 @@ class UserToAndFrom{
 		userFrom = user1
 		userTo = user2
 	}
+}
+
+@Accessors
+class CategoryToShow{
+	String category
+	List<Ratingable> data
 }
 
 

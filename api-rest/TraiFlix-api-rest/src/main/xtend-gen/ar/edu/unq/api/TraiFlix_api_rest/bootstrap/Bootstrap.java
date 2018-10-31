@@ -5,6 +5,7 @@ import ar.edu.unq.TraiFlix.models.Clasification;
 import ar.edu.unq.TraiFlix.models.Episode;
 import ar.edu.unq.TraiFlix.models.Favourable;
 import ar.edu.unq.TraiFlix.models.Movie;
+import ar.edu.unq.TraiFlix.models.Ratingable;
 import ar.edu.unq.TraiFlix.models.Serie;
 import ar.edu.unq.TraiFlix.models.TraiFlix;
 import ar.edu.unq.TraiFlix.models.User;
@@ -14,6 +15,8 @@ import java.util.List;
 import java.util.function.Consumer;
 import org.eclipse.xtend.lib.annotations.Accessors;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
+import org.eclipse.xtext.xbase.lib.ListExtensions;
 import org.eclipse.xtext.xbase.lib.Pure;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -64,29 +67,26 @@ public class Bootstrap {
       user1.setDateOfBirth(_dateTime);
       DateTime _dateTime_1 = new DateTime(2015, 3, 14, 0, 0, 0, 0);
       user1.setCreated(_dateTime_1);
-      Movie _get = this.movies.get(0);
-      final Favourable fav = ((Favourable) _get);
-      Serie _get_1 = this.series.get(0);
-      final Favourable fav2 = ((Favourable) _get_1);
-      Movie _get_2 = this.movies.get(1);
-      final Favourable fav3 = ((Favourable) _get_2);
-      Movie _get_3 = this.movies.get(2);
-      final Favourable fav4 = ((Favourable) _get_3);
-      user1.getFavourites().add(fav);
-      user1.getFavourites().add(fav2);
-      user1.getFavourites().add(fav2);
-      user1.getFavourites().add(fav2);
-      user1.getFavourites().add(fav2);
-      user1.getFavourites().add(fav2);
-      user1.getFavourites().add(fav2);
-      user1.getFavourites().add(fav2);
-      user1.getFavourites().add(fav2);
-      user1.getFavourites().add(fav2);
-      user1.getFavourites().add(fav2);
-      user1.getFavourites().add(fav2);
-      user1.getFavourites().add(fav2);
-      user1.getFavourites().add(fav3);
-      user1.getFavourites().add(fav4);
+      final Function1<Movie, Favourable> _function = (Movie m) -> {
+        return ((Favourable) m);
+      };
+      final List<Favourable> fav = ListExtensions.<Movie, Favourable>map(this.movies, _function);
+      final Function1<Serie, Favourable> _function_1 = (Serie s) -> {
+        return ((Favourable) s);
+      };
+      final List<Favourable> fav2 = ListExtensions.<Serie, Favourable>map(this.series, _function_1);
+      user1.getFavourites().addAll(fav);
+      user1.getFavourites().addAll(fav2);
+      final Function1<Movie, Ratingable> _function_2 = (Movie m) -> {
+        return ((Ratingable) m);
+      };
+      final List<Ratingable> fav3 = ListExtensions.<Movie, Ratingable>map(this.movies, _function_2);
+      final Function1<Serie, Ratingable> _function_3 = (Serie s) -> {
+        return ((Ratingable) s);
+      };
+      final List<Ratingable> fav4 = ListExtensions.<Serie, Ratingable>map(this.series, _function_3);
+      user1.getRecommended().addAll(fav3);
+      user1.getRecommended().addAll(fav4);
       User user2 = new User();
       user2.setId(Integer.valueOf(2));
       user2.setNick("Lukitas");
@@ -128,28 +128,36 @@ public class Bootstrap {
       String actors = "Obi One Kenobi , Darin";
       Movie movie = new Movie();
       movie.setTitle("Las tortugas pinjas");
-      Date _date = new Date();
+      Date _date = new Date(90, 3, 17);
       movie.setRelease(_date);
       movie.setActors(actors);
       movie.setDuration(Duration.standardMinutes(12).plus(Duration.standardSeconds(50)));
+      Clasification _clasification = new Clasification("+18");
+      movie.setClasification(_clasification);
       movie.setDirectors(directors);
       movie.setLink("https://www.youtube.com/watch?v=HoBo9ilFAlI");
       Movie movie1 = new Movie();
       movie1.setTitle("I\'m Batman");
-      Date _date_1 = new Date();
+      Date _date_1 = new Date(18, 4, 6);
       movie1.setRelease(_date_1);
       movie1.setActors(actors);
       movie1.setDuration(Duration.standardMinutes(2));
       movie1.setDirectors(directors);
       movie1.setLink("https://www.youtube.com/watch?v=PfEXKi83glA");
+      Clasification _clasification_1 = new Clasification("ATP");
+      movie1.setClasification(_clasification_1);
       Movie movie2 = new Movie();
       movie2.setTitle("Cmen");
-      Date _date_2 = new Date();
+      Date _date_2 = new Date(94, 3, 12);
       movie2.setRelease(_date_2);
       movie2.setDuration(Duration.standardMinutes(5));
       movie2.setActors(actors);
       movie2.setDirectors(directors);
       movie2.setLink("https://www.youtube.com/watch?v=lpFzTJN2y_o");
+      Clasification _clasification_2 = new Clasification("ATP");
+      movie2.setClasification(_clasification_2);
+      movie.addRelated(movie1);
+      movie.addRelated(movie2);
       final ArrayList<Movie> list = new ArrayList<Movie>();
       list.add(movie);
       list.add(movie1);
@@ -216,20 +224,80 @@ public class Bootstrap {
     return _xblockexpression;
   }
   
-  public ArrayList<Episode> createEpisodes() {
+  public ArrayList<Episode> createEpisodesForALF() {
     final Episode episode1 = new Episode();
-    episode1.setTitle("epi1");
+    episode1.setTitle("Larry el Psicologo");
     episode1.setSeason(Integer.valueOf(1));
     episode1.setEpisodeNumber(Integer.valueOf(1));
     episode1.setLink("https://www.youtube.com/watch?v=pAdTUYoKIQM");
+    Date _date = new Date(84, 7, 16);
+    episode1.setRelease(_date);
     final Episode episode2 = new Episode();
-    episode2.setTitle("epi2");
+    episode2.setTitle("Ajedrez");
     episode2.setSeason(Integer.valueOf(2));
     episode2.setEpisodeNumber(Integer.valueOf(2));
+    episode2.setLink("http://www.youtube.com/watch?v=ctoKrCpFxjA");
+    Date _date_1 = new Date(85, 8, 16);
+    episode2.setRelease(_date_1);
     final Episode episode3 = new Episode();
-    episode3.setTitle("epi3");
+    episode3.setTitle("Luna de Miel");
     episode3.setSeason(Integer.valueOf(3));
     episode3.setEpisodeNumber(Integer.valueOf(3));
+    episode3.setLink("http://www.youtube.com/watch?v=o-8fGNqbzj8");
+    Date _date_2 = new Date(85, 9, 16);
+    episode3.setRelease(_date_2);
+    ArrayList<Episode> _newArrayList = CollectionLiterals.<Episode>newArrayList(episode1, episode2, episode3);
+    return new ArrayList<Episode>(_newArrayList);
+  }
+  
+  public ArrayList<Episode> createEpisodesForFriends() {
+    final Episode episode1 = new Episode();
+    episode1.setTitle("Larry el Psicologo");
+    episode1.setSeason(Integer.valueOf(1));
+    episode1.setEpisodeNumber(Integer.valueOf(1));
+    episode1.setLink("https://www.youtube.com/watch?v=2jMvc5VoavE");
+    Date _date = new Date(94, 9, 22);
+    episode1.setRelease(_date);
+    final Episode episode2 = new Episode();
+    episode2.setTitle("Ajedrez");
+    episode2.setSeason(Integer.valueOf(2));
+    episode2.setEpisodeNumber(Integer.valueOf(2));
+    episode2.setLink("http://www.youtube.com/watch?v=ctoKrCpFxjA");
+    Date _date_1 = new Date(2004, 9, 22);
+    episode2.setRelease(_date_1);
+    final Episode episode3 = new Episode();
+    episode3.setTitle("Luna de Miel");
+    episode3.setSeason(Integer.valueOf(3));
+    episode3.setEpisodeNumber(Integer.valueOf(3));
+    episode3.setLink("http://www.youtube.com/watch?v=o-8fGNqbzj8");
+    Date _date_2 = new Date(85, 9, 16);
+    episode3.setRelease(_date_2);
+    ArrayList<Episode> _newArrayList = CollectionLiterals.<Episode>newArrayList(episode1, episode2, episode3);
+    return new ArrayList<Episode>(_newArrayList);
+  }
+  
+  public ArrayList<Episode> createEpisodesForLost() {
+    final Episode episode1 = new Episode();
+    episode1.setTitle("Larry el Psicologo");
+    episode1.setSeason(Integer.valueOf(1));
+    episode1.setEpisodeNumber(Integer.valueOf(1));
+    episode1.setLink("https://www.youtube.com/watch?v=GsAEE_sy3aU");
+    Date _date = new Date(2004, 9, 22);
+    episode1.setRelease(_date);
+    final Episode episode2 = new Episode();
+    episode2.setTitle("Ajedrez");
+    episode2.setSeason(Integer.valueOf(2));
+    episode2.setEpisodeNumber(Integer.valueOf(2));
+    episode2.setLink("http://www.youtube.com/watch?v=ctoKrCpFxjA");
+    Date _date_1 = new Date(85, 8, 16);
+    episode2.setRelease(_date_1);
+    final Episode episode3 = new Episode();
+    episode3.setTitle("Luna de Miel");
+    episode3.setSeason(Integer.valueOf(3));
+    episode3.setEpisodeNumber(Integer.valueOf(3));
+    episode3.setLink("http://www.youtube.com/watch?v=o-8fGNqbzj8");
+    Date _date_2 = new Date(85, 9, 16);
+    episode3.setRelease(_date_2);
     ArrayList<Episode> _newArrayList = CollectionLiterals.<Episode>newArrayList(episode1, episode2, episode3);
     return new ArrayList<Episode>(_newArrayList);
   }
@@ -250,7 +318,9 @@ public class Bootstrap {
     model.setClassifications(this.clasifications);
     model.setMovies(this.movies);
     final List<Serie> series2 = this.series;
-    this.loadEpisodesInSerie(this.series.get(0), this.createEpisodes());
+    this.loadEpisodesInSerie(this.series.get(0), this.createEpisodesForALF());
+    this.loadEpisodesInSerie(this.series.get(1), this.createEpisodesForLost());
+    this.loadEpisodesInSerie(this.series.get(2), this.createEpisodesForFriends());
     model.setSeries(series2);
     model.setUsers(this.users);
   }

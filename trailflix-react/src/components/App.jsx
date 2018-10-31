@@ -9,23 +9,30 @@ import { Switch, Route } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import Home from './Home';
 import SingIn from './Login/SingIn';
-import Header from './Header';
+import SerieView from './ContentView/SerieView';
+import MovieView from './ContentView/MovieView';
+import Root from './Root';
 
 
 export default class App extends React.Component {
   constructor() {
     super();
-    this.state = { name: 'mundo' };
+    this.state = {
+      name: 'TRAIFLIX',
+    };
   }
 
   render() {
     return (
       <BrowserRouter>
-
-        <Switch>
-          <Route path="/" component={Home} />
-        </Switch>
-
+        <Root>
+          <Switch>
+            <Route path="/home/:username" component={Home} />
+            <Route path="/serie/:id" component={SerieView} />
+            <Route path="/movie/:id" component={MovieView} />
+            <Route path="/" component={SingIn} />
+          </Switch>
+        </Root>
       </BrowserRouter>
     );
   }

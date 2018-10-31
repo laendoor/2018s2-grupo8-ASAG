@@ -2,6 +2,7 @@ import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
 import '../dist/css/carousel.css';
+import '../dist/css/Card.css';
 
 export default class Gallery extends React.Component {
   constructor() {
@@ -42,14 +43,11 @@ export default class Gallery extends React.Component {
       <AliceCarousel
         items={items}
         duration={400}
-        //autoPlay
         showSlideInfo
         startIndex={0}
         fadeOutAnimation
         mouseDragEnabled
-        //playButtonEnabled
         enableAutoPlay
-        //autoPlayInterval={3000}
         autoPlayDirection="rtl"
         responsive={this.responsive}
         disableAutoPlayOnAction

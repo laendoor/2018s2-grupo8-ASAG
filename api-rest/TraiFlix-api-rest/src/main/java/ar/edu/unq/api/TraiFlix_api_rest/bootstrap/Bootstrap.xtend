@@ -52,25 +52,16 @@ class Bootstrap {
 		user1.name = "Pablo"
 		user1.dateOfBirth = new DateTime(1986, 7, 16, 0, 0, 0, 0);
 		user1.created = new DateTime(2015, 3, 14, 0, 0, 0, 0);
-		val fav = movies.get(0) as Favourable
-		val fav2 = series.get(0) as Favourable
-		val fav3 = movies.get(1) as Favourable
-		val fav4 = movies.get(2) as Favourable
-		user1.favourites.add(fav)
-		user1.favourites.add(fav2)
-		user1.favourites.add(fav2)
-		user1.favourites.add(fav2)
-		user1.favourites.add(fav2)
-		user1.favourites.add(fav2)
-		user1.favourites.add(fav2)
-		user1.favourites.add(fav2)
-		user1.favourites.add(fav2)
-		user1.favourites.add(fav2)
-		user1.favourites.add(fav2)
-		user1.favourites.add(fav2)
-		user1.favourites.add(fav2)
-		user1.favourites.add(fav3)
-		user1.favourites.add(fav4)
+		val fav = movies.map[m| m as Favourable]
+		val fav2 = series.map[s| s as Favourable]
+		user1.favourites.addAll(fav)
+		user1.favourites.addAll(fav2)
+		
+		val fav3 = movies.map[m| m as Ratingable]
+		val fav4 = series.map[s| s as Ratingable]
+		
+		user1.recommended.addAll(fav3)
+		user1.recommended.addAll(fav4)
 
 		var user2 = new User()
 		user2.id = 2
@@ -110,28 +101,33 @@ class Bootstrap {
 
 		var movie = new Movie()
 		movie.title = "Las tortugas pinjas"
-		movie.release = new Date()
+		movie.release = new Date(90, 3, 17)
 		movie.actors = actors
 		movie.duration = Duration.standardMinutes(12).plus(Duration.standardSeconds(50))
-
+		movie.clasification = new Clasification("+18")
 		movie.directors = directors
 		movie.link = "https://www.youtube.com/watch?v=HoBo9ilFAlI"
 
 		var movie1 = new Movie()
 		movie1.title = "I'm Batman"
-		movie1.release = new Date()
+		movie1.release = new Date(18, 4, 6)
 		movie1.actors = actors
 		movie1.duration = Duration.standardMinutes(2)
 		movie1.directors = directors
 		movie1.link = "https://www.youtube.com/watch?v=PfEXKi83glA"
+		movie1.clasification = new Clasification("ATP")
 
 		var movie2 = new Movie()
 		movie2.title = "Cmen"
-		movie2.release = new Date()
+		movie2.release = new Date(94, 3, 12)
 		movie2.duration = Duration.standardMinutes(5)
 		movie2.actors = actors
 		movie2.directors = directors
 		movie2.link = "https://www.youtube.com/watch?v=lpFzTJN2y_o"
+		movie2.clasification = new Clasification("ATP")
+		
+		movie.addRelated(movie1)
+		movie.addRelated(movie2)
 		
 		val list = new ArrayList()
 		
@@ -202,22 +198,83 @@ class Bootstrap {
 		list
 	}
 	
-	def createEpisodes(){
+	def createEpisodesForALF(){
 		val episode1 = new Episode();
-		episode1.title = "epi1"
+		episode1.title = "Larry el Psicologo"
 		episode1.season = 1
 		episode1.episodeNumber = 1
 		episode1.link =  "https://www.youtube.com/watch?v=pAdTUYoKIQM"
+		episode1.release = new Date(84, 7, 16)
 		
 		val episode2 = new Episode();
-		episode2.title = "epi2"
+		episode2.title = "Ajedrez"
 		episode2.season = 2
 		episode2.episodeNumber = 2
+		episode2.link = "http://www.youtube.com/watch?v=ctoKrCpFxjA"
+		episode2.release = new Date(85, 8, 16);
 		
 		val episode3 = new Episode();
-		episode3.title = "epi3"
+		episode3.title = "Luna de Miel"
 		episode3.season = 3
 		episode3.episodeNumber = 3
+		episode3.link = "http://www.youtube.com/watch?v=o-8fGNqbzj8"
+		episode3.release = new Date(85, 9, 16);
+		
+		
+		return new ArrayList(newArrayList(episode1,episode2,episode3))
+		
+		 
+	}
+	
+	def createEpisodesForFriends(){
+		val episode1 = new Episode();
+		episode1.title = "Larry el Psicologo"
+		episode1.season = 1
+		episode1.episodeNumber = 1
+		episode1.link =  "https://www.youtube.com/watch?v=2jMvc5VoavE"
+		episode1.release = new Date(94, 9, 22)
+		
+		val episode2 = new Episode();
+		episode2.title = "Ajedrez"
+		episode2.season = 2
+		episode2.episodeNumber = 2
+		episode2.link = "http://www.youtube.com/watch?v=ctoKrCpFxjA"
+		episode2.release = new Date(2004, 9, 22);
+		
+		val episode3 = new Episode();
+		episode3.title = "Luna de Miel"
+		episode3.season = 3
+		episode3.episodeNumber = 3
+		episode3.link = "http://www.youtube.com/watch?v=o-8fGNqbzj8"
+		episode3.release = new Date(85, 9, 16);
+		
+		
+		return new ArrayList(newArrayList(episode1,episode2,episode3))
+		
+		 
+	}
+	
+	def createEpisodesForLost(){
+		val episode1 = new Episode();
+		episode1.title = "Larry el Psicologo"
+		episode1.season = 1
+		episode1.episodeNumber = 1
+		episode1.link =  "https://www.youtube.com/watch?v=GsAEE_sy3aU"
+		episode1.release = new Date(2004, 9, 22)
+		
+		val episode2 = new Episode();
+		episode2.title = "Ajedrez"
+		episode2.season = 2
+		episode2.episodeNumber = 2
+		episode2.link = "http://www.youtube.com/watch?v=ctoKrCpFxjA"
+		episode2.release = new Date(85, 8, 16);
+		
+		val episode3 = new Episode();
+		episode3.title = "Luna de Miel"
+		episode3.season = 3
+		episode3.episodeNumber = 3
+		episode3.link = "http://www.youtube.com/watch?v=o-8fGNqbzj8"
+		episode3.release = new Date(85, 9, 16);
 		
 		
 		return new ArrayList(newArrayList(episode1,episode2,episode3))
@@ -228,7 +285,7 @@ class Bootstrap {
 	
 	def loadEpisodesInSerie(Serie serie1, List<Episode> episodes){
 		episodes.forEach[elem | elem.setSerie(serie1)]
-		episodes.forEach[elem | serie1.addEpisode(elem)]
+		episodes.forEach[elem | serie1.addEpisode(elem)] 
 	}
 	
 	def load(TraiFlix model){
@@ -236,7 +293,9 @@ class Bootstrap {
 		model.classifications = this.clasifications
 		model.movies = this.movies
 		val series2 = this.series
-		this.loadEpisodesInSerie(series.get(0), this.createEpisodes) 
+		this.loadEpisodesInSerie(series.get(0), this.createEpisodesForALF)
+		this.loadEpisodesInSerie(series.get(1), this.createEpisodesForLost) 
+		this.loadEpisodesInSerie(series.get(2), this.createEpisodesForFriends)  
 		model.series = series2
 		model.users = this.users
 	}

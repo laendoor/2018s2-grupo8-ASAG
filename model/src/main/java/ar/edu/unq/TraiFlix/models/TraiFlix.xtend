@@ -107,15 +107,18 @@ class TraiFlix {
 	}
 	
 	def moviesAndSeriesCategory(Category category){
-		var List<Ratingable> contentList = newArrayList
+		var contentList = new ArrayList()
 		
-		contentList.addAll(movies.filter[
+		var contentM = movies.filter[
 			elem | elem.movieHasCategory(category)
-		])
+		].map[ elem | elem as Ratingable].toList
 		
-		contentList.addAll(series.filter[
+		var contentS = series.filter[
 			elem | elem.serieHasCategory(category)
-		])
+		].map[elem | elem as Ratingable].toList
+		
+		contentList.addAll(contentM)
+		contentList.addAll(contentS)
 		
 		return contentList
 	}

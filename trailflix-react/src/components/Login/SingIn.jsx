@@ -16,7 +16,7 @@ class SingIn extends React.Component {
 
   SingUp() {
     API.post('/auth', { ...this.state })
-      .then(() => this.props.history.push('/home'))
+      .then(() => this.props.history.push(`/home/${this.state.username}`))
       .catch(console.log);
   }
 

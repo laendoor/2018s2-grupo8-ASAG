@@ -65,10 +65,10 @@ class TraiFlixTest{
 		foundSerie.addEpisode(foundS1E2)
 		
 		user = new User
-		user.seeContent(lostS1E1)
-		user.seeContent(lostS1E2)
-		user.seeContent(lostS1E3)
-		user.seeContent(foundS1E1)
+		user.addWatchedContent(lostS1E1)
+		user.addWatchedContent(lostS1E2)
+		user.addWatchedContent(lostS1E3)
+		user.addWatchedContent(foundS1E1)
 	}
 	 
 	@Test
@@ -390,9 +390,9 @@ class TraiFlixTest{
 		val luisMiguel = new Episode
 		luisMiguel.title = "Luis Miguel"
 		
-		pepe.seeContent(elPadrino)
-		pepe.seeContent(teletubis)
-		pepe.seeContent(luisMiguel)
+		pepe.addWatchedContent(elPadrino)
+		pepe.addWatchedContent(teletubis)
+		pepe.addWatchedContent(luisMiguel)
 		
 		val watchedMovies = pepe.watchedMovies()
 		System.out.println(pepe.watched.size )
