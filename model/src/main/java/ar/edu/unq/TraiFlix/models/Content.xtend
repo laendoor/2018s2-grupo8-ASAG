@@ -9,6 +9,7 @@ import org.joda.time.format.PeriodFormatterBuilder
 import org.uqbar.commons.model.annotations.Observable
 import org.joda.time.Duration
 import com.fasterxml.jackson.annotation.JsonFormat
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
 
 @Accessors
 @Observable
@@ -19,6 +20,7 @@ abstract class Content {
 	 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	 Date release
 	 List<Assessment> assessments
+	 @JsonSerialize(using = CustomDurationSerializer)
 	 Duration duration
 	 String directors
 	 String actors

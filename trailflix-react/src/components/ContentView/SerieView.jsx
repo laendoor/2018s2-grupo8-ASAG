@@ -26,7 +26,11 @@ export default class SerieView extends ContentView {
   }
 
   getReleaseYear() {
-    return this.state.content.episodes === null || this.state.content.episodes[0].release === null ? '[Fecha lanzamiento]' : this.state.content.episodes[0].release;
+    return this.state.content.episodes === null || this.state.content.episodes[0].release === null ? '[Fecha lanzamiento]' : this.extractYear(this.state.content.episodes[0].release);
+  }
+
+  getDetails() {
+    return `${this.getClassification()} | ${this.getCategories()} | ${this.getReleaseYear()}`;
   }
 
   renderItemList() {
@@ -36,9 +40,5 @@ export default class SerieView extends ContentView {
         <p className="mb-1">{episode.title}</p>
       </li>
     ));
-  }
-
-  renderDetails() {
-    return `${this.getClassification()} | ${this.getCategories()} | ${this.getReleaseYear()}`;
   }
 }
