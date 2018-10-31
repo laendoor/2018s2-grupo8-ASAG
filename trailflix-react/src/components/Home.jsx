@@ -100,10 +100,6 @@ class Home extends React.Component {
           <h1 className="text textBlue">Recomendados</h1>
           {this.createRowContent(this.state.recomended)}
         </div>
-        <div>
-          <h1 className="text textBlue">Action</h1>
-          {}
-        </div>
       </main>
     );
   }
