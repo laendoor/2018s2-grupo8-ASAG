@@ -1,6 +1,7 @@
 import React from 'react';
 import '../../dist/css/ContentView.css';
 import ReactPlayer from 'react-player';
+import Rating from '../Rating';
 import API from '../../service/Api.js';
 
 
@@ -59,6 +60,10 @@ export default class ContentView extends React.Component {
     return this.state.content.categories.map(category => category.name).join(', ');
   }
 
+  getContentRating() {
+    return this.state.content.rating;
+  }
+
   removeFromWatched() {
     API.put(`/${this.getUserName()}/fav/${this.getContentType()}/${this.props.match.params.id}/false`)
       .catch(console.log);
@@ -79,7 +84,7 @@ export default class ContentView extends React.Component {
         <div className="row">
           <div className="col-6">
             <h1>{this.getContentTitle()}</h1>
-            <h5 className="card-title">{this.renderDetails()} </h5>
+            <h5 className="card-title">{this.getDetails()} <Rating stars="5" value={this.getContentRating()} /></h5>
             <ReactPlayer
               url={this.getTrailerLink()}
               className="react-player"

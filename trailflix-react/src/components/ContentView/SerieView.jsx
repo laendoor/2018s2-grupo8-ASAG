@@ -29,6 +29,10 @@ export default class SerieView extends ContentView {
     return this.state.content.episodes === null || this.state.content.episodes[0].release === null ? '[Fecha lanzamiento]' : this.state.content.episodes[0].release;
   }
 
+  getDetails() {
+    return `${this.getClassification()} | ${this.getCategories()} | ${this.getReleaseYear()}`;
+  }
+
   renderItemList() {
     return this.state.content.episodes.map((episode, i) => (
       <li className="list-group-item" key={i}>
@@ -36,9 +40,5 @@ export default class SerieView extends ContentView {
         <p className="mb-1">{episode.title}</p>
       </li>
     ));
-  }
-
-  renderDetails() {
-    return `${this.getClassification()} | ${this.getCategories()} | ${this.getReleaseYear()}`;
   }
 }

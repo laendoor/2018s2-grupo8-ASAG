@@ -22,6 +22,10 @@ export default class MovieView extends ContentView {
     return this.state.content.release === null ? '[Fecha lanzamiento]' : this.state.content.release;
   }
 
+  getDetails() {
+    return `${this.getClassification()} | ${this.getCategories()} | ${this.getReleaseYear()}`;
+  }
+
   renderItemList() {
     return this.state.content.relateds.map((item, i) => (
       <li className="list-group-item" key={i}>
@@ -29,9 +33,5 @@ export default class MovieView extends ContentView {
         <p className="mb-1">{item.release.substring(0, 4)}</p>
       </li>
     ));
-  }
-
-  renderDetails() {
-    return `${this.getClassification()} | ${this.getCategories()} | ${this.getReleaseYear()}`;
   }
 }
