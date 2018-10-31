@@ -87,14 +87,15 @@ class Bootstrap {
 
 
 		var movie = new Movie()
-		movie.title = "Las tortugas pinjas"
+		movie.title = "Las Tortugas Pinjas"
 		movie.release = new Date()
 		movie.actors = actors
-		movie.duration = Duration.standardMinutes(12).plus(Duration.standardSeconds(50))
+		movie.duration = Duration.standardHours(2).plus(Duration.standardMinutes(29))
 		movie.clasification = new Clasification("+18")
 		movie.directors = directors
 		movie.link = "http://www.youtube.com/watch?v=HoBo9ilFAlI"
 		movie.addAssessment(new Assessment(this.users.get(0),2,"Bien piola"))
+		movie.categories = this.categories
 
 		var movie1 = new Movie()
 		movie1.title = "I'm Batman"

@@ -64,6 +64,10 @@ export default class ContentView extends React.Component {
     return this.state.content.rating;
   }
 
+  extractYear(dateString) {
+    return dateString.substring(0, 4);
+  }
+
   removeFromWatched() {
     API.put(`/${this.getUserName()}/fav/${this.getContentType()}/${this.props.match.params.id}/false`)
       .catch(console.log);

@@ -19,18 +19,18 @@ export default class MovieView extends ContentView {
   }
 
   getReleaseYear() {
-    return this.state.content.release === null ? '[Fecha lanzamiento]' : this.state.content.release;
+    return this.state.content.release === null ? '[Fecha lanzamiento]' : this.extractYear(this.state.content.release);
   }
 
   getDetails() {
-    return `${this.getClassification()} | ${this.getCategories()} | ${this.getReleaseYear()}`;
+    return `${this.getClassification()} | ${this.state.content.duration} | ${this.getCategories()} | ${this.getReleaseYear()}`;
   }
 
   renderItemList() {
     return this.state.content.relateds.map((item, i) => (
       <li className="list-group-item" key={i}>
         <h4 className="mb-1">{item.title}</h4>
-        <p className="mb-1">{item.release.substring(0, 4)}</p>
+        <p className="mb-1">{this.extractYear(item.release)}</p>
       </li>
     ));
   }

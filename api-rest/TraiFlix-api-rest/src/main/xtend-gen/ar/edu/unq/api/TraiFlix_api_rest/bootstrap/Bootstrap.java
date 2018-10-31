@@ -104,11 +104,11 @@ public class Bootstrap {
       String directors = "Spilbergo, Jorge Lucas";
       String actors = "Obi One Kenobi , Darin";
       Movie movie = new Movie();
-      movie.setTitle("Las tortugas pinjas");
+      movie.setTitle("Las Tortugas Pinjas");
       Date _date = new Date();
       movie.setRelease(_date);
       movie.setActors(actors);
-      movie.setDuration(Duration.standardMinutes(12).plus(Duration.standardSeconds(50)));
+      movie.setDuration(Duration.standardHours(2).plus(Duration.standardMinutes(29)));
       Clasification _clasification = new Clasification("+18");
       movie.setClasification(_clasification);
       movie.setDirectors(directors);
@@ -116,6 +116,7 @@ public class Bootstrap {
       User _get = this.users.get(0);
       Assessment _assessment = new Assessment(_get, Integer.valueOf(2), "Bien piola");
       movie.addAssessment(_assessment);
+      movie.setCategories(this.categories);
       Movie movie1 = new Movie();
       movie1.setTitle("I\'m Batman");
       Date _date_1 = new Date();
