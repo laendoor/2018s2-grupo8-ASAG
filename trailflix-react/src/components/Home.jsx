@@ -7,6 +7,7 @@ import '../dist/css/home.css';
 import '../dist/css/singIn.css';
 import '../dist/css/Card.css';
 import Gallery from './Carousel';
+import { Link } from 'react-router-dom';
 
 
 class Home extends React.Component {
@@ -15,7 +16,7 @@ class Home extends React.Component {
     this.state = {
       recomended: [],
       fauvorites: [],
-      categories: [],
+      data: [],
     };
   }
 
@@ -24,12 +25,15 @@ class Home extends React.Component {
       .then(response => this.setState({ fauvorites: response.data }))
       .catch(console.log);
 
-    API.get('/categories')
-      .then(response => this.setState({ categories: response.data }))
-      .catch(console.log);
-
     API.get(`/${this.props.match.params.username}/recomended`)
       .then(response => this.setState({ recomended: response.data }))
+      .catch(console.log);
+
+    API.get('/categories')
+      .then(cats => Promise.all(cats.data.map(cat => API.get(`/content/${cat}`))))
+      .then(response => this.setState({
+        data: response,
+      }))
       .catch(console.log);
   }
 
@@ -62,44 +66,41 @@ class Home extends React.Component {
   createCardContent(content) {
     return (
       <div>
-        <div className="card mb-3 cardT">
-          <img className="card imgT" src={this.imgFromLink(content)} alt="imagen de la primer escena" />
-          <div className="card-body" align="center">
-            <h5 className="card-title textT">{this.textRender(content.title)}</h5>
-            <div className="card-text">
-              <span className="badge badge-pill badge-success badgeMargin">{this.realeseContent(content)}</span>
+        <Link to={`/serie/${content.id}`}>
+          <div className="card mb-3 cardT">
+            <img className="card imgT" src={this.imgFromLink(content)} alt="imagen de la primer escena" />
+            <div className="card-body" align="center">
+              <h5 className="card-title textT">{this.textRender(content.title)}</h5>
+              <div className="card-text">
+                <span className="badge badge-pill badge-success badgeMargin">{this.realeseContent(content)}</span>
+              </div>
             </div>
           </div>
-        </div>
+        </Link>
       </div>
     );
   }
 
-  createRowContent(elem) {
-    return <Gallery listOfCards={elem.map(content => this.createCardContent(content))} />;
+  createRowContent(text, elem) {
+    return (
+      <div>
+        <h1 className="text textBlue">{text}</h1>
+        <Gallery listOfCards={elem.map(content => this.createCardContent(content))} />
+      </div>
+    );
   }
 
-  createRowContentCategories() {
-    return this.state.categories.map(elem => (
-      <div>
-        <h1 className="text textBlue">{elem}</h1>
-        {this.createRowContent([this.state[`${elem}`]])}
-      </div>
-    ));
+  createRowContentOfCategories() {
+
   }
 
 
   render() {
     return (
       <main>
-        <div>
-          <h1 className="text textBlue">Favoritos</h1>
-          {this.createRowContent(this.state.fauvorites)}
-        </div>
-        <div>
-          <h1 className="text textBlue">Recomendados</h1>
-          {this.createRowContent(this.state.recomended)}
-        </div>
+        {this.createRowContent('Favoritos', this.state.fauvorites)}
+        {this.createRowContent('Recomendados', this.state.recomended)}
+        {this.state.data.map(elem => this.createRowContent(elem.category, elem.data))}
       </main>
     );
   }
