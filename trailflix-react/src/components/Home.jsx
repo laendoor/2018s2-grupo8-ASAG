@@ -66,7 +66,7 @@ class Home extends React.Component {
   createCardContent(content) {
     return (
       <div>
-        <Link to={`/serie/${content.id}`}>
+        <Link to={`/${(content.id.charAt(0) === 'M') ? 'movie' : 'serie'}/${content.id}`}>
           <div className="card mb-3 cardT">
             <img className="card imgT" src={this.imgFromLink(content)} alt="imagen de la primer escena" />
             <div className="card-body" align="center">
@@ -80,6 +80,7 @@ class Home extends React.Component {
       </div>
     );
   }
+
 
   createRowContent(text, elem) {
     return (

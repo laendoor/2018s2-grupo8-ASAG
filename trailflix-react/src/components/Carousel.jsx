@@ -29,7 +29,7 @@ export default class Gallery extends React.Component {
   galleryItems() {
     return (
       this.props.listOfCards.map((item, i) => (
-        <div key={`key-${i}`}>
+        <div key={`key-${i}`} className="carouselCheto">
           {item}
         </div>
       ))
