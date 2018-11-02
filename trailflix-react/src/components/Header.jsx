@@ -6,11 +6,12 @@ import '../dist/css/Card.css';
 
 
 class Header extends React.Component {
-  constructor() {
-    super();
-    this.state = { search: '' };
+  constructor(props) {
+    super(props);
+    this.state = {
+      search: '',
+    };
   }
-
 
   handleChange(event) {
     this.setState({ search: event.target.value });
@@ -21,7 +22,7 @@ class Header extends React.Component {
   }
 
   goToHome() {
-    this.props.history.push('/');
+    this.props.history.push(`/home/${this.props.username}`);
   }
 
   render() {

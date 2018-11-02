@@ -27,10 +27,10 @@ export default class App extends React.Component {
       <BrowserRouter>
         <Root>
           <Switch>
-            <Route path="/home/:username" component={Home} />
-            <Route path="/serie/:id" component={SerieView} />
-            <Route path="/movie/:id" component={MovieView} />
-            <Route path="/" component={SingIn} />
+            <Route path="/home/:username" render={props => <Home {...props} />} />
+            <Route path="/serie/:username/:id" render={props => <SerieView {...props} />} />
+            <Route path="/movie/:username/:id" render={props => <MovieView {...props} />} />
+            <Route path="/" render={props => <SingIn {...props} />} />
           </Switch>
         </Root>
       </BrowserRouter>

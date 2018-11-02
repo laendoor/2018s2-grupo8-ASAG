@@ -49,7 +49,7 @@ export default class ContentView extends React.Component {
   }
 
   getUserName() {
-    return this.props.location.state.userName;
+    return this.props.match.params.username;
   }
 
   getClassification() {

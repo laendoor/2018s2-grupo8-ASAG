@@ -1,7 +1,9 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 import Header from './Header.jsx';
 
-export default class Root extends React.Component {
+
+class Root extends React.Component {
   render() {
     if (window.location.pathname === '/') {
       return (
@@ -10,9 +12,10 @@ export default class Root extends React.Component {
         </div>
       );
     }
+
     return (
       <div>
-        <Header userState={this.props.userState} />
+        <Header username={this.props.location.pathname.split('/')[2]} />
         <div className="container">
           {this.props.children}
         </div>
@@ -20,3 +23,6 @@ export default class Root extends React.Component {
     );
   }
 }
+
+export default withRouter(Root);
+
