@@ -12,6 +12,7 @@ import SingIn from './Login/SingIn';
 import SerieView from './ContentView/SerieView';
 import MovieView from './ContentView/MovieView';
 import Root from './Root';
+import Search from './Search';
 
 
 export default class App extends React.Component {
@@ -28,6 +29,7 @@ export default class App extends React.Component {
         <Root>
           <Switch>
             <Route path="/home/:username" render={props => <Home {...props} />} />
+            <Route path="/search/:username/:search" render={props => <Search {...props} />} />
             <Route path="/serie/:username/:id" render={props => <SerieView {...props} />} />
             <Route path="/movie/:username/:id" render={props => <MovieView {...props} />} />
             <Route path="/" render={props => <SingIn {...props} />} />

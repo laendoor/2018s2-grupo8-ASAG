@@ -17,6 +17,7 @@ import ar.edu.unq.TraiFlix.models.id.MovieId;
 import ar.edu.unq.TraiFlix.models.id.SerieId;
 import ar.edu.unq.api.TraiFlix_api_rest.Actor;
 import ar.edu.unq.api.TraiFlix_api_rest.CategoryToShow;
+import ar.edu.unq.api.TraiFlix_api_rest.Searched;
 import ar.edu.unq.api.TraiFlix_api_rest.Star;
 import ar.edu.unq.api.TraiFlix_api_rest.Text;
 import ar.edu.unq.api.TraiFlix_api_rest.UserRest;
@@ -322,7 +323,10 @@ public class RestfulServer extends ResultFactory {
     try {
       final Text textSearch = this._jSONUtils.<Text>fromJson(body, Text.class);
       final List<Relatable> content = this.traiFlixsSystem.searchRelationalContent(textSearch.getText());
-      return ResultFactory.ok(this._jSONUtils.toJson(content));
+      final Searched res = new Searched();
+      res.setCategory("Busqueda");
+      res.setData(content);
+      return ResultFactory.ok(this._jSONUtils.toJson(res));
     } catch (final Throwable _t) {
       if (_t instanceof Exception) {
         final Exception exception = (Exception)_t;

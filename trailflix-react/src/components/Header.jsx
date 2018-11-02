@@ -1,9 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import Ionicon from 'react-ionicons';
-import '../dist/css/align.css';
-import '../dist/css/Card.css';
-
+import '../dist/css/header.css';
 
 class Header extends React.Component {
   constructor(props) {
@@ -18,7 +16,7 @@ class Header extends React.Component {
   }
 
   handleSubmit() {
-    this.props.history.push(`/search/${this.state.search}`);
+    this.props.history.push(`/search/${this.props.username}/${this.state.search}`);
   }
 
   goToHome() {
@@ -27,7 +25,7 @@ class Header extends React.Component {
 
   render() {
     return (
-      <nav className="navbar navbar-light bg-light justify-content-between">
+      <nav className="navbar navbar-light bg-light justify-content-between ">
         <div className="form-inline">
           <button type="button" className="navbar-brand btn btn-link" onClick={() => this.goToHome()}> <Ionicon icon="ios-home" fontSize="35px" /> </button>
           <input

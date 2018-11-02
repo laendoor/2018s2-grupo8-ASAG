@@ -25,4 +25,3 @@ class Root extends React.Component {
 }
 
 export default withRouter(Root);
-

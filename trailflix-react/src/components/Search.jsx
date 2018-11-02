@@ -4,14 +4,16 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'open-iconic/font/css/open-iconic-bootstrap.min.css';
 import { Link } from 'react-router-dom';
 import API from '../service/Api';
+import '../dist/css/index.css';
+import '../dist/css/singIn.css';
 import '../dist/css/Card.css';
-
 import Gallery from './Carousel';
 
-class Home extends React.Component {
+class Search extends React.Component {
   constructor() {
     super();
     this.state = {
+      searched: [],
       recomended: [],
       fauvorites: [],
       data: [],
@@ -19,6 +21,10 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
+    API.post('/search', { text: `${this.props.match.params.search}` })
+      .then(response => this.setState({ searched: response.data }))
+      .catch(console.log);
+
     API.get(`/${this.props.match.params.username}/favs`)
       .then(response => this.setState({ fauvorites: response.data }))
       .catch(console.log);
@@ -97,6 +103,7 @@ class Home extends React.Component {
   render() {
     return (
       <main>
+        {this.createRowContent('Busqueda', this.state.searched)}
         {this.createRowContent('Favoritos', this.state.fauvorites)}
         {this.createRowContent('Recomendados', this.state.recomended)}
         {this.state.data.map(elem => this.createRowContent(elem.category, elem.data))}
@@ -105,4 +112,4 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+export default Search;

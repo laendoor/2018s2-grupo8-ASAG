@@ -25,6 +25,7 @@ import java.util.List
 import ar.edu.unq.TraiFlix.models.Content
 import org.joda.time.DateTime
 import ar.edu.unq.TraiFlix.models.Ratingable
+import ar.edu.unq.TraiFlix.models.Relatable
 
 /**
  * Servidor RESTful implementado con XtRest.
@@ -281,7 +282,10 @@ class RestfulServer {
 		try {
 			val textSearch =  body.fromJson(Text)
 			val content = this.traiFlixsSystem.searchRelationalContent(textSearch.text)
-			return ok(content.toJson)
+			val res = new Searched
+			res.category = 'Busqueda'
+			res.data = content			
+			return ok(res.toJson )
 		} catch (Exception exception) {
 			return badRequest(getErrorJson(exception.message + " No existe la serie con nombre: "  ))
 			}
@@ -590,3 +594,8 @@ class Star{
 	String critic
 }
 
+@Accessors
+class Searched{
+	String category
+	List<Relatable> data
+}
