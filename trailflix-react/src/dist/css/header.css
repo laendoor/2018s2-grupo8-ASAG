@@ -1,1 +1,50 @@
-nav{ background-color: #465465 }
+nav{ background-color: #1a1d209f }
+
+.form-logo{
+    color: brown;
+    width: 200px;
+    text-size-adjust: true;
+    font-size: 30px;
+
+}
+.form-logo:hover{
+    color: beige;
+    width: 200px;
+    text-shadow: 3px 2px red;
+    cursor: crosshair;
+    text-size-adjust: true;
+}
+
+.Search {
+	align-items: center;
+	justify-content: center;
+	width: 70%;
+	position: fixed;
+	display: flex;
+	justify-content: center;
+	pointer-events: none;
+	
+	
+}
+input{
+    font-weight: 300;
+    font-size: 14px;
+    height: 37px;
+    width: 50%;
+    background: transparent;
+    color: white;
+    appearance: none;
+    border: 0;
+    border: 2px solid rgb(139, 184, 187);
+    outline: none;
+    border-radius: 37px;
+    padding: 0 10px;
+    pointer-events: all;
+    transition: border .25s ease, width .125s ease .125s;
+    
+}
+
+input:focus {
+    border: 2px solid red;
+    width: 100%;
+}
