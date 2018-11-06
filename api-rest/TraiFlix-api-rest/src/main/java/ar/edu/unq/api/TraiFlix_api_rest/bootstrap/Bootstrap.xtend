@@ -15,6 +15,7 @@ import org.joda.time.DateTime
 import ar.edu.unq.TraiFlix.models.Episode
 import ar.edu.unq.TraiFlix.models.Ratingable
 import ar.edu.unq.TraiFlix.models.Favourable
+import ar.edu.unq.TraiFlix.models.Assessment
 
 @Accessors
 class Bootstrap {
@@ -31,10 +32,8 @@ class Bootstrap {
 		categories = this.createCategories
 		clasifications = this.createClasifications
 		movies = this.createMovies
-		series = this.createSeries
+		series = this.createSeries		
 		users = this.createUsers
-
-
 	}
 
 	static def getInstance() {
@@ -103,10 +102,11 @@ class Bootstrap {
 		movie.title = "Las tortugas pinjas"
 		movie.release = new Date(90, 3, 17)
 		movie.actors = actors
-		movie.duration = Duration.standardMinutes(12).plus(Duration.standardSeconds(50))
+		movie.duration = Duration.standardHours(2).plus(Duration.standardMinutes(29))
 		movie.clasification = new Clasification("+18")
 		movie.directors = directors
 		movie.link = "https://www.youtube.com/watch?v=HoBo9ilFAlI"
+		movie.categories = this.categories		
 
 		var movie1 = new Movie()
 		movie1.title = "I'm Batman"
@@ -288,7 +288,7 @@ class Bootstrap {
 		episodes.forEach[elem | serie1.addEpisode(elem)] 
 	}
 	
-	def load(TraiFlix model){
+	def load(TraiFlix model){						
 		model.categories = this.categories
 		model.classifications = this.clasifications
 		model.movies = this.movies
@@ -298,6 +298,9 @@ class Bootstrap {
 		this.loadEpisodesInSerie(series.get(2), this.createEpisodesForFriends)  
 		model.series = series2
 		model.users = this.users
-	}
+		
+		model.movies.get(0).addAssessment( new Assessment(model.users.get(2),2,"Una bosta!") )
+		model.series.get(0).episodes.get(0).addAssessment( new Assessment(model.users.get(2),4,"Alta serie!") )
+	}	
 
 }

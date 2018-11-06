@@ -2,7 +2,7 @@ import React from 'react';
 import '../../dist/css/ContentView.css';
 import ReactPlayer from 'react-player';
 import Rating from '../Rating';
-import API from '../../service/Api.js';
+import API from '../../service/api.js';
 
 
 export default class ContentView extends React.Component {
@@ -86,7 +86,7 @@ export default class ContentView extends React.Component {
     return (
       <div className="form-headin">
         <div className="row">
-          <div className="col-6">
+          <div className="col-7">
             <h1>{this.getContentTitle()}</h1>
             <h5 className="card-title">{this.getDetails()}<Rating stars="5" value={this.getContentRating()} /></h5>
             <ReactPlayer

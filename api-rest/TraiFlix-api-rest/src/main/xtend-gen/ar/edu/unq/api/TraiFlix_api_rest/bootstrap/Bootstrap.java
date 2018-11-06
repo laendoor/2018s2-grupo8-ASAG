@@ -1,5 +1,6 @@
 package ar.edu.unq.api.TraiFlix_api_rest.bootstrap;
 
+import ar.edu.unq.TraiFlix.models.Assessment;
 import ar.edu.unq.TraiFlix.models.Category;
 import ar.edu.unq.TraiFlix.models.Clasification;
 import ar.edu.unq.TraiFlix.models.Episode;
@@ -131,11 +132,12 @@ public class Bootstrap {
       Date _date = new Date(90, 3, 17);
       movie.setRelease(_date);
       movie.setActors(actors);
-      movie.setDuration(Duration.standardMinutes(12).plus(Duration.standardSeconds(50)));
+      movie.setDuration(Duration.standardHours(2).plus(Duration.standardMinutes(29)));
       Clasification _clasification = new Clasification("+18");
       movie.setClasification(_clasification);
       movie.setDirectors(directors);
       movie.setLink("https://www.youtube.com/watch?v=HoBo9ilFAlI");
+      movie.setCategories(this.categories);
       Movie movie1 = new Movie();
       movie1.setTitle("I\'m Batman");
       Date _date_1 = new Date(18, 4, 6);
@@ -313,16 +315,28 @@ public class Bootstrap {
     episodes.forEach(_function_1);
   }
   
-  public void load(final TraiFlix model) {
-    model.setCategories(this.categories);
-    model.setClassifications(this.clasifications);
-    model.setMovies(this.movies);
-    final List<Serie> series2 = this.series;
-    this.loadEpisodesInSerie(this.series.get(0), this.createEpisodesForALF());
-    this.loadEpisodesInSerie(this.series.get(1), this.createEpisodesForLost());
-    this.loadEpisodesInSerie(this.series.get(2), this.createEpisodesForFriends());
-    model.setSeries(series2);
-    model.setUsers(this.users);
+  public boolean load(final TraiFlix model) {
+    boolean _xblockexpression = false;
+    {
+      model.setCategories(this.categories);
+      model.setClassifications(this.clasifications);
+      model.setMovies(this.movies);
+      final List<Serie> series2 = this.series;
+      this.loadEpisodesInSerie(this.series.get(0), this.createEpisodesForALF());
+      this.loadEpisodesInSerie(this.series.get(1), this.createEpisodesForLost());
+      this.loadEpisodesInSerie(this.series.get(2), this.createEpisodesForFriends());
+      model.setSeries(series2);
+      model.setUsers(this.users);
+      Movie _get = model.getMovies().get(0);
+      User _get_1 = model.getUsers().get(2);
+      Assessment _assessment = new Assessment(_get_1, Integer.valueOf(2), "Una bosta!");
+      _get.addAssessment(_assessment);
+      Episode _get_2 = model.getSeries().get(0).getEpisodes().get(0);
+      User _get_3 = model.getUsers().get(2);
+      Assessment _assessment_1 = new Assessment(_get_3, Integer.valueOf(4), "Alta serie!");
+      _xblockexpression = _get_2.addAssessment(_assessment_1);
+    }
+    return _xblockexpression;
   }
   
   @Pure
