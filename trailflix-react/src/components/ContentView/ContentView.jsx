@@ -98,13 +98,13 @@ export default class ContentView extends React.Component {
             />
           </div>
           <div className="col-4">
-            <button type="button" className="btn btn-primary btn-lg btn-block" disabled>{this.getItemListTitle()}</button>
+            <button type="button" className="btn btn-danger btn-lg btn-block" disabled>{this.getItemListTitle()}</button>
             <ul className="list-group list-group-flush">
               {this.renderItemList()}
             </ul>
-            <button type="button" className="btn btn-success btn-lg btn-block" onClick={() => this.removeFromFavourites()}>Quitar de Favoritos</button>
-            <button type="button" className="btn btn-success btn-lg btn-block" onClick={() => this.removeFromWatched()}>Marcar como No Visto</button>
-            <button type="button" className="btn btn-warning btn-lg btn-block" onClick={() => this.recommend()}>Recomendar</button>
+            <button type="button" className="btn btn-danger btn-lg btn-block" onClick={() => this.removeFromFavourites()}>Quitar de Favoritos</button>
+            <button type="button" className="btn btn-danger btn-lg btn-block" onClick={() => this.removeFromWatched()}>Marcar como No Visto</button>
+            <button type="button" className="btn btn-danger btn-lg btn-block" onClick={() => this.recommend()}>Recomendar</button>
           </div>
         </div>
       </div>
