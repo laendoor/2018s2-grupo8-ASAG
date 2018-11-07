@@ -83,7 +83,7 @@ export default class ContentView extends React.Component {
   }
 
   render() {
-    const contentDate = new Date(this.state.content.release);
+    const contentDate = new Date(this.getRelease());
     const date = new Date();
     if (date.getTime() > contentDate.getTime()) {
       return (

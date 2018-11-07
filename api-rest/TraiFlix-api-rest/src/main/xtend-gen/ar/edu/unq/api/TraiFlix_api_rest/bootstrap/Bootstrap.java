@@ -163,7 +163,7 @@ public class Bootstrap {
       movie2.getCategories().add(this.categories.get(4));
       Movie movie3 = new Movie();
       movie3.setTitle("Dragon Ball Super: Broly Movie");
-      Date _date_3 = new Date(118, 11, 24);
+      Date _date_3 = new Date(118, 11, 11);
       movie3.setRelease(_date_3);
       movie3.setDuration(Duration.standardMinutes(5));
       movie3.setActors(actors);

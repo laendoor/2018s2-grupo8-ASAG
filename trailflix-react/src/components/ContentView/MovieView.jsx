@@ -22,6 +22,10 @@ export default class MovieView extends ContentView {
     return this.state.content.release === null ? '[Fecha lanzamiento]' : this.extractYear(this.state.content.release);
   }
 
+  getRelease() {
+    return this.state.content.release;
+  }
+
   getDetails() {
     return `${this.getClassification()} | ${this.state.content.duration} | ${this.getCategories()} | ${this.getReleaseYear()}`;
   }

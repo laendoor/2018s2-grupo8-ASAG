@@ -29,6 +29,10 @@ export default class SerieView extends ContentView {
     return this.state.content.episodes === null || this.state.content.episodes[0].release === null ? '[Fecha lanzamiento]' : this.extractYear(this.state.content.episodes[0].release);
   }
 
+  getRelease() {
+    return this.state.content.episodes[0].release;
+  }
+
   getDetails() {
     return `${this.getClassification()} | ${this.getCategories()} | ${this.getReleaseYear()}`;
   }

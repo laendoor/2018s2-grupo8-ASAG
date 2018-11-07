@@ -132,7 +132,7 @@ class Bootstrap {
 		
 		var movie3 = new Movie()
 		movie3.title = "Dragon Ball Super: Broly Movie"
-		movie3.release = new Date(118, 11, 24)
+		movie3.release = new Date(118, 11, 11)
 		movie3.duration = Duration.standardMinutes(5)
 		movie3.actors = actors
 		movie3.directors = directors
