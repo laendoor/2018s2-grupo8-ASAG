@@ -3,8 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'open-iconic/font/css/open-iconic-bootstrap.min.css';
 import { Link } from 'react-router-dom';
-import API from '../service/Api';
+import API from '../service/api.js';
 import '../dist/css/Card.css';
+
 
 import Gallery from './Carousel';
 

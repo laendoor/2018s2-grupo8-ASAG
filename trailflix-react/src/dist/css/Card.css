@@ -10,12 +10,13 @@
 }
 
 .textT {
-    color: blue;
+    opacity: .8;
+    color: #465798;
     align-self: auto;
 }
 
 .textBlue{
-    color: blue
+    color: brown
 }
 
 .paddingT {

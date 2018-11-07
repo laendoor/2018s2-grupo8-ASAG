@@ -117,10 +117,10 @@ public class RestfulServer extends ResultFactory {
   public Result getCategoriesContents(final String category, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
     response.setContentType(ContentType.APPLICATION_JSON);
     try {
-      final Category cat = new Category(category);
+      final Category cat = this.traiFlixsSystem.findCategory(category);
       final ArrayList<Ratingable> content = this.traiFlixsSystem.moviesAndSeriesCategory(cat);
       final CategoryToShow contentToShow = new CategoryToShow();
-      contentToShow.setCategory(category);
+      contentToShow.setCategory(cat.getName());
       contentToShow.setData(content);
       return ResultFactory.ok(this._jSONUtils.toJson(contentToShow));
     } catch (final Throwable _t) {

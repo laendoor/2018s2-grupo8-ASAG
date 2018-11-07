@@ -174,7 +174,7 @@ public class Bootstrap {
     {
       Category cate = new Category("Action");
       Category cate1 = new Category("Drama");
-      Category cate2 = new Category("Zombies Nazis");
+      Category cate2 = new Category("Zombies");
       final ArrayList<Category> list = new ArrayList<Category>();
       list.add(cate);
       list.add(cate1);

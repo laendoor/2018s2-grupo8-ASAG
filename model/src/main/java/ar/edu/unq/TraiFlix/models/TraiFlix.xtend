@@ -74,6 +74,10 @@ class TraiFlix {
 		]
 	}
 	
+	def findCategory(String cat) {
+		return this.categories.findFirst[ elem | elem.name.equals(cat)]
+	}
+	
 	def findUserByNickName( String nickName ) {
 		var user = users.findFirst[
 			elem | elem.nick.toUpperCase == nickName.toUpperCase
@@ -204,7 +208,7 @@ class TraiFlix {
 		var List<Relatable> contentList = new ArrayList
 			contentList.addAll(movies)
 			contentList.addAll(series)
-			contentList.filter( elem | elem.title.indexOf( nameToSearch)!= -1 ).toList
+			contentList.filter( elem | elem.title.toLowerCase.indexOf( nameToSearch.toLowerCase)!= -1 ).toList
 			
 	}
 	

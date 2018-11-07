@@ -99,10 +99,10 @@ class RestfulServer {
 		response.contentType = ContentType.APPLICATION_JSON
 		
 		try{
-			val cat = new Category(category)
+			val cat = this.traiFlixsSystem.findCategory(category)
 			val content = traiFlixsSystem.moviesAndSeriesCategory(cat)
 			val contentToShow = new CategoryToShow
-			contentToShow.category = category
+			contentToShow.category = cat.name
 			contentToShow.data = content
 			return ok(contentToShow.toJson)	
 		}

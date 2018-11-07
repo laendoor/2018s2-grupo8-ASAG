@@ -142,7 +142,7 @@ class Bootstrap {
 	def createCategories(){
 		var cate = new Category("Action")
 		var cate1 = new Category("Drama")
-		var cate2 = new Category("Zombies Nazis")
+		var cate2 = new Category("Zombies")
 		
 		val list = new ArrayList()
 		

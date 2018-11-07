@@ -3,7 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'open-iconic/font/css/open-iconic-bootstrap.min.css';
 import '../../dist/css/singIn.css';
-import API from '../../service/Api';
+import '../../dist/css/header.css';
+import API from '../../service/api.js';
 
 
 class SingIn extends React.Component {
@@ -23,7 +24,7 @@ class SingIn extends React.Component {
   render() {
     return (
       <div className="form-headin">
-        <h1>TRAIFLIX</h1>
+        <h1 className="form-logo">TRAIFLIX</h1>
         <div className="login-form">
           <div className="main-div">
 

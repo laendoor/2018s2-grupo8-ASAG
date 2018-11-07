@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'open-iconic/font/css/open-iconic-bootstrap.min.css';
 import { Link } from 'react-router-dom';
-import API from '../service/Api';
+import API from '../service/api.js';
 import '../dist/css/index.css';
 import '../dist/css/singIn.css';
 import '../dist/css/Card.css';
@@ -93,10 +93,6 @@ class Search extends React.Component {
         <Gallery listOfCards={elem.map(content => this.createCardContent(content))} />
       </div>
     );
-  }
-
-  createRowContentOfCategories() {
-
   }
 
 
