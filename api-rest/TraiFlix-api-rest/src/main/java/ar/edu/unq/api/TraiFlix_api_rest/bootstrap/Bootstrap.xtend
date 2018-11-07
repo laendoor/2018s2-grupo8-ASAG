@@ -51,12 +51,12 @@ class Bootstrap {
 		user1.name = "Pablo"
 		user1.dateOfBirth = new DateTime(1986, 7, 16, 0, 0, 0, 0);
 		user1.created = new DateTime(2015, 3, 14, 0, 0, 0, 0);
-		val fav = movies.map[m| m as Favourable]
+		val fav = movies.subList(0,4).map[m| m as Favourable]
 		val fav2 = series.map[s| s as Favourable]
 		user1.favourites.addAll(fav)
 		user1.favourites.addAll(fav2)
 		
-		val fav3 = movies.map[m| m as Ratingable]
+		val fav3 = movies.subList(5,10).map[m| m as Ratingable]
 		val fav4 = series.map[s| s as Ratingable]
 		
 		user1.recommended.addAll(fav3)
@@ -106,16 +106,19 @@ class Bootstrap {
 		movie.clasification = new Clasification("+18")
 		movie.directors = directors
 		movie.link = "https://www.youtube.com/watch?v=HoBo9ilFAlI"
-		movie.categories = this.categories		
+		movie.categories = this.categories
+			
 
 		var movie1 = new Movie()
 		movie1.title = "I'm Batman"
-		movie1.release = new Date(18, 4, 6)
+		movie1.release = new Date(98, 4, 6)
 		movie1.actors = actors
 		movie1.duration = Duration.standardMinutes(2)
 		movie1.directors = directors
 		movie1.link = "https://www.youtube.com/watch?v=PfEXKi83glA"
 		movie1.clasification = new Clasification("ATP")
+		movie1.categories.add(this.categories.get(6))
+		movie1.categories.add(this.categories.get(1))
 
 		var movie2 = new Movie()
 		movie2.title = "Cmen"
@@ -125,15 +128,107 @@ class Bootstrap {
 		movie2.directors = directors
 		movie2.link = "https://www.youtube.com/watch?v=lpFzTJN2y_o"
 		movie2.clasification = new Clasification("ATP")
+		movie2.categories.add(this.categories.get(4))
+		
+		var movie3 = new Movie()
+		movie3.title = "Dragon Ball Super: Broly Movie"
+		movie3.release = new Date(118, 11, 24)
+		movie3.duration = Duration.standardMinutes(5)
+		movie3.actors = actors
+		movie3.directors = directors
+		movie3.link = "https://www.youtube.com/watch?v=FHgm89hKpXU"
+		movie3.clasification = new Clasification("ATP")
+		movie3.categories.add(this.categories.get(4))
+		movie3.categories.add(this.categories.get(3))
+
+		var movie4 = new Movie()
+		movie4.title = "El Padrino"
+		movie4.release = new Date(72, 4, 11)
+		movie4.duration = Duration.standardMinutes(5)
+		movie4.actors = actors
+		movie4.directors = directors
+		movie4.link = "https://www.youtube.com/watch?v=gCVj1LeYnsc"
+		movie4.clasification = new Clasification("ATP")
+		movie4.categories.add(this.categories.get(6))
+
+		var movie5 = new Movie()
+		movie5.title = "Star Wars: The Last Jedi"
+		movie5.release = new Date(119, 3, 12)
+		movie5.duration = Duration.standardMinutes(5)
+		movie5.actors = actors
+		movie5.directors = directors
+		movie5.link = "https://www.youtube.com/watch?v=Cs4y56AnaUg"
+		movie5.clasification = new Clasification("ATP")
+		movie5.categories.add(this.categories.get(6))
+		
+		var movie6 = new Movie()
+		movie6.title = "Venom"
+		movie6.release = new Date(118, 10, 21)
+		movie6.duration = Duration.standardMinutes(5)
+		movie6.actors = actors
+		movie6.directors = directors
+		movie6.link = "https://www.youtube.com/watch?v=xLCn88bfW1o"
+		movie6.clasification = new Clasification("ATP")
+		movie6.categories.add(this.categories.get(0))
+		
+		var movie7 = new Movie()
+		movie7.title = "La Monja"
+		movie7.release = new Date(118, 8, 12)
+		movie7.duration = Duration.standardMinutes(5)
+		movie7.actors = actors
+		movie7.directors = directors
+		movie7.link = "https://www.youtube.com/watch?v=3HGXDuvnW9o"
+		movie7.clasification = new Clasification("ATP")
+		movie7.categories.add(this.categories.get(5))
+
+		var movie8 = new Movie()
+		movie8.title = "MAGADOLÓN"
+		movie8.release = new Date(117, 3, 12)
+		movie8.duration = Duration.standardMinutes(5)
+		movie8.actors = actors
+		movie8.directors = directors
+		movie8.link = "https://www.youtube.com/watch?v=azI5fLoocDo"
+		movie8.clasification = new Clasification("ATP")
+		movie8.categories.add(this.categories.get(5))
+
+		var movie9 = new Movie()
+		movie9.title = "Pie Pequeño"
+		movie9.release = new Date(94, 3, 12)
+		movie9.duration = Duration.standardMinutes(5)
+		movie9.actors = actors
+		movie9.directors = directors
+		movie9.link = "https://www.youtube.com/watch?v=tzJtXPiIpBg"
+		movie9.clasification = new Clasification("ATP")
+		movie9.categories.add(this.categories.get(4))
+
+		var movie10 = new Movie()
+		movie10.title = "Scarface"
+		movie10.release = new Date(83, 6, 7)
+		movie10.duration = Duration.standardMinutes(5)
+		movie10.actors = actors
+		movie10.directors = directors
+		movie10.link = "https://www.youtube.com/watch?v=7pQQHnqBa2E"
+		movie10.clasification = new Clasification("ATP")
+		movie10.categories.add(this.categories.get(6))
 		
 		movie.addRelated(movie1)
 		movie.addRelated(movie2)
+		
+		movie10.addRelated(movie4)
 		
 		val list = new ArrayList()
 		
 		list.add(movie)
 		list.add(movie1)
 		list.add(movie2)
+		list.add(movie3)
+		list.add(movie4)
+		list.add(movie5)
+		list.add(movie6)
+		list.add(movie7)
+		list.add(movie8)
+		list.add(movie9)
+		list.add(movie10)
 		list
 
 	}
@@ -143,12 +238,20 @@ class Bootstrap {
 		var cate = new Category("Action")
 		var cate1 = new Category("Drama")
 		var cate2 = new Category("Zombies")
+		var cate3 = new Category("Anime")
+		var cate4 = new Category("Animado")
+		var cate5 = new Category("Terror")
+		var cate6 = new Category("Clasicos")
 		
 		val list = new ArrayList()
 		
 		list.add(cate)
 		list.add(cate1)
 		list.add(cate2)
+		list.add(cate3)
+		list.add(cate4)
+		list.add(cate5)
+		list.add(cate6)
 		list
 	}
 	
