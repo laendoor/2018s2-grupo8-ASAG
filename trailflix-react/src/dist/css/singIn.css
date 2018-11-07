@@ -15,6 +15,7 @@ body{background-color: #141313}
 
 .form-input {
     border: 2px solid brown;
+    color: #141313;
     border-radius: 10px;
     font-size: 14px;
     padding-left: 5px;
