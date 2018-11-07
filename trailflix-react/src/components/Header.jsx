@@ -23,6 +23,21 @@ class Header extends React.Component {
     this.props.history.push(`/home/${this.props.username}`);
   }
 
+  dropdown(text) {
+    return (
+      <div className="btn-group dropleft">
+        <button type="button" className="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {text}
+        </button>
+        <div className="dropdown-menu dropdown-menu-right">
+          <button className="dropdown-item" type="button">Setting</button>
+          <div className="dropdown-divider" />
+          <a className="dropdown-item" href="/">Logout</a>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     return (
       <nav className="navbar navbar-light justify-content-between ">
@@ -34,17 +49,15 @@ class Header extends React.Component {
             <input onChange={event => this.handleChange(event)} onKeyUp={this.handleKeyUp} value={this.state.searchTerm} placeholder="Buscar" />
           </div>
           <div className="col-md-1">
-            <button className="btn btn-outline-primary my-2 my-sm-0" type="submit" onClick={() => this.handleSubmit()}> <Ionicon icon="ios-search" color="Gray" /> </button>
+            <button className="btn btn-outline-danger my-2 my-sm-0" type="submit" onClick={() => this.handleSubmit()}> <Ionicon icon="ios-search" color="Gray" /> </button>
           </div>
         </div>
         <div className="textT" align="center">
-          <img src="https://vignette.wikia.nocookie.net/allficcion/images/5/5c/Chuck_Norris.jpg/revision/latest/scale-to-width-down/282?cb=20151118214226&path-prefix=es" alt="chuck norris" className="rounded-circle" width="30" />
-          <h6>{this.props.username}</h6>
+          {this.dropdown(this.props.username)}
         </div>
       </nav>
     );
   }
-
 }
 
 export default withRouter(Header);

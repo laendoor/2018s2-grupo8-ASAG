@@ -4,7 +4,7 @@ nav{ background-color: #1a1d209f }
     color: brown;
     width: 200px;
     text-size-adjust: true;
-    font-size: 30px;
+    font-size: 45px;
 
 }
 .form-logo:hover{
@@ -47,4 +47,8 @@ input{
 input:focus {
     border: 2px solid red;
     width: 100%;
+}
+
+userT {
+    align-items: center;
 }
