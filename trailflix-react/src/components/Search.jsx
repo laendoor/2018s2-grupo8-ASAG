@@ -89,7 +89,7 @@ class Search extends React.Component {
   createRowContent(text, elem) {
     return (
       <div>
-        <h1 className="text textBlue">{text}</h1>
+        <h1 className="text textBrown">{text}</h1>
         <Gallery listOfCards={elem.map(content => this.createCardContent(content))} />
       </div>
     );

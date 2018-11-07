@@ -342,7 +342,7 @@ class Bootstrap {
 		episode2.season = 2
 		episode2.episodeNumber = 2
 		episode2.link = "http://www.youtube.com/watch?v=ctoKrCpFxjA"
-		episode2.release = new Date(2004, 9, 22);
+		episode2.release = new Date(104, 9, 22);
 		
 		val episode3 = new Episode();
 		episode3.title = "Luna de Miel"
@@ -363,7 +363,7 @@ class Bootstrap {
 		episode1.season = 1
 		episode1.episodeNumber = 1
 		episode1.link =  "https://www.youtube.com/watch?v=GsAEE_sy3aU"
-		episode1.release = new Date(2004, 9, 22)
+		episode1.release = new Date(104, 9, 22)
 		
 		val episode2 = new Episode();
 		episode2.title = "Ajedrez"

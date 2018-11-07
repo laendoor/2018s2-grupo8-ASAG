@@ -56,10 +56,16 @@ class Home extends React.Component {
   }
 
   realeseContent(content) {
+    let releaseY;
+    let year;
     if (content.id.charAt(0) === 'M') {
-      return content.release;
+      year = content.release.substring(0, 4);
+      releaseY = content.release.substring(5, content.release.lenght);
+      return releaseY.concat('-').concat(year);
     }
-    return content.episodes[0].release;
+    year = content.episodes[0].release.substring(0, 4);
+    releaseY = content.episodes[0].release.substring(5, content.episodes[0].release.lenght);
+    return releaseY.concat('-').concat(year);
   }
 
   createCardContent(content) {
@@ -84,7 +90,7 @@ class Home extends React.Component {
   createRowContent(text, elem) {
     return (
       <div>
-        <h1 className="text textBlue">{text}</h1>
+        <h1 className="text textBrown">{text}</h1>
         <Gallery listOfCards={elem.map(content => this.createCardContent(content))} />
       </div>
     );

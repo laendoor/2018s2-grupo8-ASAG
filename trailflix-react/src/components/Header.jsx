@@ -26,13 +26,13 @@ class Header extends React.Component {
   dropdown(text) {
     return (
       <div className="btn-group dropleft">
-        <button type="button" className="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button type="button" className="btn btn-danger button-brown dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           {text}
         </button>
         <div className="dropdown-menu dropdown-menu-right">
           <button className="dropdown-item" type="button">Setting</button>
           <div className="dropdown-divider" />
-          <a className="dropdown-item" href="/">Logout</a>
+          <a className="dropdown-item" href="/">Sing Out</a>
         </div>
       </div>
     );

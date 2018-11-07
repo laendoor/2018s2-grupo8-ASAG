@@ -83,19 +83,42 @@ export default class ContentView extends React.Component {
   }
 
   render() {
+    const contentDate = new Date(this.state.content.release);
+    const date = new Date();
+    if (date.getTime() > contentDate.getTime()) {
+      return (
+        <div className="form-headin">
+          <div className="row">
+            <div className="col-7">
+              <h1>{this.getContentTitle()}</h1>
+              <h5 className="card-title">{this.getDetails()}<Rating stars="5" value={this.getContentRating()} /></h5>
+              <ReactPlayer
+                url={this.getTrailerLink()}
+                className="react-player"
+                width="100%"
+                height="80%"
+                controls
+              />
+            </div>
+            <div className="col-4">
+              <button type="button" className="btn btn-danger btn-lg btn-block" disabled>{this.getItemListTitle()}</button>
+              <ul className="list-group list-group-flush">
+                {this.renderItemList()}
+              </ul>
+              <button type="button" className="btn btn-danger btn-lg btn-block" onClick={() => this.removeFromFavourites()}>Quitar de Favoritos</button>
+              <button type="button" className="btn btn-danger btn-lg btn-block" onClick={() => this.removeFromWatched()}>Marcar como No Visto</button>
+              <button type="button" className="btn btn-danger btn-lg btn-block" onClick={() => this.recommend()}>Recomendar</button>
+            </div>
+          </div>
+        </div>
+      );
+    }
     return (
       <div className="form-headin">
         <div className="row">
           <div className="col-7">
             <h1>{this.getContentTitle()}</h1>
-            <h5 className="card-title">{this.getDetails()}<Rating stars="5" value={this.getContentRating()} /></h5>
-            <ReactPlayer
-              url={this.getTrailerLink()}
-              className="react-player"
-              width="100%"
-              height="80%"
-              controls
-            />
+            <img src="http://www.techschemes.com/wp-content/uploads/2018/01/Fix-This-Video-is-not-available-in-your-Country-Error-on-YouTube.png?x92713" className="img-fluid" alt="Sorry about that" />
           </div>
           <div className="col-4">
             <button type="button" className="btn btn-danger btn-lg btn-block" disabled>{this.getItemListTitle()}</button>

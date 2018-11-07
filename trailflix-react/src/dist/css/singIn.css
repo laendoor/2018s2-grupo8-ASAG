@@ -1,7 +1,7 @@
 body{background-color: #141313}
 
 .form-headin { color:#ff9900; font-size:23px;}
-.form-headin h1{ color:red; font-size:50px; margin:0 0 8px 0;}
+.form-headin .h1{ color:brown; font-size:50px; margin:0 0 8px 0; font-family: Helvetica;}
 .panel h2{ color:#444444; font-size:30px; margin:0 0 8px 0;}
 .panel p { color:#777777; font-size:14px; margin-bottom:30px; line-height:24px;}
 .login-form .form-control {
@@ -14,7 +14,7 @@ body{background-color: #141313}
 }
 
 .form-input {
-    border: 2px solid blue;
+    border: 2px solid brown;
     border-radius: 10px;
     font-size: 14px;
     padding-left: 5px;
@@ -39,7 +39,7 @@ body{background-color: #141313}
 
 
 .login-form  .btn.btn-primary {
-  background: blue;
+  background: brown;
   border-color: #777777;
   color: beige;
   font-size: 14px;

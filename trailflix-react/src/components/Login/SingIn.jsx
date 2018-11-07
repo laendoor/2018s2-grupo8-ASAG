@@ -24,7 +24,7 @@ class SingIn extends React.Component {
   render() {
     return (
       <div className="form-headin">
-        <h1 className="form-logo">TRAIFLIX</h1>
+        <h1 className="form-logo h1">TRAIFLIX</h1>
         <div className="login-form">
           <div className="main-div">
 

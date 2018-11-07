@@ -374,7 +374,7 @@ public class Bootstrap {
     episode2.setSeason(Integer.valueOf(2));
     episode2.setEpisodeNumber(Integer.valueOf(2));
     episode2.setLink("http://www.youtube.com/watch?v=ctoKrCpFxjA");
-    Date _date_1 = new Date(2004, 9, 22);
+    Date _date_1 = new Date(104, 9, 22);
     episode2.setRelease(_date_1);
     final Episode episode3 = new Episode();
     episode3.setTitle("Luna de Miel");
@@ -393,7 +393,7 @@ public class Bootstrap {
     episode1.setSeason(Integer.valueOf(1));
     episode1.setEpisodeNumber(Integer.valueOf(1));
     episode1.setLink("https://www.youtube.com/watch?v=GsAEE_sy3aU");
-    Date _date = new Date(2004, 9, 22);
+    Date _date = new Date(104, 9, 22);
     episode1.setRelease(_date);
     final Episode episode2 = new Episode();
     episode2.setTitle("Ajedrez");
