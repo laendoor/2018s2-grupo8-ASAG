@@ -35,7 +35,7 @@ input{
     color: white;
     appearance: none;
     border: 0;
-    border: 2px solid rgb(139, 184, 187);
+    border: 2px solid rgb(74, 121, 124);
     outline: none;
     border-radius: 37px;
     padding: 0 10px;
@@ -45,7 +45,7 @@ input{
 }
 
 input:focus {
-    border: 2px solid red;
+    border: 2px solid brown;
     width: 100%;
 }
 

@@ -163,7 +163,7 @@ class Bootstrap {
 		
 		var movie6 = new Movie()
 		movie6.title = "Venom"
-		movie6.release = new Date(118, 10, 21)
+		movie6.release = new Date(118, 24, 11)
 		movie6.duration = Duration.standardMinutes(5)
 		movie6.actors = actors
 		movie6.directors = directors
@@ -173,7 +173,7 @@ class Bootstrap {
 		
 		var movie7 = new Movie()
 		movie7.title = "La Monja"
-		movie7.release = new Date(118, 8, 12)
+		movie7.release = new Date(119, 8, 11)
 		movie7.duration = Duration.standardMinutes(5)
 		movie7.actors = actors
 		movie7.directors = directors
@@ -401,6 +401,7 @@ class Bootstrap {
 		this.loadEpisodesInSerie(series.get(2), this.createEpisodesForFriends)  
 		model.series = series2
 		model.users = this.users
+		
 		
 		model.movies.get(0).addAssessment( new Assessment(model.users.get(2),2,"Una bosta!") )
 		model.series.get(0).episodes.get(0).addAssessment( new Assessment(model.users.get(2),4,"Alta serie!") )

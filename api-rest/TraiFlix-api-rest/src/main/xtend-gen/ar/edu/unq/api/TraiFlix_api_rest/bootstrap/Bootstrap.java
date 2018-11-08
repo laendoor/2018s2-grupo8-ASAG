@@ -197,7 +197,7 @@ public class Bootstrap {
       movie5.getCategories().add(this.categories.get(6));
       Movie movie6 = new Movie();
       movie6.setTitle("Venom");
-      Date _date_6 = new Date(118, 10, 21);
+      Date _date_6 = new Date(118, 24, 11);
       movie6.setRelease(_date_6);
       movie6.setDuration(Duration.standardMinutes(5));
       movie6.setActors(actors);
@@ -208,7 +208,7 @@ public class Bootstrap {
       movie6.getCategories().add(this.categories.get(0));
       Movie movie7 = new Movie();
       movie7.setTitle("La Monja");
-      Date _date_7 = new Date(118, 8, 12);
+      Date _date_7 = new Date(119, 8, 11);
       movie7.setRelease(_date_7);
       movie7.setDuration(Duration.standardMinutes(5));
       movie7.setActors(actors);

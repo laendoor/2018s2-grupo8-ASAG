@@ -61,10 +61,16 @@ class Search extends React.Component {
   }
 
   realeseContent(content) {
+    let releaseY;
+    let year;
     if (content.id.charAt(0) === 'M') {
-      return content.release;
+      year = content.release.substring(0, 4);
+      releaseY = content.release.substring(5, content.release.lenght);
+      return releaseY.concat('-').concat(year);
     }
-    return content.episodes[0].release;
+    year = content.episodes[0].release.substring(0, 4);
+    releaseY = content.episodes[0].release.substring(5, content.episodes[0].release.lenght);
+    return releaseY.concat('-').concat(year);
   }
 
   createCardContent(content) {
