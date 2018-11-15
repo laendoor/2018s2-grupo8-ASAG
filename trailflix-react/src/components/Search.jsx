@@ -93,7 +93,7 @@ class Search extends React.Component {
   render() {
     return (
       <main>
-        {this.createRowContent(`Busqueda de "${this.props.match.params.search}"`, this.state.searched)}
+        {this.createRowContent(`Busqueda de "${this.props.match.params.search}" >> ${this.state.searched.length} resultados`, this.state.searched)}
       </main>
     );
   }
