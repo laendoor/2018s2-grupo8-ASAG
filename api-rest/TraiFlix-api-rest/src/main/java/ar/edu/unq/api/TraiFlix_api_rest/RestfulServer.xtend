@@ -2,16 +2,20 @@ package ar.edu.unq.api.TraiFlix_api_rest
 
 import ar.edu.unq.TraiFlix.models.Assessment
 import ar.edu.unq.TraiFlix.models.Favourable
-import ar.edu.unq.TraiFlix.models.Ratingable
-import ar.edu.unq.TraiFlix.models.Relatable
 import ar.edu.unq.TraiFlix.models.TraiFlix
 import ar.edu.unq.TraiFlix.models.id.ContentIdFactory
 import ar.edu.unq.TraiFlix.models.id.MovieId
 import ar.edu.unq.TraiFlix.models.id.SerieId
 import ar.edu.unq.api.TraiFlix_api_rest.dataResults.DataResult
+import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.Actor
+import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.CategoryToShow
+import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.Searched
+import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.Star
+import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.Text
+import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.UserRest
+import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.UserToAndFrom
 import java.security.InvalidParameterException
-import java.util.List
-import org.eclipse.xtend.lib.annotations.Accessors
+import java.util.ArrayList
 import org.uqbar.xtrest.api.annotation.Body
 import org.uqbar.xtrest.api.annotation.Controller
 import org.uqbar.xtrest.api.annotation.Delete
@@ -20,7 +24,6 @@ import org.uqbar.xtrest.api.annotation.Post
 import org.uqbar.xtrest.api.annotation.Put
 import org.uqbar.xtrest.http.ContentType
 import org.uqbar.xtrest.json.JSONUtils
-import java.util.ArrayList
 
 /**
  * Servidor RESTful implementado con XtRest.
@@ -558,53 +561,4 @@ class RestfulServer {
 	}
 	
 
-}
-
-
-@Accessors
-class Actor{
-	String name
-}
-
-
-@Accessors
-class Text{
-	String text
-}
-
-@Accessors
-class UserToAndFrom{
-	String userFrom
-	String userTo
-	
-	new(){}
-	
-	new(String user1, String user2){
-		userFrom = user1
-		userTo = user2
-	}
-}
-
-@Accessors
-class CategoryToShow{
-	String category
-	List<Ratingable> data
-}
-
-
-@Accessors
-class UserRest{
-	String username
-}
-
-@Accessors
-class Star{
-	Integer value
-	String critic
-}
-
-@Accessors
-class Searched{
-	String category
-	List<Relatable> data
 }

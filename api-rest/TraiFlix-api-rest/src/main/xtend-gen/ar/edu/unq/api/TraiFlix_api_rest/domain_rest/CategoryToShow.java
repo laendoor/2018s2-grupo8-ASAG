@@ -1,16 +1,16 @@
-package ar.edu.unq.api.TraiFlix_api_rest;
+package ar.edu.unq.api.TraiFlix_api_rest.domain_rest;
 
-import ar.edu.unq.TraiFlix.models.Relatable;
+import ar.edu.unq.TraiFlix.models.Ratingable;
 import java.util.List;
 import org.eclipse.xtend.lib.annotations.Accessors;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 @Accessors
 @SuppressWarnings("all")
-public class Searched {
+public class CategoryToShow {
   private String category;
   
-  private List<Relatable> data;
+  private List<Ratingable> data;
   
   @Pure
   public String getCategory() {
@@ -22,11 +22,11 @@ public class Searched {
   }
   
   @Pure
-  public List<Relatable> getData() {
+  public List<Ratingable> getData() {
     return this.data;
   }
   
-  public void setData(final List<Relatable> data) {
+  public void setData(final List<Ratingable> data) {
     this.data = data;
   }
 }
