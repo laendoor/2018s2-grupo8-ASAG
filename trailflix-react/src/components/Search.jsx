@@ -14,31 +14,19 @@ class Search extends React.Component {
     super();
     this.state = {
       searched: [],
-      recomended: [],
-      fauvorites: [],
-      data: [],
     };
   }
 
   componentDidMount() {
-    API.post('/search', { text: `${this.props.match.params.search}` })
-      .then(response => this.setState({ searched: response.data }))
-      .catch(console.log);
-
-    API.get(`/${this.props.match.params.username}/favs`)
-      .then(response => this.setState({ fauvorites: response.data }))
-      .catch(console.log);
-
-    API.get(`/${this.props.match.params.username}/recomended`)
-      .then(response => this.setState({ recomended: response.data }))
-      .catch(console.log);
-
-    API.get('/categories')
-      .then(cats => Promise.all(cats.data.map(cat => API.get(`/content/${cat}`))))
-      .then(response => this.setState({
-        data: response,
-      }))
-      .catch(console.log);
+    if (this.props.match.params.search === 'ALL') {
+      API.get('/all')
+        .then(response => this.setState({ searched: response.data }))
+        .catch(console.log);
+    } else {
+      API.post('/search', { text: `${this.props.match.params.search}` })
+        .then(response => this.setState({ searched: response.data }))
+        .catch(console.log);
+    }
   }
 
   imgFromLink(content) {
@@ -105,10 +93,7 @@ class Search extends React.Component {
   render() {
     return (
       <main>
-        {this.createRowContent('Busqueda', this.state.searched)}
-        {this.createRowContent('Favoritos', this.state.fauvorites)}
-        {this.createRowContent('Recomendados', this.state.recomended)}
-        {this.state.data.map(elem => this.createRowContent(elem.category, elem.data))}
+        {this.createRowContent(`Busqueda de "${this.props.match.params.search}"`, this.state.searched)}
       </main>
     );
   }

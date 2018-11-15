@@ -1,13 +1,16 @@
 package ar.edu.unq.api.TraiFlix_api_rest
 
-import ar.edu.unq.TraiFlix.models.Category
+import ar.edu.unq.TraiFlix.models.Assessment
 import ar.edu.unq.TraiFlix.models.Favourable
+import ar.edu.unq.TraiFlix.models.Ratingable
+import ar.edu.unq.TraiFlix.models.Relatable
 import ar.edu.unq.TraiFlix.models.TraiFlix
 import ar.edu.unq.TraiFlix.models.id.ContentIdFactory
 import ar.edu.unq.TraiFlix.models.id.MovieId
 import ar.edu.unq.TraiFlix.models.id.SerieId
 import ar.edu.unq.api.TraiFlix_api_rest.dataResults.DataResult
 import java.security.InvalidParameterException
+import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.xtrest.api.annotation.Body
 import org.uqbar.xtrest.api.annotation.Controller
@@ -17,15 +20,7 @@ import org.uqbar.xtrest.api.annotation.Post
 import org.uqbar.xtrest.api.annotation.Put
 import org.uqbar.xtrest.http.ContentType
 import org.uqbar.xtrest.json.JSONUtils
-import ar.edu.unq.TraiFlix.models.Assessment
-import ar.edu.unq.TraiFlix.models.Movie
-import java.text.SimpleDateFormat
-import ar.edu.unq.TraiFlix.models.Serie
-import java.util.List
-import ar.edu.unq.TraiFlix.models.Content
-import org.joda.time.DateTime
-import ar.edu.unq.TraiFlix.models.Ratingable
-import ar.edu.unq.TraiFlix.models.Relatable
+import java.util.ArrayList
 
 /**
  * Servidor RESTful implementado con XtRest.
@@ -467,6 +462,20 @@ class RestfulServer {
 		response.contentType = ContentType.APPLICATION_JSON
 		return ok(this.traiFlixsSystem.users.toJson)
 	}	
+	
+	@Get("/all")
+	def getAll(){
+		
+			val res = new Searched
+			
+			val series = this.traiFlixsSystem.series
+			val movies = this.traiFlixsSystem.movies
+			res.category = 'All'
+			res.data = new ArrayList()
+			res.data.addAll(series)
+			res.data.addAll(movies)
+			return ok(res.toJson)
+	}
 	
 	
 	//MOVIES

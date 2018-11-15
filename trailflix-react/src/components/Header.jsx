@@ -1,6 +1,5 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import Ionicon from 'react-ionicons';
 import '../dist/css/header.css';
 
 class Header extends React.Component {
@@ -17,6 +16,7 @@ class Header extends React.Component {
 
   handleSubmit() {
     this.props.history.push(`/search/${this.props.username}/${this.state.search}`);
+    document.getElementById('input').value = '';
   }
 
   goToHome() {
@@ -38,19 +38,27 @@ class Header extends React.Component {
     );
   }
 
+  handleKeyPress(event) {
+    if (event.key === 'Enter') {
+      this.setState({ search: event.target.value });
+      if (!this.state.search) {
+        this.state.search = 'ALL';
+      }
+      this.handleSubmit();
+    }
+  }
+
   render() {
     return (
       <nav className="navbar navbar-light justify-content-between ">
         <div className="form-inline row">
-          <div className="col-md-5">
+          <div className="col-md-6">
             <label className="form-logo" onClick={() => this.goToHome()}>TRAILFLIX</label>
           </div>
           <div id="search" className="col-md-6">
-            <input onChange={event => this.handleChange(event)} onKeyUp={this.handleKeyUp} value={this.state.searchTerm} placeholder="Buscar" />
+            <input id="input" onChange={event => this.handleChange(event)} onKeyUp={this.handleKeyUp} onKeyPress={event => this.handleKeyPress(event)} value={this.state.searchTerm} placeholder="Buscar" />
           </div>
-          <div className="col-md-1">
-            <button className="btn btn-outline-danger my-2 my-sm-0" type="submit" onClick={() => this.handleSubmit()}> <Ionicon icon="ios-search" color="Gray" /> </button>
-          </div>
+
         </div>
         <div className="textT" align="center">
           {this.dropdown(this.props.username)}

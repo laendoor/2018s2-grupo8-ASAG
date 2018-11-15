@@ -22,18 +22,18 @@ class Home extends React.Component {
   componentDidMount() {
     API.get(`/${this.props.match.params.username}/favs`)
       .then(response => this.setState({ fauvorites: response.data }))
-      .catch(console.log);
+      .catch();
 
     API.get(`/${this.props.match.params.username}/recomended`)
       .then(response => this.setState({ recomended: response.data }))
-      .catch(console.log);
+      .catch();
 
     API.get('/categories')
       .then(cats => Promise.all(cats.data.map(cat => API.get(`/content/${cat}`))))
       .then(response => this.setState({
         data: response,
       }))
-      .catch(console.log);
+      .catch();
   }
 
   imgFromLink(content) {
@@ -85,7 +85,6 @@ class Home extends React.Component {
       </div>
     );
   }
-
 
   createRowContent(text, elem) {
     return (

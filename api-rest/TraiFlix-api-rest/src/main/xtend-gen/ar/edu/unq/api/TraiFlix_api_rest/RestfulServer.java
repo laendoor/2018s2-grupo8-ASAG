@@ -529,6 +529,19 @@ public class RestfulServer extends ResultFactory {
     return ResultFactory.ok(this._jSONUtils.toJson(this.traiFlixsSystem.getUsers()));
   }
   
+  @Get("/all")
+  public Result getAll(final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    final Searched res = new Searched();
+    final List<Serie> series = this.traiFlixsSystem.getSeries();
+    final List<Movie> movies = this.traiFlixsSystem.getMovies();
+    res.setCategory("All");
+    ArrayList<Relatable> _arrayList = new ArrayList<Relatable>();
+    res.setData(_arrayList);
+    res.getData().addAll(series);
+    res.getData().addAll(movies);
+    return ResultFactory.ok(this._jSONUtils.toJson(res));
+  }
+  
   /**
    * Permite obtener el listado total de las peliculas
    */
@@ -673,6 +686,25 @@ public class RestfulServer extends ResultFactory {
             response.setContentType("application/json");
     		
     	    Result result = getUsers(target, baseRequest, request, response);
+    	    result.process(response);
+    	    
+    		response.addHeader("Access-Control-Allow-Origin", "*");
+    	    baseRequest.setHandled(true);
+    	    return;
+    	}
+    }
+    {
+    	Matcher matcher = 
+    		Pattern.compile("/all").matcher(target);
+    	if (request.getMethod().equalsIgnoreCase("Get") && matcher.matches()) {
+    		// take parameters from request
+    		
+    		// take variables from url
+    		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
+    		
+    	    Result result = getAll(target, baseRequest, request, response);
     	    result.process(response);
     	    
     		response.addHeader("Access-Control-Allow-Origin", "*");
