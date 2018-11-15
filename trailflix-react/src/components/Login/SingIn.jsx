@@ -11,13 +11,38 @@ class SingIn extends React.Component {
     super(props);
     this.state = {
       username: '',
+      errorMessage: '',
     };
+  }
+
+  handleError(error) {
+    this.setState({ errorMessage: (error.response.data.message) });
   }
 
   SingUp() {
     API.post('/auth', { ...this.state })
       .then(() => this.props.history.push(`/home/${this.state.username}`))
-      .catch(console.log);
+      .catch(error => this.handleError(error));
+  }
+
+  messageError() {
+    return (
+      (this.state.errorMessage) ? (
+        <div className="alert alert-danger" role="alert">
+          {this.state.errorMessage}
+        </div>) : <div />
+    );
+  }
+
+  handleKeyPress(event) {
+    if (event.key === 'Enter') {
+      this.setState({ username: event.target.value });
+      this.SingUp();
+    }
+  }
+
+  changeInput(event) {
+    this.setState({ username: event.target.value, errorMessage: '' });
   }
 
   render() {
@@ -25,18 +50,19 @@ class SingIn extends React.Component {
       <div className="form-headin">
         <h1 className="form-logo h1">TRAIFLIX</h1>
         <div className="login-form">
-          <div className="main-div">
 
+          <div className="main-div">
+            { this.messageError() }
             <div className="panel">
               <h2>Login</h2>
             </div>
             <div className="form-group">
-
               <input
                 className="form-input"
                 type="text"
                 placeholder="Ingrese su usuario"
-                onChange={event => this.setState({ username: event.target.value })}
+                onKeyPress={event => this.handleKeyPress(event)}
+                onChange={event => this.changeInput(event)}
               />
               <button
                 className="btn btn-primary"
