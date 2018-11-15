@@ -17,7 +17,13 @@ class Search extends React.Component {
     };
   }
 
-  componentDidMount() {
+  componentDidUpdate(prevProps) {
+    if (this.props.match.params.search !== prevProps.match.params.search) {
+      this.updateData();
+    }
+  }
+
+  updateData() {
     if (this.props.match.params.search === 'ALL') {
       API.get('/all')
         .then(response => this.setState({ searched: response.data }))
@@ -27,6 +33,12 @@ class Search extends React.Component {
         .then(response => this.setState({ searched: response.data }))
         .catch(console.log);
     }
+  }
+
+
+  // eslint-disable-next-line react/sort-comp
+  componentDidMount() {
+    this.updateData();
   }
 
   imgFromLink(content) {
