@@ -16,16 +16,6 @@ export default class Gallery extends React.Component {
     };
   }
 
-  onSlideChange(e) {
-    console.log('Item`s position during a change: ', e.item);
-    console.log('Slide`s position during a change: ', e.slide);
-  }
-
-  onSlideChanged(e) {
-    console.log('Item`s position after changes: ', e.item);
-    console.log('Slide`s position after changes: ', e.slide);
-  }
-
   galleryItems() {
     return (
       this.props.listOfCards.map((item, i) => (
