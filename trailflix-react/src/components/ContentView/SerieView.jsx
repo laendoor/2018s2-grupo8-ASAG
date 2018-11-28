@@ -13,10 +13,6 @@ export default class SerieView extends ContentView {
     super.componentDidMount();
   }
 
-  getContentType() {
-    return 'serie';
-  }
-
   getTrailerLink() {
     return this.state.content.episodes[0].link;
   }

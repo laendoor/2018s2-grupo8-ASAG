@@ -38,7 +38,7 @@ export default class ContentView extends React.Component {
     console.log(`Content id: ${this.props.match.params.id}`);
 
     if (this.props.match.params.id) {
-      API.get(`/${this.getUserName()}/${this.getContentType()}/${this.props.match.params.id}`)
+      API.get(`/${this.getUserName()}/content/${this.props.match.params.id}`)
         .then(response => this.setState({ content: response }))
         .catch();
     }

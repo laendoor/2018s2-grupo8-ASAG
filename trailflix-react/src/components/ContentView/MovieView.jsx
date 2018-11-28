@@ -6,10 +6,6 @@ export default class MovieView extends ContentView {
     super.componentDidMount();
   }
 
-  getContentType() {
-    return 'movie';
-  }
-
   getTrailerLink() {
     return this.state.content.link;
   }

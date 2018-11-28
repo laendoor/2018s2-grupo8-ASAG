@@ -184,93 +184,72 @@ public class RestfulServer extends ResultFactory {
   }
   
   /**
-   * Que retorne la información para {username} de la serie con id = {id}.
+   * Que retorne la información para {username} de el contenido con id = {id}.
    * 
    * 		Parámetros
-   * 			● id​: el id de la serie
+   * 			● id​: el id del contenido
    * 			● username​: nombre del usuario
    * 
    * 		Responses:
    * 			● 200 OK
    * 			● 404 Not Found
    */
-  @Get("/:username/serie/:id")
-  public Result getSeriesUserFavs(final String username, final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+  @Get("/:username/content/:id")
+  public Result getContentUser(final String username, final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
     Result _xblockexpression = null;
     {
       response.setContentType(ContentType.APPLICATION_JSON);
-      String errorMessage = null;
+      Result _xtrycatchfinallyexpression = null;
       try {
-        this.checkUser(username);
-        ContentId _parse = ContentIdFactory.parse(id);
-        SerieId serieId = ((SerieId) _parse);
-        Serie serie = this.traiFlixsSystem.serie(serieId);
-        if ((serie != null)) {
-          return ResultFactory.ok(this._jSONUtils.toJson(serie));
-        } else {
-          String _string = serieId.toString();
-          String _plus = ("No existe la serie con id: " + _string);
-          errorMessage = _plus;
+        Result _xblockexpression_1 = null;
+        {
+          this.checkUser(username);
+          ContentId contentId = ContentIdFactory.parse(id);
+          Result _xifexpression = null;
+          boolean _isMovie = contentId.isMovie();
+          if (_isMovie) {
+            _xifexpression = this.getMovieUser(((MovieId) contentId));
+          } else {
+            _xifexpression = this.getSerieUser(((SerieId) contentId));
+          }
+          _xblockexpression_1 = _xifexpression;
         }
+        _xtrycatchfinallyexpression = _xblockexpression_1;
       } catch (final Throwable _t) {
         if (_t instanceof Exception) {
           final Exception exception = (Exception)_t;
           String _message = exception.getMessage();
-          String _plus_1 = ("Error buscando la serie. " + _message);
-          errorMessage = _plus_1;
+          String _plus = ("Error buscando la serie. " + _message);
+          _xtrycatchfinallyexpression = ResultFactory.badRequest(_plus);
         } else {
           throw Exceptions.sneakyThrow(_t);
         }
       }
-      _xblockexpression = ResultFactory.badRequest(this.getErrorJson(errorMessage));
+      _xblockexpression = _xtrycatchfinallyexpression;
     }
     return _xblockexpression;
   }
   
-  /**
-   * Que retorne la información de la película con id {id} para el usuario {username}.
-   * Se debe añadir también cierta información relevante para el usuario: si vió la película
-   * y también la lista de amigos que se la recomendaron
-   * 
-   * 		Parámetros
-   * 			● id​: el id de la película
-   * 			● username​: nombre del usuario
-   * 
-   * 		Responses:
-   * 			● 200 OK
-   * 			● 404 Not Found
-   */
-  @Get("/:username/movie/:id")
-  public Result getMoviesUserFavs(final String username, final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
-    Result _xblockexpression = null;
-    {
-      response.setContentType(ContentType.APPLICATION_JSON);
-      String errorMessage = null;
-      try {
-        this.checkUser(username);
-        ContentId _parse = ContentIdFactory.parse(id);
-        MovieId movieId = ((MovieId) _parse);
-        Movie movie = this.traiFlixsSystem.movie(movieId);
-        if ((movie != null)) {
-          return ResultFactory.ok(this._jSONUtils.toJson(movie));
-        } else {
-          String _string = movieId.toString();
-          String _plus = ("No existe la pelicula con id: " + _string);
-          errorMessage = _plus;
-        }
-      } catch (final Throwable _t) {
-        if (_t instanceof Exception) {
-          final Exception exception = (Exception)_t;
-          String _message = exception.getMessage();
-          String _plus_1 = ("Error buscando la pelicula. " + _message);
-          errorMessage = _plus_1;
-        } else {
-          throw Exceptions.sneakyThrow(_t);
-        }
-      }
-      _xblockexpression = ResultFactory.badRequest(this.getErrorJson(errorMessage));
+  public Result getSerieUser(final SerieId id) {
+    Serie serie = this.traiFlixsSystem.serie(id);
+    if ((serie != null)) {
+      return ResultFactory.ok(this._jSONUtils.toJson(serie));
+    } else {
+      String _string = id.toString();
+      String _plus = ("No existe la serie con id: " + _string);
+      return ResultFactory.badRequest(_plus);
     }
-    return _xblockexpression;
+  }
+  
+  public Result getMovieUser(final MovieId id) {
+    Movie movie = this.traiFlixsSystem.movie(id);
+    if ((movie != null)) {
+      return ResultFactory.ok(this._jSONUtils.toJson(movie));
+    } else {
+      String _string = id.toString();
+      String _plus = ("No existe la movie con id: " + _string);
+      return ResultFactory.badRequest(_plus);
+    }
   }
   
   /**
@@ -918,7 +897,7 @@ public class RestfulServer extends ResultFactory {
     }
     {
     	Matcher matcher = 
-    		Pattern.compile("/(\\w+)/serie/(\\w+)").matcher(target);
+    		Pattern.compile("/(\\w+)/content/(\\w+)").matcher(target);
     	if (request.getMethod().equalsIgnoreCase("Get") && matcher.matches()) {
     		// take parameters from request
     		
@@ -929,28 +908,7 @@ public class RestfulServer extends ResultFactory {
             // set default content type (it can be overridden during next call)
             response.setContentType("application/json");
     		
-    	    Result result = getSeriesUserFavs(username, id, target, baseRequest, request, response);
-    	    result.process(response);
-    	    
-    		response.addHeader("Access-Control-Allow-Origin", "*");
-    	    baseRequest.setHandled(true);
-    	    return;
-    	}
-    }
-    {
-    	Matcher matcher = 
-    		Pattern.compile("/(\\w+)/movie/(\\w+)").matcher(target);
-    	if (request.getMethod().equalsIgnoreCase("Get") && matcher.matches()) {
-    		// take parameters from request
-    		
-    		// take variables from url
-    		String username = matcher.group(1);
-    		String id = matcher.group(2);
-    		
-            // set default content type (it can be overridden during next call)
-            response.setContentType("application/json");
-    		
-    	    Result result = getMoviesUserFavs(username, id, target, baseRequest, request, response);
+    	    Result result = getContentUser(username, id, target, baseRequest, request, response);
     	    result.process(response);
     	    
     		response.addHeader("Access-Control-Allow-Origin", "*");

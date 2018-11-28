@@ -27,6 +27,7 @@ import org.uqbar.xtrest.json.JSONUtils
 import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.NamesCategories
 import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.FavouriteToShow
 import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.RecommendToShow
+import ar.edu.unq.TraiFlix.models.id.ContentId
 
 /**
  * Servidor RESTful implementado con XtRest.
@@ -155,80 +156,58 @@ class RestfulServer {
 
 	
 	/**
-	 * Que retorne la información para {username} de la serie con id = {id}.
+	 * Que retorne la información para {username} de el contenido con id = {id}.
 	 * 
 	 * 		Parámetros
-	 *			● id​: el id de la serie
+	 *			● id​: el id del contenido
 	 *			● username​: nombre del usuario
 	 * 
 	 * 		Responses:
 	 *			● 200 OK
 	 * 			● 404 Not Found
 	 */
-	@Get("/:username/serie/:id")
-	def getSeriesUserFavs() {		
+	@Get("/:username/content/:id")
+	def getContentUser() {		
 		response.contentType = ContentType.APPLICATION_JSON
 		
-		var String errorMessage		
 		try
 		{
 			checkUser(username)
 			
-			var serieId = ContentIdFactory.parse(id) as SerieId
-			var serie = traiFlixsSystem.serie(serieId)
-			if( serie !== null )
-				return ok( serie.toJson )
-			else
-				errorMessage = "No existe la serie con id: " + serieId.toString
+			var contentId = ContentIdFactory.parse(id)
+			
+			
+			if(contentId.movie) {
+				getMovieUser(contentId as MovieId)
+			}
+			else {
+				getSerieUser(contentId as SerieId)
+			}
+			
+			
 		}
 		catch( Exception exception )
 		{
-			errorMessage = "Error buscando la serie. " + exception.message	
+			badRequest( "Error buscando la serie. " + exception.message)
 		}
-		
-		badRequest( getErrorJson(errorMessage) )
 	}
 	
+	def getSerieUser(SerieId id) {
+		var serie = traiFlixsSystem.serie(id)
+		if( serie !== null )
+			return ok( serie.toJson )
+		else
+			return badRequest("No existe la serie con id: " + id.toString)
+	}	
+	
+	def getMovieUser(MovieId id) {
+		var movie = traiFlixsSystem.movie(id)
+		if( movie !== null )
+			return ok( movie.toJson )
+		else
+			return badRequest("No existe la movie con id: " + id.toString)
+	}	
 
-	 
-	 /**
-	 * Que retorne la información de la película con id {id} para el usuario {username}. 
-	 * Se debe añadir también cierta información relevante para el usuario: si vió la película 
-	 * y también la lista de amigos que se la recomendaron
-	 * 
-	 * 		Parámetros
-	 *			● id​: el id de la película
-	 *			● username​: nombre del usuario
-	 * 
-	 * 		Responses:
-	 *			● 200 OK
-	 * 			● 404 Not Found
-	 * 
-	 */
-	@Get("/:username/movie/:id")
-	def getMoviesUserFavs() {
-		response.contentType = ContentType.APPLICATION_JSON
-		
-		var String errorMessage
-				
-		try
-		{
-			checkUser(username)
-			
-			var movieId = ContentIdFactory.parse(id) as MovieId
-			var movie = traiFlixsSystem.movie(movieId)
-			if( movie !== null )
-				return ok( movie.toJson )
-			else
-				errorMessage = "No existe la pelicula con id: " + movieId.toString
-		}
-		catch( Exception exception )
-		{
-			errorMessage = "Error buscando la pelicula. " + exception.message	
-		}
-		
-		badRequest( getErrorJson(errorMessage) )
-	}
 	
 	
 		/**
