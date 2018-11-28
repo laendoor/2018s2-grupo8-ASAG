@@ -65,10 +65,10 @@ class Home extends React.Component {
                   {content.title}
                 </span>
               </h5>
+              <Rating stars="5" value={content.rating} />
               <div className="card-text">
                 <span className="badge badge-pill badge-success badgeMargin">{content.release}</span>
               </div>
-              <Rating stars="5" value={content.rating} />
             </div>
           </div>
         </Link>
@@ -85,9 +85,6 @@ class Home extends React.Component {
     );
   }
 
-  createRowContentOfCategories() {
-
-  }
 
   render() {
     return (
