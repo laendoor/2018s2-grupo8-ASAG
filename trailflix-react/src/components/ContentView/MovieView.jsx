@@ -18,16 +18,12 @@ export default class MovieView extends ContentView {
     return 'RELACIONADO';
   }
 
-  getReleaseYear() {
-    return this.state.content.release === null ? '[Fecha lanzamiento]' : this.extractYear(this.state.content.release);
-  }
-
   getRelease() {
     return this.state.content.release;
   }
 
   getDetails() {
-    return `${this.getClassification()} | ${this.state.content.duration} | ${this.getCategories()} | ${this.getReleaseYear()}`;
+    return `${this.getClassification()} | ${this.state.content.duration} | ${this.getCategories()} | ${this.extractYear(this.state.content.release) }`;
   }
 
   renderItemList() {

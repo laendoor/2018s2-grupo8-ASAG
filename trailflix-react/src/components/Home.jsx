@@ -37,12 +37,7 @@ class Home extends React.Component {
   }
 
   imgFromLink(content) {
-    if (content.id.charAt(0) === 'M') {
-      const id = content.link.substring(32, content.link.size);
-      const img = 'https://img.youtube.com/vi/'.concat(id).concat('/0.jpg');
-      return img;
-    }
-    const id = content.episodes[0].link.substring(32, content.episodes[0].link.size);
+    const id = content.link.substring(32, content.link.size);
     const img = 'https://img.youtube.com/vi/'.concat(id).concat('/0.jpg');
     return img;
   }
@@ -55,19 +50,6 @@ class Home extends React.Component {
     );
   }
 
-  realeseContent(content) {
-    let releaseY;
-    let year;
-    if (content.id.charAt(0) === 'M') {
-      year = content.release.substring(0, 4);
-      releaseY = content.release.substring(5, content.release.lenght);
-      return releaseY.concat('-').concat(year);
-    }
-    year = content.episodes[0].release.substring(0, 4);
-    releaseY = content.episodes[0].release.substring(5, content.episodes[0].release.lenght);
-    return releaseY.concat('-').concat(year);
-  }
-
   createCardContent(content) {
     return (
       <div>
@@ -77,7 +59,7 @@ class Home extends React.Component {
             <div className="card-body" align="center">
               <h5 className="card-title textT">{this.textRender(content.title)}</h5>
               <div className="card-text">
-                <span className="badge badge-pill badge-success badgeMargin">{this.realeseContent(content)}</span>
+                <span className="badge badge-pill badge-success badgeMargin">{content.release}</span>
               </div>
             </div>
           </div>

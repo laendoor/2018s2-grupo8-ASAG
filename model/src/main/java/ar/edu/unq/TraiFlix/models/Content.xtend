@@ -17,7 +17,7 @@ abstract class Content {
 	
 	 ContentId id
 	 String title
-	 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	 Date release
 	 List<Assessment> assessments
 	 @JsonSerialize(using = CustomDurationSerializer)

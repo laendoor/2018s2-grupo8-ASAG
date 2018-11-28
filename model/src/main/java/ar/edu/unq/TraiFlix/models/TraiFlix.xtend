@@ -127,6 +127,16 @@ class TraiFlix {
 		return contentList
 	}
 	
+	def moviesCategory(Category category){
+		movies.filter[
+			elem | elem.movieHasCategory(category)].toList;
+	}
+	
+	def seriesCategory(Category category){
+		series.filter[
+			elem | elem.serieHasCategory(category)].toList;
+	}
+	
 	def moviesAndSeriesClasification(Clasification clasification){
 		var List<Ratingable> contentList = newArrayList
 		

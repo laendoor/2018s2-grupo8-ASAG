@@ -40,7 +40,7 @@ export default class ContentView extends React.Component {
     if (this.props.match.params.id) {
       API.get(`/${this.getUserName()}/${this.getContentType()}/${this.props.match.params.id}`)
         .then(response => this.setState({ content: response }))
-        .catch(console.log);
+        .catch();
     }
   }
 
@@ -65,27 +65,35 @@ export default class ContentView extends React.Component {
   }
 
   extractYear(dateString) {
-    return dateString.substring(0, 4);
+    return dateString.substring(6, dateString.lenght);
   }
 
   removeFromWatched() {
     API.put(`/${this.getUserName()}/fav/${this.getContentType()}/${this.props.match.params.id}/false`)
-      .catch(console.log);
+      .catch();
   }
 
   removeFromFavourites() {
     API.put(`/${this.getUserName()}/fav/${this.getContentType()}/${this.props.match.params.id}/false`)
-      .catch(console.log);
+      .catch();
   }
 
   recommend() {
     // TO DO - Implementar
   }
 
+  convertStringDateToDate() {
+    const date = this.getRelease();
+    const day = date.substring(0, 2);
+    const month = date.substring(3, 5);
+    const year = date.substring(6, 10);
+    const contentDate = new Date(year, month, day);
+    return contentDate;
+  }
+
   render() {
-    const contentDate = new Date(this.getRelease());
     const date = new Date();
-    if (date.getTime() > contentDate.getTime()) {
+    if (date.getTime() > this.convertStringDateToDate(date).getTime()) {
       return (
         <div className="form-headin">
           <div className="row">

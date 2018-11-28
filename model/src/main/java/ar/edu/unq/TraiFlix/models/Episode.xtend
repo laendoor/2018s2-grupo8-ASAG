@@ -44,6 +44,10 @@ class Episode extends Content implements Ratingable{
 		return 0
 	}
 	
+	override contentId() {
+		this.id;
+	}
+	
 }
 		
 	

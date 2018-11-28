@@ -7,10 +7,8 @@ import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.ListExtensions;
 import org.eclipse.xtext.xbase.lib.Pure;
-import org.uqbar.commons.model.annotations.Observable;
 
 @Accessors
-@Observable
 @SuppressWarnings("all")
 public class NamesCategories {
   private List<String> names;

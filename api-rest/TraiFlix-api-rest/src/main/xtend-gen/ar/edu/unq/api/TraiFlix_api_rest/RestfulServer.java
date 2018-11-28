@@ -18,7 +18,9 @@ import ar.edu.unq.TraiFlix.models.id.SerieId;
 import ar.edu.unq.api.TraiFlix_api_rest.dataResults.DataResult;
 import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.Actor;
 import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.CategoryToShow;
+import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.FavouriteToShow;
 import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.NamesCategories;
+import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.RecommendToShow;
 import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.Searched;
 import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.Star;
 import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.Text;
@@ -120,10 +122,10 @@ public class RestfulServer extends ResultFactory {
     response.setContentType(ContentType.APPLICATION_JSON);
     try {
       final Category cat = this.traiFlixsSystem.findCategory(category);
-      final ArrayList<Ratingable> content = this.traiFlixsSystem.moviesAndSeriesCategory(cat);
-      final CategoryToShow contentToShow = new CategoryToShow();
-      contentToShow.setCategory(cat.getName());
-      contentToShow.setData(content);
+      final List<Movie> contentMovies = this.traiFlixsSystem.moviesCategory(cat);
+      final List<Serie> contentSeries = this.traiFlixsSystem.seriesCategory(cat);
+      String _name = cat.getName();
+      final CategoryToShow contentToShow = new CategoryToShow(_name, contentMovies, contentSeries);
       return ResultFactory.ok(this._jSONUtils.toJson(contentToShow));
     } catch (final Throwable _t) {
       if (_t instanceof Exception) {
@@ -149,7 +151,7 @@ public class RestfulServer extends ResultFactory {
     response.setContentType(ContentType.APPLICATION_JSON);
     try {
       List<Favourable> _favourites = this.traiFlixsSystem.findUserByNickName(username).getFavourites();
-      DataResult data = new DataResult(_favourites);
+      FavouriteToShow data = new FavouriteToShow(_favourites);
       return ResultFactory.ok(this._jSONUtils.toJson(data));
     } catch (final Throwable _t) {
       if (_t instanceof Exception) {
@@ -167,7 +169,7 @@ public class RestfulServer extends ResultFactory {
   public Result getContentsRecomendedToUser(final String username, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
     try {
       List<Ratingable> _recomendedContentOfUser = this.traiFlixsSystem.recomendedContentOfUser(username);
-      DataResult data = new DataResult(_recomendedContentOfUser);
+      RecommendToShow data = new RecommendToShow(_recomendedContentOfUser);
       return ResultFactory.ok(this._jSONUtils.toJson(data));
     } catch (final Throwable _t) {
       if (_t instanceof Exception) {

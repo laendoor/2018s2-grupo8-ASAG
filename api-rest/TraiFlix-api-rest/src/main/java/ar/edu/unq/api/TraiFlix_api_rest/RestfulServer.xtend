@@ -25,6 +25,8 @@ import org.uqbar.xtrest.api.annotation.Put
 import org.uqbar.xtrest.http.ContentType
 import org.uqbar.xtrest.json.JSONUtils
 import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.NamesCategories
+import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.FavouriteToShow
+import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.RecommendToShow
 
 /**
  * Servidor RESTful implementado con XtRest.
@@ -103,10 +105,9 @@ class RestfulServer {
 		
 		try{
 			val cat = this.traiFlixsSystem.findCategory(category)
-			val content = traiFlixsSystem.moviesAndSeriesCategory(cat)
-			val contentToShow = new CategoryToShow
-			contentToShow.category = cat.name
-			contentToShow.data = content
+			val contentMovies = this.traiFlixsSystem.moviesCategory(cat)
+			val contentSeries = this.traiFlixsSystem.seriesCategory(cat)
+			val contentToShow = new CategoryToShow(cat.name, contentMovies, contentSeries)
 			return ok(contentToShow.toJson)	
 		}
 		catch(Exception exception){
@@ -128,8 +129,8 @@ class RestfulServer {
 		response.contentType = ContentType.APPLICATION_JSON
 		
 		try
-		{
-			var data = new DataResult( this.traiFlixsSystem.findUserByNickName(username).favourites )			
+		{	
+			var data = new FavouriteToShow(this.traiFlixsSystem.findUserByNickName(username).favourites);			
 			return ok( data.toJson )
 		}
 		catch( Exception exception ) {
@@ -142,8 +143,7 @@ class RestfulServer {
 	def getContentsRecomendedToUser() {
 		
 		try
-		{
-			var data = new DataResult( this.traiFlixsSystem.recomendedContentOfUser(username) )			
+		{	var data = new RecommendToShow(this.traiFlixsSystem.recomendedContentOfUser(username));				
 			return ok( data.toJson )
 		}
 		catch( Exception exception ) {
