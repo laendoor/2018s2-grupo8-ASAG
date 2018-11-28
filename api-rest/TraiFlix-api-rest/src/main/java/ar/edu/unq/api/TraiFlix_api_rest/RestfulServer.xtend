@@ -24,6 +24,7 @@ import org.uqbar.xtrest.api.annotation.Post
 import org.uqbar.xtrest.api.annotation.Put
 import org.uqbar.xtrest.http.ContentType
 import org.uqbar.xtrest.json.JSONUtils
+import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.NamesCategories
 
 /**
  * Servidor RESTful implementado con XtRest.
@@ -34,9 +35,11 @@ class RestfulServer {
 	extension JSONUtils = new JSONUtils
 
 	TraiFlix traiFlixsSystem
+	NamesCategories namesCategories
 
 	new(TraiFlix traiFlixsSystem) {
 		this.traiFlixsSystem = traiFlixsSystem
+		this.namesCategories = new NamesCategories
 	}
 
 	//GENERAL
@@ -80,7 +83,9 @@ class RestfulServer {
 	def getCategories() {
 		response.contentType = ContentType.APPLICATION_JSON
 		
-		var data = new DataResult(this.traiFlixsSystem.categories.stream.map([elem|elem.name]).toArray) 
+		this.namesCategories.namesToShow = this.traiFlixsSystem.categories;
+		
+		var data = new DataResult(this.namesCategories.names); 
 		return ok( data.toJson )	
 	}
 	

@@ -18,6 +18,7 @@ import ar.edu.unq.TraiFlix.models.id.SerieId;
 import ar.edu.unq.api.TraiFlix_api_rest.dataResults.DataResult;
 import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.Actor;
 import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.CategoryToShow;
+import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.NamesCategories;
 import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.Searched;
 import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.Star;
 import ar.edu.unq.api.TraiFlix_api_rest.domain_rest.Text;
@@ -27,7 +28,6 @@ import java.io.IOException;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.ServletException;
@@ -58,8 +58,12 @@ public class RestfulServer extends ResultFactory {
   
   private TraiFlix traiFlixsSystem;
   
+  private NamesCategories namesCategories;
+  
   public RestfulServer(final TraiFlix traiFlixsSystem) {
     this.traiFlixsSystem = traiFlixsSystem;
+    NamesCategories _namesCategories = new NamesCategories();
+    this.namesCategories = _namesCategories;
   }
   
   /**
@@ -98,11 +102,9 @@ public class RestfulServer extends ResultFactory {
   @Get("/categories")
   public Result getCategories(final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
     response.setContentType(ContentType.APPLICATION_JSON);
-    final Function<Category, String> _function = (Category elem) -> {
-      return elem.getName();
-    };
-    Object[] _array = this.traiFlixsSystem.getCategories().stream().<String>map(_function).toArray();
-    DataResult data = new DataResult(_array);
+    this.namesCategories.setNamesToShow(this.traiFlixsSystem.getCategories());
+    List<String> _names = this.namesCategories.getNames();
+    DataResult data = new DataResult(_names);
     return ResultFactory.ok(this._jSONUtils.toJson(data));
   }
   
