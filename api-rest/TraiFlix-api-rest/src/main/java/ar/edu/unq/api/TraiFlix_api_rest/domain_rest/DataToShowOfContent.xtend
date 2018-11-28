@@ -12,11 +12,13 @@ class DataToShowOfContent {
 	String link
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	Date release
+	Integer rating
 	
-	new(ContentId id, String title, String link, Date release){
+	new(ContentId id, String title, String link, Date release, Integer rating){
 		this.id = id;
 		this.title = title;
 		this.link = link;
 		this.release = release;
+		this.rating = rating;	
 	}
 }

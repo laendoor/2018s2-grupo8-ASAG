@@ -18,11 +18,14 @@ public class DataToShowOfContent {
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
   private Date release;
   
-  public DataToShowOfContent(final ContentId id, final String title, final String link, final Date release) {
+  private Integer rating;
+  
+  public DataToShowOfContent(final ContentId id, final String title, final String link, final Date release, final Integer rating) {
     this.id = id;
     this.title = title;
     this.link = link;
     this.release = release;
+    this.rating = rating;
   }
   
   @Pure
@@ -59,5 +62,14 @@ public class DataToShowOfContent {
   
   public void setRelease(final Date release) {
     this.release = release;
+  }
+  
+  @Pure
+  public Integer getRating() {
+    return this.rating;
+  }
+  
+  public void setRating(final Integer rating) {
+    this.rating = rating;
   }
 }

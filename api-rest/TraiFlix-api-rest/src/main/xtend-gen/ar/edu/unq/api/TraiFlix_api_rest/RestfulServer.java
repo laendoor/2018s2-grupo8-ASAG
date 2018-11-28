@@ -219,7 +219,7 @@ public class RestfulServer extends ResultFactory {
         if (_t instanceof Exception) {
           final Exception exception = (Exception)_t;
           String _message = exception.getMessage();
-          String _plus = ("Error buscando la serie. " + _message);
+          String _plus = ("Error buscando el contenido. " + _message);
           _xtrycatchfinallyexpression = ResultFactory.badRequest(_plus);
         } else {
           throw Exceptions.sneakyThrow(_t);

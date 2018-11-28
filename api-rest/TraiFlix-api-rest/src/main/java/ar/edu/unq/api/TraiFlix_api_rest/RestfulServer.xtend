@@ -188,7 +188,7 @@ class RestfulServer {
 		}
 		catch( Exception exception )
 		{
-			badRequest( "Error buscando la serie. " + exception.message)
+			badRequest( "Error buscando el contenido. " + exception.message)
 		}
 	}
 	

@@ -17,14 +17,16 @@ abstract class DataShower {
 	
 	def convertMoviesInDataToShowOfContent(List<Movie> movies){
 		movies.map[m| new DataToShowOfContent(
-			m.id as ContentId, m.getTitle(), m.link, m.release
+			m.id as ContentId, m.getTitle(), m.link, m.release, 
+			m.rating
 		)
 		].toList;
 	}
 	
 	def convertSeriesInDataToShowOfContent(List<Serie> series){
 		series.map[s| new DataToShowOfContent(
-			s.id as ContentId, s.getTitle(), s.episodes.get(0).link, s.episodes.get(0).release
+			s.id as ContentId, s.getTitle(), s.episodes.get(0).link, s.episodes.get(0).release, 
+			s.rating
 		)
 		].toList;
 	}

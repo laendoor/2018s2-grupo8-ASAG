@@ -5,6 +5,8 @@ import 'open-iconic/font/css/open-iconic-bootstrap.min.css';
 import { Link } from 'react-router-dom';
 import API from '../service/api.js';
 import '../dist/css/Card.css';
+import '../dist/css/Tooltip.css';
+import Rating from './Rating.jsx';
 
 
 import Gallery from './Carousel';
@@ -45,7 +47,7 @@ class Home extends React.Component {
   textRender(text) {
     return (
       <div>
-        {text}
+        {text.substring(0, 25)}
       </div>
     );
   }
@@ -57,10 +59,16 @@ class Home extends React.Component {
           <div className="card mb-3 cardT">
             <img className="card imgT" src={this.imgFromLink(content)} alt="imagen de la primer escena" />
             <div className="card-body" align="center">
-              <h5 className="card-title textT">{this.textRender(content.title)}</h5>
+              <h5 className="card-title textT tooltip">
+                {this.textRender(content.title)}
+                <span className="tooltiptext">
+                  {content.title}
+                </span>
+              </h5>
               <div className="card-text">
                 <span className="badge badge-pill badge-success badgeMargin">{content.release}</span>
               </div>
+              <Rating stars="5" value={content.rating} />
             </div>
           </div>
         </Link>

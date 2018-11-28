@@ -31,8 +31,9 @@ public abstract class DataShower {
       String _title = m.getTitle();
       String _link = m.getLink();
       Date _release = m.getRelease();
+      Integer _rating = m.getRating();
       return new DataToShowOfContent(
-        ((ContentId) _id), _title, _link, _release);
+        ((ContentId) _id), _title, _link, _release, _rating);
     };
     return IterableExtensions.<DataToShowOfContent>toList(ListExtensions.<Movie, DataToShowOfContent>map(movies, _function));
   }
@@ -43,8 +44,9 @@ public abstract class DataShower {
       String _title = s.getTitle();
       String _link = s.getEpisodes().get(0).getLink();
       Date _release = s.getEpisodes().get(0).getRelease();
+      Integer _rating = s.getRating();
       return new DataToShowOfContent(
-        ((ContentId) _id), _title, _link, _release);
+        ((ContentId) _id), _title, _link, _release, _rating);
     };
     return IterableExtensions.<DataToShowOfContent>toList(ListExtensions.<Serie, DataToShowOfContent>map(series, _function));
   }
