@@ -30,6 +30,10 @@ export default class SerieView extends ContentView {
   }
 
   getDetails() {
+    return `${this.getClassification()} | ${this.getCategories().split(',')[0]} | ${this.getReleaseYear()}`;
+  }
+
+  getDetailsForTooltips() {
     return `${this.getClassification()} | ${this.getCategories()} | ${this.getReleaseYear()}`;
   }
 

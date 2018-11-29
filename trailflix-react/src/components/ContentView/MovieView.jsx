@@ -19,8 +19,13 @@ export default class MovieView extends ContentView {
   }
 
   getDetails() {
-    return `${this.getClassification()} | ${this.state.content.duration} | ${this.getCategories()} | ${this.extractYear(this.state.content.release) }`;
+    return `${this.getClassification()} | ${this.state.content.duration} | ${this.getCategories().split(',')[0]} | ${this.extractYear(this.state.content.release)}`;
   }
+
+  getDetailsForTooltips() {
+    return `${this.getClassification()} | ${this.state.content.duration} | ${this.getCategories()} | ${this.extractYear(this.state.content.release)}`;
+  }
+
 
   renderItemList() {
     return this.state.content.relateds.map((item, i) => (
