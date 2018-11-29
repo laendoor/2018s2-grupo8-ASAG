@@ -206,6 +206,46 @@ class RestfulServer {
 			return ok( movie.toJson )
 		else
 			return badRequest("No existe la movie con id: " + id.toString)
+	}
+	
+	@Get("/:username/content/:id/isFav")
+	def getContentUserIsFav() {	
+		try
+		{
+			checkUser(username)
+			
+			var contentId = ContentIdFactory.parse(id)
+			
+			var user = this.traiFlixsSystem.findUserByNickName(username);
+			
+			return ok(user.isFavourable(contentId).toJson)
+			
+			
+		}
+		catch( Exception exception )
+		{
+			badRequest( "Error buscando el contenido. " + exception.message)
+		}
+	}
+	
+	@Get("/:username/content/:id/isWatched")
+	def getContentUserIsWatched() {	
+		try
+		{
+			checkUser(username)
+			
+			var contentId = ContentIdFactory.parse(id)
+			
+			var user = this.traiFlixsSystem.findUserByNickName(username);
+			
+			return ok(user.isWatched(contentId).toJson)
+			
+			
+		}
+		catch( Exception exception )
+		{
+			badRequest( "Error buscando el contenido. " + exception.message)
+		}
 	}	
 
 	

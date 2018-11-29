@@ -4,6 +4,7 @@ import java.util.ArrayList
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.joda.time.DateTime
+import ar.edu.unq.TraiFlix.models.id.ContentId
 
 @Accessors
 class User {
@@ -73,5 +74,12 @@ class User {
 		this.favourites.remove(content)
 	}
 	
+	def isFavourable(ContentId id){
+		this.favourites.exists[f | f.contentId.equals(id)];
+	}
+	
+	def isWatched(ContentId id){
+		this.watched.exists[w | (w as Ratingable).contentId.equals(id)]
+	}
 	
 }

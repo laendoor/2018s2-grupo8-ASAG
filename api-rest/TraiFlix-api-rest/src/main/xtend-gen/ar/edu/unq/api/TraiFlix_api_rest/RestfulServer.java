@@ -252,6 +252,48 @@ public class RestfulServer extends ResultFactory {
     }
   }
   
+  @Get("/:username/content/:id/isFav")
+  public Result getContentUserIsFav(final String username, final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    Result _xtrycatchfinallyexpression = null;
+    try {
+      this.checkUser(username);
+      ContentId contentId = ContentIdFactory.parse(id);
+      User user = this.traiFlixsSystem.findUserByNickName(username);
+      return ResultFactory.ok(this._jSONUtils.toJson(Boolean.valueOf(user.isFavourable(contentId))));
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        final Exception exception = (Exception)_t;
+        String _message = exception.getMessage();
+        String _plus = ("Error buscando el contenido. " + _message);
+        _xtrycatchfinallyexpression = ResultFactory.badRequest(_plus);
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
+    return _xtrycatchfinallyexpression;
+  }
+  
+  @Get("/:username/content/:id/isWatched")
+  public Result getContentUserIsWatched(final String username, final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    Result _xtrycatchfinallyexpression = null;
+    try {
+      this.checkUser(username);
+      ContentId contentId = ContentIdFactory.parse(id);
+      User user = this.traiFlixsSystem.findUserByNickName(username);
+      return ResultFactory.ok(this._jSONUtils.toJson(Boolean.valueOf(user.isWatched(contentId))));
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        final Exception exception = (Exception)_t;
+        String _message = exception.getMessage();
+        String _plus = ("Error buscando el contenido. " + _message);
+        _xtrycatchfinallyexpression = ResultFactory.badRequest(_plus);
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
+    return _xtrycatchfinallyexpression;
+  }
+  
   /**
    * Genera una recomendación de una serie o película de un usuario a otro.
    * 
@@ -909,6 +951,48 @@ public class RestfulServer extends ResultFactory {
             response.setContentType("application/json");
     		
     	    Result result = getContentUser(username, id, target, baseRequest, request, response);
+    	    result.process(response);
+    	    
+    		response.addHeader("Access-Control-Allow-Origin", "*");
+    	    baseRequest.setHandled(true);
+    	    return;
+    	}
+    }
+    {
+    	Matcher matcher = 
+    		Pattern.compile("/(\\w+)/content/(\\w+)/isFav").matcher(target);
+    	if (request.getMethod().equalsIgnoreCase("Get") && matcher.matches()) {
+    		// take parameters from request
+    		
+    		// take variables from url
+    		String username = matcher.group(1);
+    		String id = matcher.group(2);
+    		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
+    		
+    	    Result result = getContentUserIsFav(username, id, target, baseRequest, request, response);
+    	    result.process(response);
+    	    
+    		response.addHeader("Access-Control-Allow-Origin", "*");
+    	    baseRequest.setHandled(true);
+    	    return;
+    	}
+    }
+    {
+    	Matcher matcher = 
+    		Pattern.compile("/(\\w+)/content/(\\w+)/isWatched").matcher(target);
+    	if (request.getMethod().equalsIgnoreCase("Get") && matcher.matches()) {
+    		// take parameters from request
+    		
+    		// take variables from url
+    		String username = matcher.group(1);
+    		String id = matcher.group(2);
+    		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
+    		
+    	    Result result = getContentUserIsWatched(username, id, target, baseRequest, request, response);
     	    result.process(response);
     	    
     		response.addHeader("Access-Control-Allow-Origin", "*");

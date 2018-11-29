@@ -3,6 +3,7 @@ import '../../dist/css/ContentView.css';
 import ReactPlayer from 'react-player';
 import Rating from '../Rating';
 import API from '../../service/api.js';
+import Ionicon from 'react-ionicons';
 
 
 export default class ContentView extends React.Component {
@@ -30,6 +31,8 @@ export default class ContentView extends React.Component {
           episodeNumber: 0,
         }],
       },
+      fav: '',
+      watched: '',
     };
   }
 
@@ -42,6 +45,26 @@ export default class ContentView extends React.Component {
         .then(response => this.setState({ content: response }))
         .catch();
     }
+
+    if (this.props.match.params.id) {
+      this.isFav();
+    }
+
+    if (this.props.match.params.id) {
+      this.isWatched();
+    }
+  }
+
+  isFav() {
+    API.get(`/${this.getUserName()}/content/${this.props.match.params.id}/isFav`)
+      .then(response => this.setState({ fav: response }))
+      .catch();
+  }
+
+  isWatched() {
+    API.get(`/${this.getUserName()}/content/${this.props.match.params.id}/isWatched`)
+      .then(response => this.setState({ watched: response }))
+      .catch();
   }
 
   getContentTitle() {
@@ -69,12 +92,26 @@ export default class ContentView extends React.Component {
   }
 
   removeFromWatched() {
-    API.put(`/${this.getUserName()}/fav/${this.getContentType()}/${this.props.match.params.id}/false`)
+    this.isWatched();
+    API.put(`/${this.getUserName()}/watched/${this.getContentType()}/${this.props.match.params.id}/false`)
+      .catch();
+  }
+
+  addToMyWatched() {
+    this.isWatched();
+    API.put(`/${this.getUserName()}/watched/${this.getContentType()}/${this.props.match.params.id}/true`)
       .catch();
   }
 
   removeFromFavourites() {
+    this.isFav();
     API.put(`/${this.getUserName()}/fav/${this.getContentType()}/${this.props.match.params.id}/false`)
+      .catch();
+  }
+
+  addToMyFavourites() {
+    this.isFav();
+    API.put(`/${this.getUserName()}/fav/${this.getContentType()}/${this.props.match.params.id}/true`)
       .catch();
   }
 
@@ -89,6 +126,26 @@ export default class ContentView extends React.Component {
     const year = date.substring(6, 10);
     const contentDate = new Date(year, month, day);
     return contentDate;
+  }
+
+  addOrRemoveFavourites() {
+    return this.state.fav ? 'Quitar de Favoritos' : 'Agregar a favoritos';
+  }
+
+  addOrRemoveWatched() {
+    return this.state.watched ? 'Marcar como no visto' : 'Marcar como visto';
+  }
+
+  iconForFav() {
+    return (
+      this.state.fav ? <Ionicon icon="md-remove-circle" fontSize="35px" /> : <Ionicon icon="md-add-circle" fontSize="35px" />
+    );
+  }
+
+  iconForWatched() {
+    return (
+      this.state.watched ? <Ionicon icon="md-eye-off" fontSize="35px" /> : <Ionicon icon="md-eye" fontSize="35px" />
+    );
   }
 
   render() {
@@ -113,9 +170,28 @@ export default class ContentView extends React.Component {
               <ul className="list-group list-group-flush">
                 {this.renderItemList()}
               </ul>
-              <button type="button" className="btn btn-danger btn-lg btn-block" onClick={() => this.removeFromFavourites()}>Quitar de Favoritos</button>
-              <button type="button" className="btn btn-danger btn-lg btn-block" onClick={() => this.removeFromWatched()}>Marcar como No Visto</button>
-              <button type="button" className="btn btn-danger btn-lg btn-block" onClick={() => this.recommend()}>Recomendar</button>
+              <button
+                type="button"
+                className="btn btn-danger btn-lg btn-block"
+                onClick={
+                  () => (this.state.fav ? this.removeFromFavourites() : this.addToMyFavourites())}
+              >
+                {this.iconForFav()}
+                {this.addOrRemoveFavourites()}
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger btn-lg btn-block"
+                onClick={
+                () => (this.state.watched ? this.removeFromWatched() : this.addToMyWatched())}
+              >
+                {this.iconForWatched()}
+                {this.addOrRemoveWatched()}
+              </button>
+              <button type="button" className="btn btn-danger btn-lg btn-block" onClick={() => this.recommend()}>
+                <Ionicon icon="md-share-alt" fontSize="35px" />
+                Recomendar
+              </button>
             </div>
           </div>
         </div>
